@@ -145,7 +145,7 @@
                                         <!--end::Menu item-->
 
                                         <div class="menu-item px-5">
-                                            <a href="" class="menu-link px-5">تسجيل خروج</a>
+                                            <a href="" class="menu-link px-5">{{ __('app.sign_out') }}</a>
                                         </div>
                                         <!--end::Menu item-->
 
@@ -182,7 +182,7 @@
                                 </div>
                             </div>
                             <div class="menu-item">
-                                <a class="menu-link active" href="../../demo8/dist/index.html">
+                                <a class="menu-link active" href="{{route('request_committee.create')}}">
                                     <span class="menu-icon">
                                         <!--begin::Svg Icon | path: icons/duotune/general/gen025.svg-->
                                         <span class="svg-icon svg-icon-2">
@@ -199,7 +199,7 @@
                                         </span>
                                         <!--end::Svg Icon-->
                                     </span>
-                                    <span class="menu-title">تقديم طلب لجنة</span>
+                                    <span class="menu-title">{{__('app.Submit_commission_request')}}</span>
                                 </a>
                             </div>
                             <div class="menu-item">
@@ -319,7 +319,7 @@
                                     <!--begin::Item-->
                                     <li class="breadcrumb-item text-muted">
                                         <a href="../../demo8/dist/index.html"
-                                            class="text-muted text-hover-primary">تقديم طلب</a>
+                                            class="text-muted text-hover-primary">{{__('app.Submit_commission_request')}}</a>
                                     </li>
                                     <!--end::Item-->
                                 </ul>
