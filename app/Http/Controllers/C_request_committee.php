@@ -26,6 +26,27 @@ class C_request_committee extends Controller
         return view('request_committee.create');
     }
 
+    public function formrequest()
+    {
+        return view('request_committee.formrequest');
+
+    }
+
+    public function formrequestaffairs()
+    {
+
+        return view('request_committee.formrequest-affairs');
+
+    }
+
+    public function committee_members()
+    {
+
+        return view('request_committee.committee-members');
+
+
+    }
+
     /**
      * Store a newly created resource in storage.
      *
