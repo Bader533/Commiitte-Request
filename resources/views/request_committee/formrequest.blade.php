@@ -66,13 +66,7 @@
                 </div>
 
                 <!--end::Input group-->
-                {{-- <!--begin::Input group-->
-                <div class="d-flex flex-column mb-5">
-                    <label class="fs-6 fw-bold mb-2">سبب انعقاد اللجنة</label>
-                    <textarea class="form-control form-control-solid" rows="2" name="experience" placeholder=""></textarea>
-                </div>
 
-                <!--end::Input group--> --}}
                 <!--begin::Separator-->
                 <div class="separator mb-8"></div>
 

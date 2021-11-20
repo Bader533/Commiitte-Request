@@ -47,6 +47,42 @@ class C_request_committee extends Controller
 
     }
 
+    public function decision_committee()
+    {
+        return view('request_committee.decision-to-prepare-a-committee');
+
+    }
+
+    public function decision_to_form_committees()
+    {
+
+        return view('request_committee.decision-to-form-committees-at-the-relevant-departments');
+    }
+
+    public function final_report_for_the_adoption()
+    {
+
+        return view('request_committee.final-report for-the-adoption-of-the-committee-data');
+    }
+
+    public function view_committee_details()
+    {
+        return view('request_committee.view-committee-details');
+
+    }
+
+    public function composition_of_committee_members()
+    {
+        return view('request_committee.composition-of-committee-members');
+
+    }
+
+    public function committee_formation_requests()
+    {
+        return view('request_committee.committee-formation-requests');
+
+    }
+
     /**
      * Store a newly created resource in storage.
      *

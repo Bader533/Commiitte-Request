@@ -78,45 +78,10 @@
 
                 <!--end::Separator-->
 
-                <div class="row mb-5">
-                    <h5>الاعضاء</h5>
 
-                    <div class="col-md-3 fv-row">
-                        <!--begin::Label-->
-                        <label class="required fs-5 fw-bold mb-2"> اسم العضو  </label>
-                        <!--end::Label-->
-                        <!--begin::Input-->
-                        <input type="text" class="form-control form-control-solid" placeholder="" name="" />
-                        <!--end::Input-->
-                    </div>
-
-                    <div class="col-md-3 fv-row">
-                        <!--begin::Label-->
-                        <label class="required fs-5 fw-bold mb-2"> المسمى الوظيفى  </label>
-                        <!--end::Label-->
-                        <!--begin::Input-->
-                        <input type="text" class="form-control form-control-solid" placeholder="" name="" />
-                        <!--end::Input-->
-                    </div>
-
-                    <div class="col-md-3 fv-row">
-                        <!--begin::Label-->
-                        <label class="required fs-5 fw-bold mb-2"> دوره فى اللجنة  </label>
-                        <!--end::Label-->
-                        <!--begin::Input-->
-                        <input type="text" class="form-control form-control-solid" placeholder="" name="" />
-                        <!--end::Input-->
-                    </div>
-                    <div class="col-md-3 fv-row" style="margin-top: 27px">
-                        <button type="submit" class="btn btn-primary">ا</button>
-                    </div>
-
-
-
-                </div>
 
                 <div class="row mb-5">
-                    <h5>الاعضاء</h5>
+
 
                     <div class="col-md-3 fv-row">
                         <!--begin::Label-->
@@ -167,13 +132,7 @@
                 </div>
 
                 <!--begin::Submit-->
-                <button type="submit" class="btn btn-primary" id="kt_careers_submit_button">
-                    <!--begin::Indicator-->
-                    <span class="indicator-label">موافق</span>
-                    <span class="indicator-progress">انتظر من فظلك
-                        <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
-                    <!--end::Indicator-->
-                </button>
+
                 <!--end::Submit-->
             </form>
             <!--end::Form-->
