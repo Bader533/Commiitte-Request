@@ -24,13 +24,13 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('/request_committee/create', [App\Http\Controllers\C_request_committee::class, 'create'])
 ->name('request_committee.create')->middleware('auth');
 
-Route::get('/request_committee/form request', [App\Http\Controllers\C_request_committee::class, 'formrequest'])
+Route::get('/request_committee/form_request', [App\Http\Controllers\C_request_committee::class, 'formrequest'])
 ->name('request_committee.formrequest')->middleware('auth');
 
-Route::get('/request_committee/form request affairs', [App\Http\Controllers\C_request_committee::class, 'formrequestaffairs'])
+Route::get('/request_committee/form_request_affairs', [App\Http\Controllers\C_request_committee::class, 'formrequestaffairs'])
 ->name('request_committee.formrequestaffairs')->middleware('auth');
 
-Route::get('/request_committee/committee members', [App\Http\Controllers\C_request_committee::class, 'committee_members'])
+Route::get('/request_committee/committee_members', [App\Http\Controllers\C_request_committee::class, 'committee_members'])
 ->name('request_committee.committeemembers')->middleware('auth');
 
 //عند الضعط على رز اعداد قرار تشكيل الجنة
