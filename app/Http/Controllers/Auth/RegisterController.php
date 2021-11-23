@@ -65,10 +65,12 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         return User::create([
+            'id'=>1,
             'name' => 'admin',
             'user_type_tb_id' =>1,
             'departments_tb_id'=>1,
             'password' => Hash::make(123456789),
+
         ]);
     }
 }
