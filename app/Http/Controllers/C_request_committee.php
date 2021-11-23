@@ -83,6 +83,12 @@ class C_request_committee extends Controller
 
     }
 
+    public function notification()
+    {
+        return view('request_committee.notification');
+
+    }
+
     /**
      * Store a newly created resource in storage.
      *
