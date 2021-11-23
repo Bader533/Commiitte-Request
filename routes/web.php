@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -54,4 +55,4 @@ Route::get('/request_committee/committee formation requests', [App\Http\Controll
 Route::get('/request_committee/notification', [App\Http\Controllers\C_request_committee::class, 'notification'])
 ->name('request_committee.notification')->middleware('auth');
 
-// new page
+
