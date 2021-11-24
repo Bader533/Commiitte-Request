@@ -45,7 +45,7 @@ class LoginController extends Controller
 
     protected function redirectTo(){
         return route('request_committee.create');
-       $type =   Auth()->user()->user_type_id;
+       $type = Auth()->user()->user_type_id;
         if($type == 1 || $type == 5)
         {
           //  return route('admin.index');

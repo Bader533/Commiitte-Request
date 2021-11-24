@@ -66,7 +66,9 @@
                                 <div class="flex-grow-1 me-2">
                                     <!--begin::Username-->
                                     <a href="#"
-                                        class="text-white text-hover-primary fs-6 fw-bold">{{ auth::user()->name }}</a>
+                                        class="text-white text-hover-primary fs-6 fw-bold">@if (auth())
+                                            {{-- auth::user()->name --}}
+                                        @endauth</a>
                                     <!--end::Username-->
                                     <!--begin::Description-->
                                     <span class="text-gray-600 fw-bold d-block fs-8 mb-1">Python Dev</span>
