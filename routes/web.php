@@ -51,7 +51,7 @@ Route::get('/request_committee/composition of committee members', [App\Http\Cont
 //صفحة لعرض كافة تفاصيل وبيانات اللجنةواعضائهاوالنصوصوالقوانين
 Route::get('/request_committee/committee formation requests', [App\Http\Controllers\C_request_committee::class, 'committee_formation_requests'])
 ->name('request_committee.committee_formation_requests');
-
+//صفحة لعرض جميع الاشعارات في النظام
 Route::get('/request_committee/notification', [App\Http\Controllers\C_request_committee::class, 'notification'])
 ->name('request_committee.notification');
 
