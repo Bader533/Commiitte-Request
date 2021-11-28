@@ -17,21 +17,26 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
 
-    $pdo = DB::getPdo();
-    $P_ID = 12135;
+    // $pdo = DB::getPdo();
+    // $P_ID = 111;
+    // $P_DATE = '08/11/21';
 
-    $P_ster ="bader";
+    // $P_ster = "bader";
     // ID,USERS_TB_ID,USER_CHAIMAN_ID,NUMBER_COMMITTEE_MEMBER,START_DATE,COMMITTEE_TERM,REASON_COMMITTEE
-    $stmt = $pdo->prepare("begin BADER.get_users(:ID,:USERS_TB_ID,:USER_CHAIMAN_ID,:NUMBER_COMMITTEE_MEMBER,:COMMITTEE_TERM,:REASON_COMMITTEE); end;");
-    $stmt->bindParam(':ID', $P_ID, PDO::PARAM_INT);
-    $stmt->bindParam(':USERS_TB_ID', $P_ID, PDO::PARAM_INT);
-    $stmt->bindParam(':USER_CHAIMAN_ID', $P_ID, PDO::PARAM_INT);
-    $stmt->bindParam(':NUMBER_COMMITTEE_MEMBER', $P_ID, PDO::PARAM_INT);
-    // $stmt->bindParam(':START_DATE', $P_DATA, PDO::PARAM_STR_CHAR);
-    $stmt->bindParam(':COMMITTEE_TERM', $P_ID, PDO::PARAM_INT);
-    $stmt->bindParam(':REASON_COMMITTEE', $P_ster, PDO::PARAM_STR,225);
-    $stmt->execute();
-    dd($stmt);
+    // $stmt = $pdo->prepare("begin BADER.insert_committee(:ID,:USERS_TB_ID,:USER_CHAIMAN_ID,:NUMBER_COMMITTEE_MEMBER,:START_DATE,:COMMITTEE_TERM,:REASON_COMMITTEE); end;");
+    // $stmt->bindParam(':ID', $P_ID, PDO::PARAM_INT);
+    // $stmt->bindParam(':USERS_TB_ID', $P_ID, PDO::PARAM_INT);
+    // $stmt->bindParam(':USER_CHAIMAN_ID', $P_ID, PDO::PARAM_INT);
+    // $stmt->bindParam(':NUMBER_COMMITTEE_MEMBER', $P_ID, PDO::PARAM_INT);
+
+    // $stmt->bindParam(':START_DATE', $P_DATE, PDO::PARAM_STR);
+
+
+    // $stmt->bindParam(':COMMITTEE_TERM', $P_ID, PDO::PARAM_INT);
+    // $stmt->bindParam(':REASON_COMMITTEE', $P_ster, PDO::PARAM_STR, 225);
+    // $stmt->execute();
+
+    // dd($stmt);
 
     // return view('welcome');
 });
@@ -42,6 +47,11 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 //عرض صفحة انشاء طلب
 Route::get('/request_committee/create', [App\Http\Controllers\C_request_committee::class, 'create'])
     ->name('request_committee.create');
+ //تخزين بيانات طلب
+Route::post('/request_committee/store', [App\Http\Controllers\C_request_committee::class, 'storerequest'])
+    ->name('request_committee.storerequest');
+
+
 // عرض صفحة الوكيل للموافقة على الطلب
 Route::get('/request_committee/form_request', [App\Http\Controllers\C_request_committee::class, 'formrequest'])
     ->name('request_committee.formrequest');

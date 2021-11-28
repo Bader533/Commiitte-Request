@@ -10,7 +10,8 @@
         <!--begin::Content-->
         <div class="flex-lg-row-fluid me-10 me-lg-20">
             <!--begin::Form-->
-            <form action="" class="form mb-15" method="post" id="kt_careers_form">
+            <form action="{{route('request_committee.storerequest')}}" class="form mb-15" method="post" id="kt_careers_form">
+                @csrf
                 <!--begin::Input group-->
                 <div class="row mb-5">
                     <!--begin::Col-->
@@ -19,7 +20,7 @@
                         <label class="required fs-5 fw-bold mb-2">عدد افراد اللجنة</label>
                         <!--end::Label-->
                         <!--begin::Input-->
-                        <input type="number" class="form-control form-control-solid" placeholder="" name="first_name" />
+                        <input type="number" class="form-control form-control-solid" placeholder="" name="membercount" />
                         <!--end::Input-->
                     </div>
                     <!--end::Col-->
@@ -29,7 +30,7 @@
                         <label class="required fs-5 fw-bold mb-2">تاريخ البدء</label>
                         <!--end::Label-->
                         <!--end::Input-->
-                        <input type="date" class="form-control form-control-solid" placeholder="" name="last_name" />
+                        <input type="date" class="form-control form-control-solid" placeholder="" name="start_date" />
                         <!--end::Input-->
                     </div>
                     <!--end::Col-->
@@ -43,7 +44,7 @@
                         <label class="required fs-5 fw-bold mb-2">مدة عمل اللجنة</label>
                         <!--end::Label-->
                         <!--begin::Input-->
-                        <input class="form-control form-control-solid" placeholder="" name="email" />
+                        <input type="number" class="form-control form-control-solid" placeholder="" name="work_day" />
                         <!--end::Input-->
                     </div>
 

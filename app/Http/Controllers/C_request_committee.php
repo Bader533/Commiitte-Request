@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use PDO;
 
 class C_request_committee extends Controller
 {
@@ -25,6 +27,36 @@ class C_request_committee extends Controller
     {
         return view('request_committee.create');
     }
+
+    public function storerequest(REQUEST $request)
+    {
+
+        // dd($request->start_date,$request->work_day,$request->membercount);
+        // dd($request->membercount);
+
+
+        $pdo = DB::getPdo();
+        $P_ID = 111;
+        $membercount = $request->membercount;
+        $start_date = $request->start_date;
+        $work_day =$request->work_day;
+        $experience =$request->experience;
+
+        $stmt = $pdo->prepare("begin BADER.insert_committee(:ID,:USERS_TB_ID,:USER_CHAIMAN_ID,:NUMBER_COMMITTEE_MEMBER,:START_DATE,:COMMITTEE_TERM,:REASON_COMMITTEE); end;");
+        $stmt->bindParam(':ID', $P_ID, PDO::PARAM_INT);
+        $stmt->bindParam(':USERS_TB_ID', $P_ID, PDO::PARAM_INT);
+        $stmt->bindParam(':USER_CHAIMAN_ID', $P_ID, PDO::PARAM_INT);
+        $stmt->bindParam(':NUMBER_COMMITTEE_MEMBER', $membercount, PDO::PARAM_INT);
+        $stmt->bindParam(':START_DATE', $start_date, PDO::PARAM_STR);
+        $stmt->bindParam(':COMMITTEE_TERM', $work_day, PDO::PARAM_INT);
+        $stmt->bindParam(':REASON_COMMITTEE', $experience, PDO::PARAM_STR, 225);
+        $stmt->execute();
+
+        dd($stmt);
+
+    }
+
+
 
     public function formrequest()
     {
