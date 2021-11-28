@@ -75,16 +75,16 @@ dd($result);
 
 
 // تستخدم لارجاع اي متغير رقم او نص
- /* $pdo = DB::connection('oracle')->getPdo();
-$P_ID = 1;
-$req='';
-$stmt = $pdo->prepare("begin HANI.Get_req_agent(:pageNumber); end;");
-$stmt->bindParam(':pageNumber',$P_ID, PDO::PARAM_INT);
-//$stmt->bindParam(':req', $req, PDO::PARAM_STR, 200);
 
+  $pdo = DB::connection('oracle')->getPdo();
+$P_ID = 1;
+
+$stmt = $pdo->prepare("begin HANI.Get_req_agent(:pageNumber,:req); end;");
+$stmt->bindParam(':pageNumber',$P_ID, PDO::PARAM_INT);
+$stmt->bindParam(':req', $req, PDO::PARAM_STMT);
 $stmt->execute();
 dd($stmt);
-*/
+/******************************************************** */
 $pdo = DB::getPdo();
 $id = 10;
 
