@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -56,3 +57,51 @@ Route::get('/request_committee/notification', [App\Http\Controllers\C_request_co
 ->name('request_committee.notification');
 
 
+///test
+Route::get('/test', function () {
+    //$d = new \App\Test();
+
+
+//  return  $id = DB::connection('oracle')->table('USERS_TB')->get()->Count();
+
+// تستخدم لارجاع CURSOR
+/*$procedureName = 'HANI.Get_req_agent';
+$bindings = [
+    'P_PARENT_FORM_ID'=> 10001,
+];
+$result = DB::connection('oracle')->executeProcedure($procedureName, $bindings);
+dd($result);
+*/
+
+
+// تستخدم لارجاع اي متغير رقم او نص
+ /* $pdo = DB::connection('oracle')->getPdo();
+$P_ID = 1;
+$req='';
+$stmt = $pdo->prepare("begin HANI.Get_req_agent(:pageNumber); end;");
+$stmt->bindParam(':pageNumber',$P_ID, PDO::PARAM_INT);
+//$stmt->bindParam(':req', $req, PDO::PARAM_STR, 200);
+
+$stmt->execute();
+dd($stmt);
+*/
+$pdo = DB::getPdo();
+$id = 10;
+
+$stmt = $pdo->prepare("begin HANI.Get_test(:id, :id2); end;");
+$stmt->bindParam(':id', $id, PDO::PARAM_INT);
+$stmt->bindParam(':id2', $id2, PDO::PARAM_INT);
+$stmt->execute();
+
+return $id2;
+
+
+/*
+// الاستخدام العادي الاوامر على الجدول مباشر
+$id = DB::connection('oracle')->table('ALLOW_OFFICES_TB')->get()->Count();
+*/
+
+return 1;
+   // return view('welcome');
+
+});
