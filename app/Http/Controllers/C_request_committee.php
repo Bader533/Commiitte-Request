@@ -27,6 +27,15 @@ class C_request_committee extends Controller
     {
         return view('request_committee.create');
     }
+//الموافقة على الطلب من قبل الوكيل
+    public function Post_req_agent()
+    {
+        $pdo = DB::getPdo();
+        $ID = 10;
+        $STATUS_TB_ID=2;
+        $REQUEST_COMMITTEE_TB=2;
+        $USERS_TB_ID=2;
+        $NAME='الوكيل يوافق على الطلب';
 
     public function storerequest(REQUEST $request)
     {
@@ -60,29 +69,44 @@ class C_request_committee extends Controller
 
     public function formrequest()
     {
-        return view('request_committee.formrequest');
+        $sql = "begin
+            HANI.Get_req_agent(:pageNumber,:req);
+        end;";
+        return DB::transaction(function ($conn) use ($sql) {
+            $pdo = $conn->getPdo();
+            $stmt = $pdo->prepare($sql);
+            $pageNumber = 1;
 
+            $stmt->bindParam(':pageNumber', $pageNumber, PDO::PARAM_INT);
+            $stmt->bindParam(':req', $req, PDO::PARAM_STMT);
+
+            $stmt->execute();
+
+            oci_execute($req, OCI_DEFAULT);
+            oci_fetch_all($req, $array, 0, -1, OCI_FETCHSTATEMENT_BY_ROW + OCI_ASSOC);
+            oci_free_cursor($req);
+
+            return view('request_committee.formrequest', [
+                'result' => $array
+            ]);
+        });
     }
 
     public function formrequestaffairs()
     {
 
         return view('request_committee.formrequest-affairs');
-
     }
 
     public function committee_members()
     {
 
         return view('request_committee.committee-members');
-
-
     }
 
     public function decision_committee()
     {
         return view('request_committee.decision-to-prepare-a-committee');
-
     }
 
     public function decision_to_form_committees()
@@ -100,25 +124,21 @@ class C_request_committee extends Controller
     public function view_committee_details()
     {
         return view('request_committee.view-committee-details');
-
     }
 
     public function composition_of_committee_members()
     {
         return view('request_committee.composition-of-committee-members');
-
     }
 
     public function committee_formation_requests()
     {
         return view('request_committee.committee-formation-requests');
-
     }
 
     public function notification()
     {
         return view('request_committee.notification');
-
     }
 
     /**

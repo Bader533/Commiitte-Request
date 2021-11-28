@@ -100,6 +100,18 @@ $result = DB::connection('oracle')->executeProcedure($procedureName, $bindings);
 dd($result);
 */
 
+/*$procedureName = 'HANI.Get_req_agent';
+$bindings = [
+    'pageNumber'=>1,
+];
+$result = DB::connection('oracle')->executeProcedure($procedureName, $bindings);
+dd($result);
+*/
+
+
+
+
+
 
     // تستخدم لارجاع اي متغير رقم او نص
 
