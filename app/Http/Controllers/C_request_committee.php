@@ -36,7 +36,7 @@ class C_request_committee extends Controller
         $REQUEST_COMMITTEE_TB=2;
         $USERS_TB_ID=2;
         $NAME='الوكيل يوافق على الطلب';
-
+    }
     public function storerequest(REQUEST $request)
     {
 

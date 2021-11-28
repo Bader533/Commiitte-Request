@@ -10,7 +10,7 @@
                 <!--begin::Content-->
                 <div class="flex-lg-row-fluid me-10 me-lg-20">
                     <!--begin::Form-->
-                    <div  class="form mb-15"  id="kt_careers_form">
+                    <div class="form mb-15" id="kt_careers_form">
 
                         <!--begin::Input group-->
                         <div class="row mb-5">
@@ -91,7 +91,7 @@
                                     </tr>
 
                                     @foreach ($result as $key => $value)
-                                        <tr >
+                                        <tr>
 
                                             <td scope="row">{{ $value['ID'] }}</td>
                                             <td scope="row">{{ $value['REASON_COMMITTEE'] }}</td>
@@ -110,7 +110,8 @@
                                                     </svg>
                                                     <!--end::Svg Icon-->
                                                 </span></td>
-                                            <td scope="row"><button id="Post_req_agent" class="bg-primary text-light rounded border-0">موافقة</button> <button
+                                            <td scope="row"><button id="Post_req_agent"
+                                                    class="bg-primary text-light rounded border-0">موافقة</button> <button
                                                     class="bg-danger text-light rounded border-0">رفض</button></td>
 
                                         </tr>
@@ -147,50 +148,43 @@
 @section('js')
 
 
-<script>
-$(document).on("click", '#Post_req_agent', function(event) {
+    <script>
+        $(document).on("click", '#Post_req_agent', function(event) {
 
-alert('f');
-    Post_req_agent();
+            Post_req_agent();
 
-});
-//الموافقة او الرفض للطلب من قبل الوكيل
-function Post_req_agent()
-{
-    $.ajax({
-    headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    },
-    url:"/request_committee/form_request/status_step",
-    method: "POST",
-    contentType: false,
-    cache: false,
-    processData: false,
-    beforeSend:function()
-    {
-       alert('جاري الارسال');
-    },
-    success: function (data)
-    {
-       // alert('تم');
-    Swal.fire({
-  position: 'top-right',
-  icon: 'success',
-  title: 'تمت العملية بنجاح',
-  showConfirmButton: false,
-  timer: 1500
-})
-      //  $('#image').val(null);
-      //  $('#input_message').val('');
-    },
-    error:function (data) {
-        alert('خطا  '+data);
-    }
+        });
+        //الموافقة او الرفض للطلب من قبل الوكيل
+        function Post_req_agent() {
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: "/request_committee/form_request/status_step",
+                method: "POST",
+                contentType: false,
+                cache: false,
+                processData: false,
+                beforeSend: function() {
+                    alert('جاري الارسال');
+                },
+                success: function(data) {
+                    Swal.fire({
+                        position: 'top-right',
+                        icon: 'success',
+                        title: 'تمت العملية بنجاح',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                    //  $('#image').val(null);
+                    //  $('#input_message').val('');
+                },
+                error: function(data) {
+                    alert('خطا  ' + data);
+                }
 
-  });
-}
-
-
-</script>
+            });
+        }
+    </script>
 
 @endsection
