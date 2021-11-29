@@ -34,7 +34,6 @@ class C_request_committee extends Controller
         // dd($request->start_date,$request->work_day,$request->membercount);
         // dd($request->membercount);
 
-
         $pdo = DB::getPdo();
         $P_ID = 111;
         $membercount = $request->membercount;
@@ -54,33 +53,6 @@ class C_request_committee extends Controller
 
         dd($stmt);
 
-    }
-
-
-
-    public function formrequest()
-    {
-        $sql = "begin
-            HANI.Get_req_agent(:pageNumber,:req);
-        end;";
-        return DB::transaction(function ($conn) use ($sql) {
-            $pdo = $conn->getPdo();
-            $stmt = $pdo->prepare($sql);
-            $pageNumber = 1;
-
-            $stmt->bindParam(':pageNumber', $pageNumber, PDO::PARAM_INT);
-            $stmt->bindParam(':req', $req, PDO::PARAM_STMT);
-
-            $stmt->execute();
-
-            oci_execute($req, OCI_DEFAULT);
-            oci_fetch_all($req, $array, 0, -1, OCI_FETCHSTATEMENT_BY_ROW + OCI_ASSOC);
-            oci_free_cursor($req);
-
-            return view('request_committee.formrequest', [
-                'result' => $array
-            ]);
-        });
     }
 
     public function formrequestaffairs()
@@ -132,59 +104,5 @@ class C_request_committee extends Controller
         return view('request_committee.notification');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }
