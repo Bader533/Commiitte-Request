@@ -93,7 +93,7 @@
                                     @foreach ($result as $key => $value)
                                         <tr>
 
-                                            <td scope="row">{{ $value['ID'] }}</td>
+                                            <td scope="row">{{$value['ID']}}</td>
                                             <td scope="row">{{ $value['REASON_COMMITTEE'] }}</td>
                                             <td scope="row"><span class="svg-icon svg-icon-primary svg-icon-2x">
                                                     <!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo1/dist/../src/media/svg/icons/Code/Warning-1-circle.svg--><svg
@@ -110,9 +110,10 @@
                                                     </svg>
                                                     <!--end::Svg Icon-->
                                                 </span></td>
-                                            <td scope="row"><button id="Post_req_agent"
-                                                    class="bg-primary text-light rounded border-0">موافقة</button> <button
-                                                    class="bg-danger text-light rounded border-0">رفض</button></td>
+                                            <td scope="row"><button id="{{$value['ID']}}"
+                                                    class="Post_req_agent_accept bg-primary text-light rounded border-0">موافقة</button> <button
+                                                    id="{{$value['ID']}}"
+                                                    class="Post_req_agent_reject bg-danger text-light rounded border-0">رفض</button></td>
 
                                         </tr>
                                     @endforeach
@@ -149,41 +150,85 @@
 
 
     <script>
-        $(document).on("click", '#Post_req_agent', function(event) {
+        //موافقة
+        $(document).on("click", '.Post_req_agent_accept', function(event) {
 
-            Post_req_agent();
+            Post_req_agent(1,$(this).attr('id'));
+
+        });
+        //رفض
+        $(document).on("click", '.Post_req_agent_reject', function(event) {
+
+            Post_req_agent(0,$(this).attr('id'));
 
         });
         //الموافقة او الرفض للطلب من قبل الوكيل
-        function Post_req_agent() {
-            $.ajax({
+        function Post_req_agent(status,id_req) {
+
+            $.ajaxSetup({
+
                 headers: {
+
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                url: "/request_committee/form_request/status_step",
-                method: "POST",
-                contentType: false,
-                cache: false,
-                processData: false,
-                beforeSend: function() {
-                    alert('جاري الارسال');
-                },
-                success: function(data) {
-                    Swal.fire({
-                        position: 'top-right',
-                        icon: 'success',
-                        title: 'تمت العملية بنجاح',
-                        showConfirmButton: false,
-                        timer: 1500
-                    })
-                    //  $('#image').val(null);
-                    //  $('#input_message').val('');
-                },
-                error: function(data) {
-                    alert('خطا  ' + data);
+
                 }
 
             });
+            $.ajax({
+
+                    url: "{{ route('request_committee.request_committee_agent') }}",
+                    method: "POST",
+                    data: {
+                        status: status,
+                        id_req:id_req
+                    },
+                    dataType: 'json',
+                    beforeSend: function() {
+                        Swal.fire({
+                            position: 'top-right',
+                            icon: 'success',
+                            title: 'جاري الارسال',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                    },
+                    success: function(data) {
+
+                        if (data.data == 200) {
+                            Swal.fire({
+                                position: 'top-right',
+                                icon: 'success',
+                                title: 'تمت العملية بنجاح',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                        } else {
+                            Swal.fire({
+                                position: 'top-right',
+                                icon: 'error',
+                                title: 'خطا',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+
+                        }
+
+                    },
+                    error: function(data) {
+                        Swal.fire({
+                            position: 'top-right',
+                            icon: 'error',
+                            title: 'خطا',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                    }
+
+                })
+                .done(function(msg) {
+
+                    //$("#home_message_container").html(msg);
+                });
         }
     </script>
 

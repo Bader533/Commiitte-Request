@@ -9,11 +9,22 @@ use PDO;
 class C_request_committee_agent extends Controller
 {
     //الموافقة على الطلب من قبل الوكيل
-    public function Post_req_agent()
+    public function Post_req_agent(Request $request)
     {
+
+        $STATUS_TB_ID=0;
+        if ($request->status == 1) {
+            //موافقة
+            $STATUS_TB_ID = 1;
+        }
+        if ($request->status == 0) {
+            //رفض
+              $STATUS_TB_ID = 2;
+        }
+
         $pdo = DB::getPdo();
-        $STATUS_TB_ID = 2;
-        $REQUEST_COMMITTEE_TB = 2;
+
+        $REQUEST_COMMITTEE_TB = $request->id_req;
         $USERS_TB_ID = 2;
         $NAME = 'الوكيل يوافق على الطلب';
         $stmt = $pdo->prepare("begin HANI.Post_req_agent(:STATUS_TB_ID,:REQUEST_COMMITTEE_TB,:USERS_TB_ID,:NAME); end;");
@@ -22,7 +33,10 @@ class C_request_committee_agent extends Controller
         $stmt->bindParam(':USERS_TB_ID', $USERS_TB_ID, PDO::PARAM_INT);
         $stmt->bindParam(':NAME', $NAME, PDO::PARAM_STR, 200);
         $stmt->execute();
-
+        return[
+            'data'=>200,
+            'message'=>'تمت العملية بنجاح'
+        ];
     }
     //عرض جميع الطلبات للوكيل
     public function formrequest()
@@ -34,17 +48,14 @@ class C_request_committee_agent extends Controller
             $pdo = $conn->getPdo();
             $stmt = $pdo->prepare($sql);
             $pageNumber = 1;
-
             $stmt->bindParam(':pageNumber', $pageNumber, PDO::PARAM_INT);
             $stmt->bindParam(':req', $req, PDO::PARAM_STMT);
-
             $stmt->execute();
-
             oci_execute($req, OCI_DEFAULT);
             oci_fetch_all($req, $array, 0, -1, OCI_FETCHSTATEMENT_BY_ROW + OCI_ASSOC);
             oci_free_cursor($req);
 
-            return view('request_committee.formrequest', [
+            return view('request_committee.request_committee_agent', [
                 'result' => $array
             ]);
         });

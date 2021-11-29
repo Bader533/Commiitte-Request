@@ -62,7 +62,8 @@ Route::post('/request_committee/store', [App\Http\Controllers\C_request_committe
 Route::get('/request_committee/form_request', [App\Http\Controllers\C_request_committee_agent::class, 'formrequest'])
     ->name('request_committee.formrequest');
 //الموافقة او الرفض للطلب
-Route::post('/request_committee/form_request/status_step', [App\Http\Controllers\C_request_committee_agent::class, 'Post_req_agent']);
+Route::post('/request_committee/form_request/status_step', [App\Http\Controllers\C_request_committee_agent::class, 'Post_req_agent'])
+->name('request_committee.request_committee_agent');
 
 /**********************************************************نهاية الصفحة************************************************ */
 
