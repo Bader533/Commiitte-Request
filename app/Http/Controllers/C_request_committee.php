@@ -27,16 +27,7 @@ class C_request_committee extends Controller
     {
         return view('request_committee.create');
     }
-//الموافقة على الطلب من قبل الوكيل
-    public function Post_req_agent()
-    {
-        $pdo = DB::getPdo();
-        $ID = 10;
-        $STATUS_TB_ID=2;
-        $REQUEST_COMMITTEE_TB=2;
-        $USERS_TB_ID=2;
-        $NAME='الوكيل يوافق على الطلب';
-    }
+
     public function storerequest(REQUEST $request)
     {
 
