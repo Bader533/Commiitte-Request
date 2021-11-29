@@ -56,11 +56,15 @@ Route::post('/request_committee/store', [App\Http\Controllers\C_request_committe
 
 // ******************************************************************************************************
 
+/************************************************بداية صفحة تظهر عند الوكيل ******************************************************** */
+
 // عرض صفحة الوكيل للموافقة على الطلب
-Route::get('/request_committee/form_request', [App\Http\Controllers\C_request_committee::class, 'formrequest'])
+Route::get('/request_committee/form_request', [App\Http\Controllers\C_request_committee_agent::class, 'formrequest'])
     ->name('request_committee.formrequest');
 //الموافقة او الرفض للطلب
-Route::post('/request_committee/form_request/status_step', [App\Http\Controllers\C_request_committee::class, 'Post_req_agent']);
+Route::post('/request_committee/form_request/status_step', [App\Http\Controllers\C_request_committee_agent::class, 'Post_req_agent']);
+
+/**********************************************************نهاية الصفحة************************************************ */
 
 // عرض صفحة الطلبات عند الشؤون الادارية
 Route::get('/request_committee/form_request_affairs', [App\Http\Controllers\C_request_committee::class, 'formrequestaffairs'])
@@ -93,61 +97,5 @@ Route::get('/request_committee/notification', [App\Http\Controllers\C_request_co
 
 ///test
 Route::get('/test', function () {
-    //$d = new \App\Test();
-
-
-    //  return  $id = DB::connection('oracle')->table('USERS_TB')->get()->Count();
-
-    // تستخدم لارجاع CURSOR
-    /*$procedureName = 'HANI.Get_req_agent';
-$bindings = [
-    'P_PARENT_FORM_ID'=> 10001,
-];
-$result = DB::connection('oracle')->executeProcedure($procedureName, $bindings);
-dd($result);
-*/
-
-/*$procedureName = 'HANI.Get_req_agent';
-$bindings = [
-    'pageNumber'=>1,
-];
-$result = DB::connection('oracle')->executeProcedure($procedureName, $bindings);
-dd($result);
-*/
-
-
-
-
-
-
-    // تستخدم لارجاع اي متغير رقم او نص
-
-    // $pdo = DB::getPdo();
-    // $P_ID = 1;
-
-    // $stmt = $pdo->prepare("begin HANI.Get_req_agent(:pageNumber,:req); end;");
-    // $stmt->bindParam(':pageNumber', $P_ID, PDO::PARAM_INT);
-    // $stmt->bindParam(':req', $req, PDO::PARAM_STMT);
-    // $stmt->execute();
-    // dd($stmt);
-    /******************************************************** */
-    // $pdo = DB::getPdo();
-    // $id = 10;
-
-    // $stmt = $pdo->prepare("begin HANI.Get_test(:id, :id2); end;");
-    // $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-    // $stmt->bindParam(':id2', $id2, PDO::PARAM_INT);
-    // $stmt->execute();
-
-    // return $id2;
-
-
-    /*
-// الاستخدام العادي الاوامر على الجدول مباشر
-$id = DB::connection('oracle')->table('ALLOW_OFFICES_TB')->get()->Count();
-*/
-
-    return 1;
-    // return view('welcome');
 
 });

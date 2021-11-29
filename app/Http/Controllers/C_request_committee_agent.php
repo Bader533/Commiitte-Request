@@ -18,12 +18,11 @@ class C_request_committee_agent extends Controller
         $NAME = 'الوكيل يوافق على الطلب';
         $stmt = $pdo->prepare("begin HANI.Post_req_agent(:STATUS_TB_ID,:REQUEST_COMMITTEE_TB,:USERS_TB_ID,:NAME); end;");
         $stmt->bindParam(':STATUS_TB_ID', $STATUS_TB_ID, PDO::PARAM_INT);
-        $stmt->bindParam(':REQUEST_COMMITTEE_TB', $REQUEST_COMMITTEE_TB, PDO::PARAM_STMT);
+        $stmt->bindParam(':REQUEST_COMMITTEE_TB', $REQUEST_COMMITTEE_TB, PDO::PARAM_INT);
         $stmt->bindParam(':USERS_TB_ID', $USERS_TB_ID, PDO::PARAM_INT);
         $stmt->bindParam(':NAME', $NAME, PDO::PARAM_STR, 200);
         $stmt->execute();
 
-        
     }
     //عرض جميع الطلبات للوكيل
     public function formrequest()
