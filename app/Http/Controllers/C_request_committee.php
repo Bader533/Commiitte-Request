@@ -43,7 +43,6 @@ class C_request_committee extends Controller
         //     return redirect()->back()->withErrors($validator)->withInputs($request->all());
         // }
 
-
         $pdo = DB::getPdo();
         $P_ID = 111;
         $membercount = $request->membercount;
@@ -108,33 +107,21 @@ class C_request_committee extends Controller
 
     }
 
-
-
-    public function formrequest()
-    {
-        return view('request_committee.formrequest');
-
-    }
-
     public function formrequestaffairs()
     {
 
         return view('request_committee.formrequest-affairs');
-
     }
 
     public function committee_members()
     {
 
         return view('request_committee.committee-members');
-
-
     }
 
     public function decision_committee()
     {
         return view('request_committee.decision-to-prepare-a-committee');
-
     }
 
     public function decision_to_form_committees()
@@ -152,80 +139,22 @@ class C_request_committee extends Controller
     public function view_committee_details()
     {
         return view('request_committee.view-committee-details');
-
     }
 
     public function composition_of_committee_members()
     {
         return view('request_committee.composition-of-committee-members');
-
     }
 
     public function committee_formation_requests()
     {
         return view('request_committee.committee-formation-requests');
-
     }
 
     public function notification()
     {
         return view('request_committee.notification');
-
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }

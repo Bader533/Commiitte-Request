@@ -59,6 +59,9 @@ Route::post('/request_committee/store', [App\Http\Controllers\C_request_committe
 // عرض صفحة الوكيل للموافقة على الطلب
 Route::get('/request_committee/form_request', [App\Http\Controllers\C_request_committee::class, 'formrequest'])
     ->name('request_committee.formrequest');
+//الموافقة او الرفض للطلب
+Route::post('/request_committee/form_request/status_step', [App\Http\Controllers\C_request_committee::class, 'Post_req_agent']);
+
 // عرض صفحة الطلبات عند الشؤون الادارية
 Route::get('/request_committee/form_request_affairs', [App\Http\Controllers\C_request_committee::class, 'formrequestaffairs'])
     ->name('request_committee.formrequestaffairs');
@@ -103,6 +106,18 @@ $bindings = [
 $result = DB::connection('oracle')->executeProcedure($procedureName, $bindings);
 dd($result);
 */
+
+/*$procedureName = 'HANI.Get_req_agent';
+$bindings = [
+    'pageNumber'=>1,
+];
+$result = DB::connection('oracle')->executeProcedure($procedureName, $bindings);
+dd($result);
+*/
+
+
+
+
 
 
     // تستخدم لارجاع اي متغير رقم او نص
