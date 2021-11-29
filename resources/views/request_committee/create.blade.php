@@ -10,7 +10,7 @@
         <!--begin::Content-->
         <div class="flex-lg-row-fluid me-10 me-lg-20">
             <!--begin::Form-->
-            <form action="{{route('request_committee.storerequest')}}" class="form mb-15" method="post" id="kt_careers_form">
+            <form class="form mb-15" action="" id="dataform" method="post" enctype="multipart/form-data">
                 @csrf
                 <!--begin::Input group-->
                 <div class="row mb-5">
@@ -62,7 +62,7 @@
                 <div class="separator mb-8"></div>
                 <!--end::Separator-->
                 <!--begin::Submit-->
-                <button type="submit" class="btn btn-primary" id="kt_careers_submit_button">
+                <button type="submit" class="btn btn-primary" id="add_request">
                     <!--begin::Indicator-->
                     <span class="indicator-label">طلب تشكيل لجنة</span>
                     <span class="indicator-progress">انتظر من فظلك
@@ -80,3 +80,36 @@
 </div>
 
 @endsection
+
+
+@push('script')
+
+<script>
+    $(document).on('click', '#add_request', function (e) {
+        e.preventDefault();
+
+        var formData = new FormData($('#dataform')[0]);
+        $.ajax({
+            type: 'post',
+            enctype: 'multipart/form-data',
+            url: "{{route('request_committee.storerequest')}}",
+            data: formData,
+            processData: false,
+            contentType: false,
+            cache: false,
+            success: function (data) {
+                if (data.status == true) {
+                    $('#success_msg').show();
+                }
+            }, error: function (reject) {
+                var response = $.parseJSON(reject.responseText);
+                $.each(response.errors, function (key, val) {
+                    $("#" + key + "_error").text(val[0]);
+                });
+            }
+        });
+    });
+</script>
+
+
+@endpush

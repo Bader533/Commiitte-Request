@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use PDO;
 
@@ -23,6 +24,7 @@ class C_request_committee extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function create()
     {
         return view('request_committee.create');
@@ -33,6 +35,13 @@ class C_request_committee extends Controller
 
         // dd($request->start_date,$request->work_day,$request->membercount);
         // dd($request->membercount);
+        // $rule=$this->rule();
+        // $message=$this->message();
+
+        // $validator = validator::make($request->all(),$rule,$message);
+        // if($validator->fails()){
+        //     return redirect()->back()->withErrors($validator)->withInputs($request->all());
+        // }
 
 
         $pdo = DB::getPdo();
@@ -42,7 +51,8 @@ class C_request_committee extends Controller
         $work_day =$request->work_day;
         $experience =$request->experience;
 
-        $stmt = $pdo->prepare("begin BADER.insert_committee(:ID,:USERS_TB_ID,:USER_CHAIMAN_ID,:NUMBER_COMMITTEE_MEMBER,:START_DATE,:COMMITTEE_TERM,:REASON_COMMITTEE); end;");
+        $stmt = $pdo->prepare("begin BADER.insert_committee(:ID,:USERS_TB_ID,:USER_CHAIMAN_ID,:NUMBER_COMMITTEE_MEMBER,
+                                                                    :START_DATE,:COMMITTEE_TERM,:REASON_COMMITTEE); end;");
         $stmt->bindParam(':ID', $P_ID, PDO::PARAM_INT);
         $stmt->bindParam(':USERS_TB_ID', $P_ID, PDO::PARAM_INT);
         $stmt->bindParam(':USER_CHAIMAN_ID', $P_ID, PDO::PARAM_INT);
@@ -52,7 +62,49 @@ class C_request_committee extends Controller
         $stmt->bindParam(':REASON_COMMITTEE', $experience, PDO::PARAM_STR, 225);
         $stmt->execute();
 
-        dd($stmt);
+        if ($stmt)
+            return response()->json([
+                'status' => true,
+                'msg' => 'تم الحفظ بنجاح',
+            ]);
+
+        else
+            return response()->json([
+                'status' => false,
+                'msg' => 'فشل الحفظ برجاء المحاوله مجددا',
+            ]);
+
+
+
+        // dd($stmt);
+
+    }
+
+    protected function message()
+    {
+
+     return  $message=[
+
+         'membercount.required'=>'the membercount required',
+         'start_date.required' => 'the start date required',
+         'work_day.required' => 'the work day required',
+         'experience.required' => 'the experience required',
+
+
+     ];
+
+    }
+
+    protected function rule()
+    {
+
+     return  $rule=[
+         'membercount' => 'required',
+         'start_date' => 'required',
+         'work_day' => 'required',
+         'experience' => 'required',
+
+     ];
 
     }
 
