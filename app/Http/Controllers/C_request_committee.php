@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AddRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use PDO;
+
+use function PHPUnit\Framework\isEmpty;
 
 class C_request_committee extends Controller
 {
@@ -33,10 +36,10 @@ class C_request_committee extends Controller
     public function storerequest(REQUEST $request)
     {
 
-        // dd($request->start_date,$request->work_day,$request->membercount);
-        // dd($request->membercount);
         // $rule=$this->rule();
         // $message=$this->message();
+
+
 
         // $validator = validator::make($request->all(),$rule,$message);
         // if($validator->fails()){
@@ -47,12 +50,18 @@ class C_request_committee extends Controller
         $P_ID = 111;
         $membercount = $request->membercount;
         $start_date = $request->start_date;
-        $work_day =$request->work_day;
-        $experience =$request->experience;
+        $work_day = $request->work_day;
+        $experience = $request->experience;
+        // if (isEmpty($request))
+        // {
 
-        $stmt = $pdo->prepare("begin BADER.insert_committee(:ID,:USERS_TB_ID,:USER_CHAIMAN_ID,:NUMBER_COMMITTEE_MEMBER,
+        // }
+
+
+
+        $stmt = $pdo->prepare("begin BADER.insert_committee(:USERS_TB_ID,:USER_CHAIMAN_ID,:NUMBER_COMMITTEE_MEMBER,
                                                                     :START_DATE,:COMMITTEE_TERM,:REASON_COMMITTEE); end;");
-        $stmt->bindParam(':ID', $P_ID, PDO::PARAM_INT);
+        // $stmt->bindParam(':ID', $P_ID, PDO::PARAM_INT);
         $stmt->bindParam(':USERS_TB_ID', $P_ID, PDO::PARAM_INT);
         $stmt->bindParam(':USER_CHAIMAN_ID', $P_ID, PDO::PARAM_INT);
         $stmt->bindParam(':NUMBER_COMMITTEE_MEMBER', $membercount, PDO::PARAM_INT);
@@ -61,10 +70,12 @@ class C_request_committee extends Controller
         $stmt->bindParam(':REASON_COMMITTEE', $experience, PDO::PARAM_STR, 225);
         $stmt->execute();
 
+
         if ($stmt)
             return response()->json([
                 'status' => true,
                 'msg' => 'تم الحفظ بنجاح',
+
             ]);
 
         else
@@ -73,38 +84,31 @@ class C_request_committee extends Controller
                 'msg' => 'فشل الحفظ برجاء المحاوله مجددا',
             ]);
 
-
-
-        // dd($stmt);
-
     }
 
-    protected function message()
+    public function rules()
     {
+        return [
 
-     return  $message=[
-
-         'membercount.required'=>'the membercount required',
-         'start_date.required' => 'the start date required',
-         'work_day.required' => 'the work day required',
-         'experience.required' => 'the experience required',
-
-
-     ];
-
+            'membercount' => 'required',
+            'start_date' => 'required',
+            'work_day' => 'required',
+            'experience' => 'required',
+        ];
     }
 
-    protected function rule()
+
+    public function messages()
     {
 
-     return  $rule=[
-         'membercount' => 'required',
-         'start_date' => 'required',
-         'work_day' => 'required',
-         'experience' => 'required',
+        return [
 
-     ];
+            'membercount.required' => 'the membercount required',
+            'start_date.required' => 'the start date required',
+            'work_day.required' => 'the work day required',
+            'experience.required' => 'the experience required',
 
+        ];
     }
 
     public function formrequestaffairs()
@@ -155,6 +159,4 @@ class C_request_committee extends Controller
     {
         return view('request_committee.notification');
     }
-
-
 }

@@ -45,16 +45,18 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-// ******************************************************************************************************
+/* ******************************************** request_committee ******************************************************** */
 
 //عرض صفحة انشاء طلب
 Route::get('/request_committee/create', [App\Http\Controllers\C_request_committee::class, 'create'])
     ->name('request_committee.create');
+
 //تخزين بيانات طلب
 Route::post('/request_committee/store', [App\Http\Controllers\C_request_committee::class, 'storerequest'])
     ->name('request_committee.storerequest');
 
-// ******************************************************************************************************
+/* *********************************************************************************************************************** */
+
 
 // عرض صفحة الوكيل للموافقة على الطلب
 Route::get('/request_committee/form_request', [App\Http\Controllers\C_request_committee::class, 'formrequest'])
