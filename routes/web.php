@@ -64,6 +64,9 @@ Route::get('/request_committee/form_request', [App\Http\Controllers\C_request_co
 //الموافقة او الرفض للطلب
 Route::post('/request_committee/form_request/status_step', [App\Http\Controllers\C_request_committee_agent::class, 'Post_req_agent'])
 ->name('request_committee.request_committee_agent');
+ //عرض تفاصيل الطلب
+ Route::get('/request_committee/form_request/detalis_req', [App\Http\Controllers\C_request_committee_agent::class, 'details_req'])
+    ->name('request_committee.formrequest.detalis_req');
 
 /**********************************************************نهاية الصفحة************************************************ */
 
