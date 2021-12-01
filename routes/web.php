@@ -69,6 +69,13 @@ Route::post('/request_committee/form_request/status_step', [App\Http\Controllers
  //عرض تفاصيل الطلب
  Route::get('/request_committee/form_request/detalis_req', [App\Http\Controllers\C_request_committee_agent::class, 'details_req'])
     ->name('request_committee.formrequest.detalis_req');
+//كل الطلبات
+Route::get('/request_committee/form_request/req_all_json', [App\Http\Controllers\C_request_committee_agent::class, 'req_all_json'])
+->name('request_committee.formrequest.req_all_json');
+
+Route::get('/request_committee/GetDataTable', [App\Http\Controllers\C_request_committee_agent::class, 'GetDataTable'])
+;
+
 
 /**********************************************************نهاية الصفحة************************************************ */
 

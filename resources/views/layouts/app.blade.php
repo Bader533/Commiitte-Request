@@ -555,8 +555,49 @@
     <script src="{{ asset('assets/js/custom/apps/chat/chat.js') }}"></script>
     <script src="{{ asset('assets/js/custom/modals/create-app.js') }}"></script>
     <script src="{{ asset('assets/js/custom/modals/upgrade-plan.js') }}"></script>
+    <script src="{{ asset('assets/js/app.js') }}"></script>
+    <script src="{{ asset('assets/js/appjs.js') }}"></script>
+    <script src="{{ asset('assets/js/js.js') }}"></script>
     <!--end::Page Custom Javascript-->
     <!--end::Javascript-->
+    <script>
+        var Run_DataTable = function () {
+			var screen = "{{Request::route()->uri}}";
+			$('#kt_table_ajax').DataTable().destroy();
+			$('#kt_table_ajax').DataTable( {
+				"language": {
+					"sEmptyTable":     "ليست هناك بيانات متاحة في الجدول",
+					"sLoadingRecords": "جارٍ التحميل...",
+					"sProcessing":   "جارٍ التحميل...",
+					"sLengthMenu":   "أظهر _MENU_ مدخلات",
+					"sZeroRecords":  "لم يعثر على أية سجلات",
+					"sInfo":         "إظهار _START_ إلى _END_ من أصل _TOTAL_ مدخل",
+					"sInfoEmpty":    "يعرض 0 إلى 0 من أصل 0 سجل",
+					"sInfoFiltered": "(منتقاة من مجموع _MAX_ مُدخل)",
+					"sInfoPostFix":  "",
+					"sSearch":       "ابحث:",
+					"sUrl":          "",
+					"oPaginate": {
+						"sFirst":    "الأول",
+						"sPrevious": "السابق",
+						"sNext":     "التالي",
+						"sLast":     "الأخير"
+					},
+					"oAria": {
+						"sSortAscending":  ": تفعيل لترتيب العمود تصاعدياً",
+						"sSortDescending": ": تفعيل لترتيب العمود تنازلياً"
+					}
+				},
+				"processing": true,
+				"serverSide": true,
+				"ajax": "{{url('/')}}/"+screen.split('/')[0]+"/GetDataTable"
+			});
+		}
+        $(document).ready(function() {
+		Run_DataTable();
+        
+    	});
+        </script>
     @stack('script')
 
     @yield('js')
