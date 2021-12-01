@@ -18,6 +18,7 @@ class C_request_committee_agent extends Controller
 
         $validator = Validator::make($request->all(), [
             'status' => 'required|in:1,0',
+            'id_req'=>  'required',
         ]);
 
         if ($validator->fails()) {
