@@ -1,5 +1,10 @@
 @extends('layouts.app')
 
+@section('css')
+
+
+
+@endsection
 
 @section('content')
 
@@ -80,62 +85,20 @@
 
                         <div class="row mb-5">
 
-                            <table class="table table-row-bordered">
+                            <table class="table table-row-bordered" id="kt_table_ajax">
                                 <thead>
                                     <tr>
+                                        <th scope="col">#</th>
                                         <th scope="col">رقم اللجنة</th>
                                         <th scope="col">طلب اللجنة</th>
                                         <th scope="col">تفاصيل</th>
-                                        <th scope="col">موافقة / رفض</th>
-
+                                        <th scope="col" width="25%">اجراءات</th>
                                     </tr>
-
-                                    @foreach ($result as $key => $value)
-                                        <tr>
-
-                                            <td scope="row">{{ $value['ID'] }}</td>
-                                            <td scope="row">{{ $value['REASON_COMMITTEE'] }}</td>
-                                            <td id="{{ $value['ID'] }}" class="get_req_details" data-bs-toggle="modal" data-bs-target="#kt_modal_view_users" scope="row">
-                                                <span class="svg-icon svg-icon-primary svg-icon-2x">
-                                                    <!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo1/dist/../src/media/svg/icons/Code/Warning-1-circle.svg--><svg
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        xmlns:xlink="http://www.w3.org/1999/xlink" width="24px"
-                                                        height="24px" viewBox="0 0 24 24" version="1.1">
-                                                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                                            <rect x="0" y="0" width="24" height="24" />
-                                                            <circle fill="#000000" opacity="0.3" cx="12" cy="12" r="10" />
-                                                            <rect fill="#000000" x="11" y="7" width="2" height="8" rx="1" />
-                                                            <rect fill="#000000" x="11" y="16" width="2" height="2"
-                                                                rx="1" />
-                                                        </g>
-                                                    </svg>
-                                                    <!--end::Svg Icon-->
-                                                </span>
-                                            </td>
-                                            <td scope="row"><button id="{{ $value['ID'] }}"
-                                                    class="Post_req_agent_accept bg-primary text-light rounded border-0">موافقة</button>
-                                                <button id="{{ $value['ID'] }}"
-                                                    class="Post_req_agent_reject bg-danger text-light rounded border-0">رفض</button>
-                                            </td>
-
-                                        </tr>
-                                    @endforeach
                                 </thead>
                                 <tbody>
 
                                 </tbody>
                             </table>
-
-                            <ul class="pagination mt-8">
-                                <li class="page-item previous disabled"><span class="page-link">سابق</span></span></li>
-                                <li class="page-item "><a href="#" class="page-link">1</a></li>
-                                <li class="page-item active"><a href="#" class="page-link">2</a></li>
-                                <li class="page-item "><a href="#" class="page-link">3</a></li>
-                                <li class="page-item "><a href="#" class="page-link">4</a></li>
-                                <li class="page-item "><a href="#" class="page-link">5</a></li>
-                                <li class="page-item "><a href="#" class="page-link">6</a></li>
-                                <li class="page-item next"><a class="page-link" href="#">التالي</span></a></li>
-                            </ul>
 
                         </div>
                     </div>
@@ -223,25 +186,38 @@
 
     @section('js')
 
+    <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="{{asset('assets/plugins/custom/datatables/datatables.bundle.js')}}"></script>
+
+   <!-- <script src="{{--asset('assets/js/custom/apps/user-management/users/list/table.js')--}}"></script>
+   -->
+    <!--   <script src="{{--asset('assets/js/custom/apps/user-management/users/list/export-users.js')--}}"></script>
+ -->
+    <!--  <script src="{{--asset('assets/js/custom/apps/user-management/users/list/add.js')--}}"></script>
+  -->
 
         <script>
             //موافقة
             $(document).on("click", '.Post_req_agent_accept', function(event) {
+                Util.ConfirmAprove(function () {
 
                 Post_req_agent(1, $(this).attr('id'));
+                            });
 
             });
             //رفض
             $(document).on("click", '.Post_req_agent_reject', function(event) {
+                Util.ConfirmReject(function () {
 
-                Post_req_agent(0, $(this).attr('id'));
+                    Post_req_agent(0, $(this).attr('id'));
+                })
 
             });
             //عرض تفاصيل الطلب
             $(document).on("click", '.get_req_details', function(event) {
 
+                alert($(this).attr('id'));
                 get_req_details($(this).attr('id'));
-
             });
             //الموافقة او الرفض للطلب من قبل الوكيل
             function Post_req_agent(status, id_req) {
@@ -275,7 +251,7 @@
                         },
                         success: function(data) {
 
-                            if (data.data == 200) {
+                            if (data.code == 200) {
                                 Swal.fire({
                                     position: 'top-right',
                                     icon: 'success',
@@ -283,6 +259,7 @@
                                     showConfirmButton: false,
                                     timer: 1500
                                 })
+                                Run_DataTable();
                             } else {
                                 Swal.fire({
                                     position: 'top-right',
@@ -343,20 +320,18 @@
                         success: function(data) {
 
                             if (data.code == 200) {
-                             //  alert(data.result[0]['NUMBER_COMMITTEE_MEMBER']);
-                             if (data.result[0] != null) {
-                                $('#NUMBER_COMMITTEE_MEMBER').html(data.result[0]['NUMBER_COMMITTEE_MEMBER']);
-                                $('#START_DATE').html(data.result[0]['START_DATE']);
-                                $('#REASON_COMMITTEE').html(data.result[0]['REASON_COMMITTEE']);
-                                $('#USERS_NAME').html(data.result[0]['USERS_NAME']);
-                             }
-                             else
-                             {
-                                $('#NUMBER_COMMITTEE_MEMBER').html('لا يوجد بيانات');
-                                $('#START_DATE').html('لا يوجد بيانات');
-                                $('#REASON_COMMITTEE').html('لا يوجد بيانات');
-                                $('#USERS_NAME').html('لا يوجد بيانات');
-                             }
+                                //  alert(data.result[0]['NUMBER_COMMITTEE_MEMBER']);
+                                if (data.result[0] != null) {
+                                    $('#NUMBER_COMMITTEE_MEMBER').html(data.result[0]['NUMBER_COMMITTEE_MEMBER']);
+                                    $('#START_DATE').html(data.result[0]['START_DATE']);
+                                    $('#REASON_COMMITTEE').html(data.result[0]['REASON_COMMITTEE']);
+                                    $('#USERS_NAME').html(data.result[0]['USERS_NAME']);
+                                } else {
+                                    $('#NUMBER_COMMITTEE_MEMBER').html('لا يوجد بيانات');
+                                    $('#START_DATE').html('لا يوجد بيانات');
+                                    $('#REASON_COMMITTEE').html('لا يوجد بيانات');
+                                    $('#USERS_NAME').html('لا يوجد بيانات');
+                                }
                             } else {
                                 Swal.fire({
                                     position: 'top-right',
@@ -385,6 +360,11 @@
                         //$("#home_message_container").html(msg);
                     });
             }
+
+         // $("#table_id").DataTable();
+
+
+
         </script>
 
     @endsection
