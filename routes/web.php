@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\C_request_committee;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -45,17 +47,17 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-/* ******************************************** request_committee ******************************************************** */
+/* ******************************************** طلب تقديم لجنة و تخزين الطلب ******************************************************** */
 
 //عرض صفحة انشاء طلب
-Route::get('/request_committee/create', [App\Http\Controllers\C_request_committee::class, 'create'])
+Route::get('/request_committee/create', [C_request_committee::class, 'create'])
     ->name('request_committee.create');
 
 //تخزين بيانات طلب
-Route::post('/request_committee/store', [App\Http\Controllers\C_request_committee::class, 'storerequest'])
+Route::post('/request_committee/store', [C_request_committee::class, 'storerequest'])
     ->name('request_committee.storerequest');
 
-/* *********************************************************************************************************************** */
+/* *********************************************************** نهاية  *************************************************************** */
 
 
 /************************************************بداية صفحة تظهر عند الوكيل ******************************************************** */
@@ -63,9 +65,11 @@ Route::post('/request_committee/store', [App\Http\Controllers\C_request_committe
 // عرض صفحة الوكيل للموافقة على الطلب
 Route::get('/request_committee/form_request', [App\Http\Controllers\C_request_committee_agent::class, 'formrequest'])
     ->name('request_committee.formrequest');
+
 //الموافقة او الرفض للطلب
 Route::post('/request_committee/form_request/status_step', [App\Http\Controllers\C_request_committee_agent::class, 'Post_req_agent'])
 ->name('request_committee.request_committee_agent');
+
  //عرض تفاصيل الطلب
  Route::get('/request_committee/form_request/detalis_req', [App\Http\Controllers\C_request_committee_agent::class, 'details_req'])
     ->name('request_committee.formrequest.detalis_req');

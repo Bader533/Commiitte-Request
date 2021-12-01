@@ -19,7 +19,7 @@ class C_request_committee extends Controller
      */
     public function index()
     {
-        ///-----------
+        //-----------
     }
 
     /**
@@ -35,15 +35,19 @@ class C_request_committee extends Controller
 
     public function storerequest(REQUEST $request)
     {
+        // $rule = $this->rule();
+        // $message = $this->message();
 
-        // $rule=$this->rule();
-        // $message=$this->message();
+        // $validator = validator::make($request->all(), [
+        //     'membercount' => 'required',
+        //     'start_date' => 'required',
+        //     'work_day' => 'required|email',
+        //     'experience' => 'required',
+        // ]);
+        // if ($validator->fails()) {
 
+        //     return response()->json(['error'=>$validator->errors()->all()]);
 
-
-        // $validator = validator::make($request->all(),$rule,$message);
-        // if($validator->fails()){
-        //     return redirect()->back()->withErrors($validator)->withInputs($request->all());
         // }
 
         $pdo = DB::getPdo();
@@ -52,24 +56,20 @@ class C_request_committee extends Controller
         $start_date = $request->start_date;
         $work_day = $request->work_day;
         $experience = $request->experience;
-        // if (isEmpty($request))
-        // {
+        // $req =0;
 
-        // }
-
-
-
+        //اضافة طلب تشكيل لجنة
         $stmt = $pdo->prepare("begin BADER.insert_committee(:USERS_TB_ID,:USER_CHAIMAN_ID,:NUMBER_COMMITTEE_MEMBER,
-                                                                    :START_DATE,:COMMITTEE_TERM,:REASON_COMMITTEE); end;");
-        // $stmt->bindParam(':ID', $P_ID, PDO::PARAM_INT);
+                                                            :START_DATE,:COMMITTEE_TERM,:REASON_COMMITTEE,:p_cur); end;");
+
         $stmt->bindParam(':USERS_TB_ID', $P_ID, PDO::PARAM_INT);
         $stmt->bindParam(':USER_CHAIMAN_ID', $P_ID, PDO::PARAM_INT);
         $stmt->bindParam(':NUMBER_COMMITTEE_MEMBER', $membercount, PDO::PARAM_INT);
         $stmt->bindParam(':START_DATE', $start_date, PDO::PARAM_STR);
         $stmt->bindParam(':COMMITTEE_TERM', $work_day, PDO::PARAM_INT);
         $stmt->bindParam(':REASON_COMMITTEE', $experience, PDO::PARAM_STR, 225);
+        $stmt->bindParam(':p_cur', $p_cur, PDO::PARAM_INT);
         $stmt->execute();
-
 
         if ($stmt)
             return response()->json([
@@ -83,7 +83,6 @@ class C_request_committee extends Controller
                 'status' => false,
                 'msg' => 'فشل الحفظ برجاء المحاوله مجددا',
             ]);
-
     }
 
     public function rules()
