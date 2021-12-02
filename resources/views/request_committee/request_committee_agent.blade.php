@@ -25,8 +25,8 @@
                                 <label class="required fs-5 fw-bold mb-2">رقم اللجنة</label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
-                                <input type="number" class="form-control form-control-solid" placeholder=""
-                                    name="first_name" />
+                                <input id="number_req" type="number" class="form-control form-control-solid" placeholder=""
+                                    name="number_req" />
                                 <!--end::Input-->
                             </div>
                             <!--end::Col-->
@@ -36,11 +36,11 @@
                                 <label class="required fs-5 fw-bold mb-2"> الحالة</label>
                                 <!--end::Label-->
                                 <!--begin::Select-->
-                                <select name="status" class="form-control form-control-solid" id="">
+                                <select  name="status" class="form-control form-control-solid" id="status">
                                     <option value=""></option>
-                                    <option value="">موافقة</option>
-                                    <option value="">رفض</option>
-                                    <option value="">قيد التدقيق</option>
+                                    <option value="1">موافقة</option>
+                                    <option value="2">رفض</option>
+                                    <option value="3">قيد التدقيق</option>
 
                                 </select>
                                 <!--end::Select-->
@@ -56,7 +56,7 @@
                                 <label class="required fs-5 fw-bold mb-2"> تاريخ البدء </label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
-                                <input type="date" class="form-control form-control-solid" placeholder="" name="email" />
+                                <input type="date" class="form-control form-control-solid" placeholder="" id="date_start" name="date_start" />
                                 <!--end::Input-->
                             </div>
 
@@ -66,7 +66,7 @@
                                 <label class="required fs-5 fw-bold mb-2">تاريخ الانتهاء </label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
-                                <input type="date" class="form-control form-control-solid" placeholder="" name="email" />
+                                <input type="date" class="form-control form-control-solid" placeholder="" id="date_end" name="date_end" />
                                 <!--end::Input-->
                             </div>
 
@@ -78,14 +78,14 @@
                         <div class="separator mb-8 ">
 
                         </div>
-                        <button class="mb-8 bg-primary text-light rounded border-0 fs-3">بحث</button>
+                        <button class="mb-8 bg-primary text-light rounded border-0 fs-3" id="filter">بحث</button>
 
 
                         <!--end::Separator-->
 
                         <div class="row mb-5">
 
-                            <table class="table table-row-bordered" id="kt_table_ajax">
+                            <table class="table table-row-bordered" id="kt_table_ajax_advanced">
                                 <thead>
                                     <tr>
                                         <th scope="col">#</th>
@@ -365,6 +365,55 @@
          // $("#table_id").DataTable();
 
 
+
+         fill_datatable();
+	function fill_datatable(number_req = '', status = '', date_start = '', date_end = '')
+	{
+		var dataTable = $('#kt_table_ajax_advanced').DataTable( {
+				"language": {
+					"sEmptyTable":     "ليست هناك بيانات متاحة في الجدول",
+					"sLoadingRecords": "جارٍ التحميل...",
+					"sProcessing":   "جارٍ التحميل...",
+					"sLengthMenu":   "أظهر _MENU_ مدخلات",
+					"sZeroRecords":  "لم يعثر على أية سجلات",
+					"sInfo":         "إظهار _START_ إلى _END_ من أصل _TOTAL_ مدخل",
+					"sInfoEmpty":    "يعرض 0 إلى 0 من أصل 0 سجل",
+					"sInfoFiltered": "(منتقاة من مجموع _MAX_ مُدخل)",
+					"sInfoPostFix":  "",
+					"sSearch":       "ابحث:",
+					"sUrl":          "",
+					"oPaginate": {
+						"sFirst":    "الأول",
+						"sPrevious": "السابق",
+						"sNext":     "التالي",
+						"sLast":     "الأخير"
+					},
+					"oAria": {
+						"sSortAscending":  ": تفعيل لترتيب العمود تصاعدياً",
+						"sSortDescending": ": تفعيل لترتيب العمود تنازلياً"
+					}
+				},
+				"processing": true,
+				"serverSide": true,
+				ajax:{
+					url: "{{url('/')}}/request_committee/GetDataTable",
+					data:{number_req:number_req,status:status, date_start:date_start,date_end:date_end}
+				},
+			});
+
+	}
+	$('#filter').click(function(){
+        var number_req = $('#number_req').val();
+       // alert(number_req);
+        var status = $('#status').val();
+        var date_start = $('#date_start').val();
+        var date_end = $('#date_end').val();
+
+
+		$('#kt_table_ajax_advanced').DataTable().destroy();
+        fill_datatable(number_req,status,date_start,date_end);
+        //alert(number_req);
+    });
 
         </script>
 
