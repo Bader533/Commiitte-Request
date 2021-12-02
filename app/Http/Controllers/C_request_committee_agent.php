@@ -15,40 +15,37 @@ class C_request_committee_agent extends Controller
     //الموافقة على الطلب من قبل الوكيل
     public function Post_req_agent(Request $request)
     {
-
         $validator = Validator::make($request->all(), [
             'status' => 'required|in:1,0',
-            'id_req'=>  'required',
+            'id_req' =>  'required',
         ]);
 
         if ($validator->fails()) {
             return response()->json(
-                ['code' => 400,
-                 'message' => $validator->errors()],
+                [
+                    'code' => 400,
+                    'message' => $validator->errors()
+                ],
                 400
             );
         }
 
-        $STATUS_TB_ID = 0;
+        $P_STATUS_TB_ID = 0;
         if ($request->status == 1) {
             //موافقة
-            $STATUS_TB_ID = 1;
+            $P_STATUS_TB_ID = 1;
         }
         if ($request->status == 0) {
             //رفض
-            $STATUS_TB_ID = 2;
+            $P_STATUS_TB_ID = 2;
         }
-
         $pdo = DB::getPdo();
-
-        $REQUEST_COMMITTEE_TB = $request->id_req;
-        $USERS_TB_ID = 2;
-        $NAME = 'الوكيل يوافق على الطلب';
-        $stmt = $pdo->prepare("begin HANI.Post_req_agent(:STATUS_TB_ID,:REQUEST_COMMITTEE_TB,:USERS_TB_ID,:NAME); end;");
-        $stmt->bindParam(':STATUS_TB_ID', $STATUS_TB_ID, PDO::PARAM_INT);
-        $stmt->bindParam(':REQUEST_COMMITTEE_TB', $REQUEST_COMMITTEE_TB, PDO::PARAM_INT);
-        $stmt->bindParam(':USERS_TB_ID', $USERS_TB_ID, PDO::PARAM_INT);
-        $stmt->bindParam(':NAME', $NAME, PDO::PARAM_STR, 200);
+        $P_REQUEST_COMMITTEE_TB = $request->id_req;
+      //  $USERS_TB_ID = 2;
+       // $NAME = 'الوكيل يوافق على الطلب';
+        $stmt = $pdo->prepare("begin HANI.Post_req_agent(:P_STATUS_TB_ID,:P_REQUEST_COMMITTEE_TB); end;");
+        $stmt->bindParam(':P_STATUS_TB_ID', $P_STATUS_TB_ID, PDO::PARAM_INT);
+        $stmt->bindParam(':P_REQUEST_COMMITTEE_TB', $P_REQUEST_COMMITTEE_TB, PDO::PARAM_INT);
         $stmt->execute();
         return [
             'code' => 200,
@@ -96,8 +93,8 @@ class C_request_committee_agent extends Controller
             oci_free_cursor($req);
 
             return [
-                   'result' => $array
-                  ];
+                'result' => $array
+            ];
         });
     }
     //عرض تفاصيل الطلب
@@ -132,52 +129,51 @@ class C_request_committee_agent extends Controller
         $order = $r->get('order');
         $v_search = $r->search['value'];
         $column = array("id", "name", "updated_at");
-        $dir = ($order[0]['dir'] ==='asc' ? 'asc' : 'desc');
+        $dir = ($order[0]['dir'] === 'asc' ? 'asc' : 'desc');
 
         $dd = new Test();
 
-        $d_count = 10;//$dd->Count();
-        $d = $dd->get();//$dd->where('name', 'like', "%{$v_search}%")->where('isdelete',0)->skip($start)->take($length)->orderBy($column[$order[0]['column']],$dir)->get();
+        $d_count = 10; //$dd->Count();
+        $d = $dd->get(); //$dd->where('name', 'like', "%{$v_search}%")->where('isdelete',0)->skip($start)->take($length)->orderBy($column[$order[0]['column']],$dir)->get();
         //$data_res = $d->skip($start)->take($length)->get();
         $data = [];
         //dd($d);
-        foreach($d as $index => $res)
-        {
-            $data []=
-            [$index+1,
-            $res['ID'],
-            $res['REASON_COMMITTEE'],
-            '<span class="svg-icon svg-icon-primary svg-icon-2x get_req_details" id="'.$res['ID'].'" data-bs-toggle="modal"
-            data-bs-target="#kt_modal_view_users" scope="row">
-            <!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo1/dist/../src/media/svg/icons/Code/Warning-1-circle.svg--><svg
-                xmlns="http://www.w3.org/2000/svg"
-                xmlns:xlink="http://www.w3.org/1999/xlink" width="24px"
-                height="24px" viewBox="0 0 24 24" version="1.1">
-                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                    <rect x="0" y="0" width="24" height="24" />
-                    <circle fill="#000000" opacity="0.3" cx="12" cy="12" r="10" />
-                    <rect fill="#000000" x="11" y="7" width="2" height="8" rx="1" />
-                    <rect fill="#000000" x="11" y="16" width="2" height="2"
-                        rx="1" />
-                </g>
-            </svg>
-            <!--end::Svg Icon-->
-        </span>',
-        '<button id="'.$res['ID'].'"
-        class="Post_req_agent_accept bg-primary text-light rounded border-0">موافقة</button>
-    <button id="'.$res['ID'].'"
-        class="Post_req_agent_reject bg-danger text-light rounded border-0">رفض</button>'
-            // '<a href="add/'.encrypt($res->id).'" class="btn btn-sm btn-brand btn-elevate btn-icon" data-toggle="tooltip" title="تعديل"><i class="fa fa-edit"></i></a>
-            // <button type="button" class="btn btn-sm btn-danger btn-elevate btn-icon btnDeleteItem" data-id="'.$res->id.'" data-skin="dark" data-toggle="tooltip" title="حذف"><i class="fa fa-times"></i></button>'
-        ];
+        foreach ($d as $index => $res) {
+            $data[] =
+                [
+                    $index + 1,
+                    $res['ID'],
+                    $res['REASON_COMMITTEE'],
+                    '<span class="svg-icon svg-icon-primary svg-icon-2x get_req_details" id="' . $res['ID'] . '" data-bs-toggle="modal"
+                    data-bs-target="#kt_modal_view_users" scope="row">
+                    <!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo1/dist/../src/media/svg/icons/Code/Warning-1-circle.svg--><svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        xmlns:xlink="http://www.w3.org/1999/xlink" width="24px"
+                        height="24px" viewBox="0 0 24 24" version="1.1">
+                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                            <rect x="0" y="0" width="24" height="24" />
+                            <circle fill="#000000" opacity="0.3" cx="12" cy="12" r="10" />
+                            <rect fill="#000000" x="11" y="7" width="2" height="8" rx="1" />
+                            <rect fill="#000000" x="11" y="16" width="2" height="2"
+                                rx="1" />
+                        </g>
+                    </svg>
+                    <!--end::Svg Icon-->
+                </span>',
+                            '<button id="' . $res['ID'] . '"
+                class="Post_req_agent_accept bg-primary text-light rounded border-0">موافقة</button>
+            <button id="' . $res['ID'] . '"
+                class="Post_req_agent_reject bg-danger text-light rounded border-0">رفض</button>'
+                            // '<a href="add/'.encrypt($res->id).'" class="btn btn-sm btn-brand btn-elevate btn-icon" data-toggle="tooltip" title="تعديل"><i class="fa fa-edit"></i></a>
+                            // <button type="button" class="btn btn-sm btn-danger btn-elevate btn-icon btnDeleteItem" data-id="'.$res->id.'" data-skin="dark" data-toggle="tooltip" title="حذف"><i class="fa fa-times"></i></button>'
+                ];
         }
 
         return Response()->json([
             "draw" => $draw,
-            "recordsTotal" => $d_count,//->count(),
-            "recordsFiltered" => $d_count,//->count(),
+            "recordsTotal" => $d_count, //->count(),
+            "recordsFiltered" => $d_count, //->count(),
             "data" => $data
-                    ]);
+        ]);
     }
 }
-

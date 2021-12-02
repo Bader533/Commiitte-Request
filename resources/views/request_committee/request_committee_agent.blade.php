@@ -199,28 +199,29 @@
         <script>
             //موافقة
             $(document).on("click", '.Post_req_agent_accept', function(event) {
+                let id =$(this).attr('id');
                 Util.ConfirmAprove(function () {
-
-                Post_req_agent(1, $(this).attr('id'));
+                Post_req_agent(1,id);
                             });
 
             });
             //رفض
             $(document).on("click", '.Post_req_agent_reject', function(event) {
+                let id =$(this).attr('id');
                 Util.ConfirmReject(function () {
 
-                    Post_req_agent(0, $(this).attr('id'));
+                    Post_req_agent(0,id);
                 })
 
             });
             //عرض تفاصيل الطلب
             $(document).on("click", '.get_req_details', function(event) {
 
-                alert($(this).attr('id'));
+                //alert($(this).attr('id'));
                 get_req_details($(this).attr('id'));
             });
             //الموافقة او الرفض للطلب من قبل الوكيل
-            function Post_req_agent(status, id_req) {
+            function Post_req_agent(status,id_req) {
 
                 $.ajaxSetup({
 
@@ -232,7 +233,6 @@
 
                 });
                 $.ajax({
-
                         url: "{{ route('request_committee.request_committee_agent') }}",
                         method: "POST",
                         data: {
@@ -250,7 +250,7 @@
                             })
                         },
                         success: function(data) {
-
+                           // alert(data.code);
                             if (data.code == 200) {
                                 Swal.fire({
                                     position: 'top-right',
@@ -261,10 +261,11 @@
                                 })
                                 Run_DataTable();
                             } else {
+
                                 Swal.fire({
                                     position: 'top-right',
                                     icon: 'error',
-                                    title: 'خطا',
+                                    title: 'خطا'+ '!' + data.message,
                                     showConfirmButton: false,
                                     timer: 1500
                                 })
@@ -276,7 +277,7 @@
                             Swal.fire({
                                 position: 'top-right',
                                 icon: 'error',
-                                title: 'خطا',
+                                title: 'خطا'+ '!' + data.message,
                                 showConfirmButton: false,
                                 timer: 1500
                             })
