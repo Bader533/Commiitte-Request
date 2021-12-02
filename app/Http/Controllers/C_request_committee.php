@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\AddRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
@@ -35,20 +34,22 @@ class C_request_committee extends Controller
 
     public function storerequest(REQUEST $request)
     {
-        // $rule = $this->rule();
-        // $message = $this->message();
+        $messages=$this->messages();
 
-        // $validator = validator::make($request->all(), [
-        //     'membercount' => 'required',
-        //     'start_date' => 'required',
-        //     'work_day' => 'required|email',
-        //     'experience' => 'required',
-        // ]);
-        // if ($validator->fails()) {
+        $validator = Validator::make($request->all(), [
+            'membercount' => 'required',
+            'start_date' => 'required',
+            'work_day' => 'required',
+            'experience' => 'required',
+        ],$messages);
 
-        //     return response()->json(['error'=>$validator->errors()->all()]);
-
-        // }
+        if ($validator->fails()) {
+            return response()->json(
+                ['code' => 400,
+                 'message' => $validator->errors()],
+                400
+            );
+        }
 
         $pdo = DB::getPdo();
         $P_ID = 2;
@@ -56,7 +57,6 @@ class C_request_committee extends Controller
         $start_date = $request->start_date;
         $work_day = $request->work_day;
         $experience = $request->experience;
-        // $req =0;
 
         //اضافة طلب تشكيل لجنة
         $stmt = $pdo->prepare("begin BADER.insert_committee(:USERS_TB_ID,:USER_CHAIMAN_ID,:NUMBER_COMMITTEE_MEMBER,
@@ -85,16 +85,16 @@ class C_request_committee extends Controller
             ]);
     }
 
-    public function rules()
-    {
-        return [
+    // public function rules()
+    // {
+    //     return [
 
-            'membercount' => 'required',
-            'start_date' => 'required',
-            'work_day' => 'required',
-            'experience' => 'required',
-        ];
-    }
+    //         'membercount' => 'required',
+    //         'start_date' => 'required',
+    //         'work_day' => 'required',
+    //         'experience' => 'required',
+    //     ];
+    // }
 
 
     public function messages()
@@ -102,10 +102,10 @@ class C_request_committee extends Controller
 
         return [
 
-            'membercount.required' => 'the membercount required',
-            'start_date.required' => 'the start date required',
-            'work_day.required' => 'the work day required',
-            'experience.required' => 'the experience required',
+            'membercount.required' => 'عدد افراد اللجنة مطلوبة',
+            'start_date.required' => 'تاريخ البدء مطلوبة',
+            'work_day.required' => 'عدد ايام عمل اللجنة مطلوبة',
+            'experience.required' => 'سبب انعقاد اللجنة مطلوبة',
 
         ];
     }

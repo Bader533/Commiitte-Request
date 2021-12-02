@@ -4,6 +4,11 @@
 @section('content')
 
     <div class="card">
+
+        <div class="alert alert-danger print-error-msg" style="display:none">
+            <ul></ul>
+        </div>
+
         <div class="card-body p-lg-17">
 
             <div class="d-flex flex-column flex-lg-row mb-17">
@@ -12,9 +17,12 @@
 
                     {{-- طلب تقديم طلب --}}
                     <!--begin::Form-->
-                    <form class="form mb-15" action="" id="dataform"
-                        method="post" enctype="multipart/form-data">
+                    <form class="form mb-15" action="" id="dataform" method="post" enctype="multipart/form-data">
                         @csrf
+
+                        {{-- {{ csrf_field() }} --}}
+
+
                         <!--begin::Input group-->
                         <div class="row mb-5">
                             <!--begin::Col-->
@@ -25,7 +33,7 @@
                                 <!--begin::Input-->
                                 <input type="number" class="form-control form-control-solid" placeholder=""
                                     name="membercount" />
-                                {{-- <small id="membercount_error" class="form-text text-danger"></small> --}}
+                                <small id="membercount_error" class="form-text text-danger"></small>
 
                                 <!--end::Input-->
                             </div>
@@ -38,7 +46,7 @@
                                 <!--end::Input-->
                                 <input type="date" class="form-control form-control-solid" placeholder=""
                                     name="start_date" />
-                                {{-- <small id="start_date_error" class="form-text text-danger"></small> --}}
+                                <small id="start_date_error" class="form-text text-danger"></small>
 
                                 <!--end::Input-->
                             </div>
@@ -56,7 +64,7 @@
                                 <input type="number" class="form-control form-control-solid" placeholder=""
                                     name="work_day" />
                                 <!--end::Input-->
-                                {{-- <small id="work_day_error" class="form-text text-danger"></small> --}}
+                                <small id="work_day_error" class="form-text text-danger"></small>
 
                             </div>
 
@@ -68,7 +76,7 @@
                             <label class="required fs-6 fw-bold mb-2">سبب انعقاد اللجنة</label>
                             <textarea class="form-control form-control-solid" rows="2" name="experience"
                                 placeholder=""></textarea>
-                            {{-- <small id="experience_error" class="form-text text-danger"></small> --}}
+                            <small id="experience_error" class="form-text text-danger"></small>
 
                         </div>
 
@@ -100,12 +108,16 @@
 @push('script')
 
     <script>
-
-
-// *************************
-
+        // *************************
         $(document).on('click', '#add_request', function(e) {
             e.preventDefault();
+
+            $('#membercount_error').text('');
+            $('#start_date_error').text('');
+            $('#work_day_error').text('');
+            $('#experience_error').text('');
+            // $('#details_ar_error').text('');
+            // $('#details_en_error').text('');
 
             var formData = new FormData($('#dataform')[0]);
             $.ajax({
@@ -117,21 +129,26 @@
                 contentType: false,
                 cache: false,
                 success: function(data) {
-                    Swal.fire({
-                        position: 'top-right',
-                        icon: 'success',
-                        title: 'تمت العملية بنجاح',
-                        showConfirmButton: false,
-                        timer: 1500
+                    if (data.status == true) {
+                        Swal.fire({
+                            position: 'top-right',
+                            icon: 'success',
+                            title: 'تمت العملية بنجاح',
+                            showConfirmButton: false,
+                            timer: 1500
 
-                    })
+                        })
+                    }
+
 
                 },
                 error: function(data) {
-                    var response = $.parseJSON(data.responseText);
-                    $.each(response.errors, function (key, val) {
+
+                    var errors = data.responseJSON;
+                    $.each(errors.message, function (key, val) {
                         $("#" + key + "_error").text(val[0]);
                     });
+
                     Swal.fire({
                         position: 'top-right',
                         icon: 'error',
@@ -143,10 +160,8 @@
 
                 }
             });
+
         });
     </script>
-
-
-
 
 @endpush
