@@ -41,8 +41,8 @@ class C_request_committee_agent extends Controller
         }
         $pdo = DB::getPdo();
         $P_REQUEST_COMMITTEE_TB = $request->id_req;
-      //  $USERS_TB_ID = 2;
-       // $NAME = 'الوكيل يوافق على الطلب';
+        //  $USERS_TB_ID = 2;
+        // $NAME = 'الوكيل يوافق على الطلب';
         $stmt = $pdo->prepare("begin HANI.Post_req_agent(:P_STATUS_TB_ID,:P_REQUEST_COMMITTEE_TB); end;");
         $stmt->bindParam(':P_STATUS_TB_ID', $P_STATUS_TB_ID, PDO::PARAM_INT);
         $stmt->bindParam(':P_REQUEST_COMMITTEE_TB', $P_REQUEST_COMMITTEE_TB, PDO::PARAM_INT);
@@ -131,15 +131,16 @@ class C_request_committee_agent extends Controller
         $column = array("id", "name", "updated_at");
         $dir = ($order[0]['dir'] === 'asc' ? 'asc' : 'desc');
 
-        $number_req =$r->get('number_req');
-        $status =$r->get('status');
-        $date_start =$r->get('date_start');
-        $date_end =$r->get('date_end');
+        $number_req = $r->get('number_req');
+        $status = $r->get('status');
+        $date_start = $r->get('date_start');
+        $date_end = $r->get('date_end');
 
         $dd = new REQUEST_COMMITTEE_TB();
 
         $d_count = 10; //$dd->Count();
-        $d = $dd->get_req_agent($number_req,$status,$date_start,$date_end); //$dd->where('name', 'like', "%{$v_search}%")->where('isdelete',0)->skip($start)->take($length)->orderBy($column[$order[0]['column']],$dir)->get();
+        $pageNumber = 1;
+        $d = $dd->get_req_agent($pageNumber, $number_req, $status, $date_start, $date_end); //$dd->where('name', 'like', "%{$v_search}%")->where('isdelete',0)->skip($start)->take($length)->orderBy($column[$order[0]['column']],$dir)->get();
         //$data_res = $d->skip($start)->take($length)->get();
         $data = [];
         //dd($d);
@@ -148,14 +149,12 @@ class C_request_committee_agent extends Controller
             $action =   '<button id="' . $res['ID'] . '"
             class="Post_req_agent_accept bg-primary text-light rounded border-0">موافقة</button>
               <button id="' . $res['ID'] . '"
-            class="Post_req_agent_reject bg-danger text-light rounded border-0">رفض</button>'
-    ;
-    if ($res['STATUS_TB_ID'] == 1 ||$res['STATUS_TB_ID'] == 2) {
-        $action =   '<button id="' . $res['ID'] . '"
+            class="Post_req_agent_reject bg-danger text-light rounded border-0">رفض</button>';
+            if ($res['STATUS_TB_ID'] == 1 || $res['STATUS_TB_ID'] == 2) {
+                $action =   '<button id="' . $res['ID'] . '"
           <button id=""
-        class="bg-warning text-light rounded border-0">تم الاجراء</button>'
-;
-    }
+        class="bg-warning text-light rounded border-0">تم الاجراء</button>';
+            }
             $data[] =
                 [
                     $index + 1,
@@ -177,10 +176,10 @@ class C_request_committee_agent extends Controller
                     </svg>
                     <!--end::Svg Icon-->
                 </span>',
-                $action
+                    $action
 
-                            // '<a href="add/'.encrypt($res->id).'" class="btn btn-sm btn-brand btn-elevate btn-icon" data-toggle="tooltip" title="تعديل"><i class="fa fa-edit"></i></a>
-                            // <button type="button" class="btn btn-sm btn-danger btn-elevate btn-icon btnDeleteItem" data-id="'.$res->id.'" data-skin="dark" data-toggle="tooltip" title="حذف"><i class="fa fa-times"></i></button>'
+                    // '<a href="add/'.encrypt($res->id).'" class="btn btn-sm btn-brand btn-elevate btn-icon" data-toggle="tooltip" title="تعديل"><i class="fa fa-edit"></i></a>
+                    // <button type="button" class="btn btn-sm btn-danger btn-elevate btn-icon btnDeleteItem" data-id="'.$res->id.'" data-skin="dark" data-toggle="tooltip" title="حذف"><i class="fa fa-times"></i></button>'
                 ];
         }
 

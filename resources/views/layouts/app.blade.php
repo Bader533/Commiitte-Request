@@ -110,7 +110,7 @@
                                 </div>
                             </div>
                             <div class="menu-item">
-                                <a class="menu-link active" href="{{route('request_committee.create')}}">
+                                <a class="menu-link {{ request()->is('request_committee/create') ? 'active' : '' }}" href="{{route('request_committee.create')}}">
                                     <span class="menu-icon">
                                         <!--begin::Svg Icon | path: icons/duotune/general/gen025.svg-->
                                         <span class="svg-icon svg-icon-2">
@@ -131,7 +131,7 @@
                                 </a>
                             </div>
                             <div class="menu-item">
-                                <a class="menu-link" href="{{route('request_committee.formrequest')}}">
+                                <a class="menu-link {{ request()->is('request_committee/form_request') ? 'active' : '' }}" href="{{route('request_committee.formrequest')}}">
                                     <span class="menu-icon">
                                         <!--begin::Svg Icon | path: icons/duotune/communication/com001.svg-->
                                         <span class="svg-icon svg-icon-2">
@@ -155,7 +155,7 @@
                             </div>
 
                             <div class="menu-item">
-                                <a class="menu-link" href="{{route('request_committee.formrequestaffairs')}}">
+                                <a class="menu-link {{ request()->is('request_committee/request_affairs/index') ? 'active' : '' }}" href="{{route('request_committee.formrequestaffairs')}}">
                                     <span class="menu-icon">
                                         <!--begin::Svg Icon | path: icons/duotune/communication/com001.svg-->
                                         <span class="svg-icon svg-icon-2">
@@ -595,7 +595,7 @@
 		}
         $(document).ready(function() {
 		Run_DataTable();
-        
+
     	});
         </script>
     @stack('script')

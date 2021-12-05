@@ -110,11 +110,7 @@ class C_request_committee extends Controller
         ];
     }
 
-    public function formrequestaffairs()
-    {
-
-        return view('request_committee.formrequest-affairs');
-    }
+   
 
     public function committee_members()
     {

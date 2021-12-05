@@ -83,9 +83,15 @@ Route::get('/request_committee/GetDataTable', [App\Http\Controllers\C_request_co
 
 /**********************************************************نهاية الصفحة************************************************ */
 
-// عرض صفحة الطلبات عند الشؤون الادارية
-Route::get('/request_committee/form_request_affairs', [App\Http\Controllers\C_request_committee::class, 'formrequestaffairs'])
+//********************************************** عرض صفحة الطلبات عند الشؤون الادارية   ***********************************/
+
+
+Route::get('/request_committee/request_affairs/index', [App\Http\Controllers\C_a_affairs::class, 'index'])
     ->name('request_committee.formrequestaffairs');
+    Route::get('/request_committee/request_affairs/GetDataTable', [App\Http\Controllers\C_a_affairs::class, 'GetDataTable'])
+    ;
+
+/******************************************************نهاية الصفحة******************************************************** */
 // عرض صفحة تشكيل اعضاء اللجان
 Route::get('/request_committee/committee_members', [App\Http\Controllers\C_request_committee::class, 'committee_members'])
     ->name('request_committee.committeemembers');

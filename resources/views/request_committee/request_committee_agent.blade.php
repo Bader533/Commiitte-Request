@@ -189,13 +189,6 @@
     <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="{{asset('assets/plugins/custom/datatables/datatables.bundle.js')}}"></script>
 
-   <!-- <script src="{{--asset('assets/js/custom/apps/user-management/users/list/table.js')--}}"></script>
-   -->
-    <!--   <script src="{{--asset('assets/js/custom/apps/user-management/users/list/export-users.js')--}}"></script>
- -->
-    <!--  <script src="{{--asset('assets/js/custom/apps/user-management/users/list/add.js')--}}"></script>
-  -->
-
         <script>
             //موافقة
             $(document).on("click", '.Post_req_agent_accept', function(event) {
