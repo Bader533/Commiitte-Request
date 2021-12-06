@@ -30,10 +30,10 @@ class desiion_committee extends Controller
             oci_fetch_all($p_request, $array, 0, -1, OCI_FETCHSTATEMENT_BY_ROW + OCI_ASSOC);
             oci_free_cursor($p_request);
 
-
+         return $array['id'];
             return view('request_committee.decision-to-prepare-a-committee', [
-                // 'result' => $array
-                dd($array)
+                 'result' => $array
+
             ]);
         });
     }
