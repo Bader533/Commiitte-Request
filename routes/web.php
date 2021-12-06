@@ -82,10 +82,23 @@ Route::get('/request_committee/agent/GetDataTable', [App\Http\Controllers\C_requ
 
 /**********************************************************نهاية الصفحة************************************************ */
 
-//********************************************** عرض صفحة الطلبات عند الشؤون الادارية   ***********************************/
+/********************************************************** الشوون الادارية تشكليل اللجنة************************************************ */
+
+//الشؤون الادارية -عند الضعط على زر اعداد قرار تشكيل لجنة
+Route::get('/request_committee/decision-to-prepare-a-committee', [desiion_committee::class, 'C_decision_committee'])
+    ->name('request_committee.decision_committee');
+
+Route::get('/request_committee/decision-to-prepare-a-committee', [desiion_committee::class, 'C_decision_committee'])
+    ->name('request_committee.get_request_committee');
 
 
-Route::get('/request_committee/request_affairs/index', [App\Http\Controllers\C_a_affairs::class, 'index'])
+
+/********************************************************** الشوون الادارية تشكليل اللجنة نهاية ************************************************ */
+
+
+
+// عرض صفحة الطلبات عند الشؤون الادارية
+Route::get('/request_committee/form_request_affairs', [App\Http\Controllers\C_request_committee::class, 'formrequestaffairs'])
     ->name('request_committee.formrequestaffairs');
     Route::get('/request_committee/request_affairs/GetDataTable', [App\Http\Controllers\C_a_affairs::class, 'GetDataTable'])
     ;
