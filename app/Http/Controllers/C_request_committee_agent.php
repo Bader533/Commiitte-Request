@@ -114,8 +114,8 @@ class C_request_committee_agent extends Controller
             class="Post_req_agent_reject bg-danger text-light rounded border-0">رفض</button>';
             if ($res['STATUS_TB_ID'] == 1 || $res['STATUS_TB_ID'] == 2) {
                 $action =   '<button id="' . $res['ID'] . '"
-          <button id=""
-        class="bg-warning text-light rounded border-0">تم الاجراء</button>';
+            <button id=""
+            class="bg-warning text-light rounded border-0">تم الاجراء</button>';
             }
             $data[] =
                 [
