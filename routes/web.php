@@ -70,17 +70,16 @@ Route::get('/request_committee/form_request', [App\Http\Controllers\C_request_co
 
 //الموافقة او الرفض للطلب
 Route::post('/request_committee/form_request/status_step', [App\Http\Controllers\C_request_committee_agent::class, 'Post_req_agent'])
-->name('request_committee.request_committee_agent');
+    ->name('request_committee.request_committee_agent');
 
- //عرض تفاصيل الطلب
- Route::get('/request_committee/form_request/detalis_req', [App\Http\Controllers\C_request_committee_agent::class, 'details_req'])
+//عرض تفاصيل الطلب
+Route::get('/request_committee/form_request/detalis_req', [App\Http\Controllers\C_request_committee_agent::class, 'details_req'])
     ->name('request_committee.formrequest.detalis_req');
 //كل الطلبات
 Route::get('/request_committee/form_request/req_all_json', [App\Http\Controllers\C_request_committee_agent::class, 'req_all_json'])
-->name('request_committee.formrequest.req_all_json');
+    ->name('request_committee.formrequest.req_all_json');
 
-Route::get('/request_committee/GetDataTable', [App\Http\Controllers\C_request_committee_agent::class, 'GetDataTable'])
-;
+Route::get('/request_committee/GetDataTable', [App\Http\Controllers\C_request_committee_agent::class, 'GetDataTable']);
 
 
 /**********************************************************نهاية الصفحة************************************************ */
@@ -90,6 +89,10 @@ Route::get('/request_committee/GetDataTable', [App\Http\Controllers\C_request_co
 //الشؤون الادارية -عند الضعط على زر اعداد قرار تشكيل لجنة
 Route::get('/request_committee/decision-to-prepare-a-committee', [desiion_committee::class, 'decision_committee'])
     ->name('request_committee.decision_committee');
+
+Route::get('/request_committee/decision-to-prepare-a-committee', [desiion_committee::class, 'get_request_committee'])
+    ->name('request_committee.get_request_committee');
+
 
 
 /********************************************************** الشوون الادارية تشكليل اللجنة نهاية ************************************************ */
@@ -125,5 +128,4 @@ Route::get('/request_committee/notification', [App\Http\Controllers\C_request_co
 
 ///test
 Route::get('/test', function () {
-
 });
