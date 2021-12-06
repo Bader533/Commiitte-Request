@@ -69,7 +69,6 @@ Route::get('/request_committee/agent/index', [App\Http\Controllers\C_request_com
     ->name('request_committee.agent.formrequest');
 
 //الموافقة او الرفض للطلب
-<<<<<<< HEAD
 Route::post('/request_committee/form_request/status_step', [App\Http\Controllers\C_request_committee_agent::class, 'Post_req_agent'])
     ->name('request_committee.request_committee_agent');
 
@@ -81,29 +80,17 @@ Route::get('/request_committee/form_request/req_all_json', [App\Http\Controllers
     ->name('request_committee.formrequest.req_all_json');
 
 Route::get('/request_committee/GetDataTable', [App\Http\Controllers\C_request_committee_agent::class, 'GetDataTable']);
-=======
-Route::post('/request_committee/agent/status_step', [App\Http\Controllers\C_request_committee_agent::class, 'Post_req_agent'])
-->name('request_committee.agent.status_step');
-
- //عرض تفاصيل الطلب
- Route::get('/request_committee/agent/detalis_req', [App\Http\Controllers\C_request_committee_agent::class, 'details_req'])
-    ->name('request_committee.agent.detalis_req');
-//عرض الطلبات في الجدول
-Route::get('/request_committee/agent/GetDataTable', [App\Http\Controllers\C_request_committee_agent::class, 'GetDataTable'])
-->name('request_committee.agent.GetDataTable');
->>>>>>> fba1a978f1b1b27aa4b6515a8f392666f73baa47
 
 
 /**********************************************************نهاية الصفحة************************************************ */
 
-<<<<<<< HEAD
 /********************************************************** الشوون الادارية تشكليل اللجنة************************************************ */
 
 //الشؤون الادارية -عند الضعط على زر اعداد قرار تشكيل لجنة
-Route::get('/request_committee/decision-to-prepare-a-committee', [desiion_committee::class, 'decision_committee'])
+Route::get('/request_committee/decision-to-prepare-a-committee', [desiion_committee::class, 'C_decision_committee'])
     ->name('request_committee.decision_committee');
 
-Route::get('/request_committee/decision-to-prepare-a-committee', [desiion_committee::class, 'get_request_committee'])
+Route::get('/request_committee/decision-to-prepare-a-committee', [desiion_committee::class, 'C_decision_committee'])
     ->name('request_committee.get_request_committee');
 
 
@@ -114,12 +101,6 @@ Route::get('/request_committee/decision-to-prepare-a-committee', [desiion_commit
 
 // عرض صفحة الطلبات عند الشؤون الادارية
 Route::get('/request_committee/form_request_affairs', [App\Http\Controllers\C_request_committee::class, 'formrequestaffairs'])
-=======
-//********************************************** عرض صفحة الطلبات عند الشؤون الادارية   ***********************************/
-
-
-Route::get('/request_committee/request_affairs/index', [App\Http\Controllers\C_a_affairs::class, 'index'])
->>>>>>> fba1a978f1b1b27aa4b6515a8f392666f73baa47
     ->name('request_committee.formrequestaffairs');
     Route::get('/request_committee/request_affairs/GetDataTable', [App\Http\Controllers\C_a_affairs::class, 'GetDataTable'])
     ;
@@ -150,11 +131,5 @@ Route::get('/request_committee/notification', [App\Http\Controllers\C_request_co
 
 
 ///test
-<<<<<<< HEAD
 Route::get('/test', function () {
 });
-=======
-/*Route::get('/test', function () {
-
-});*/
->>>>>>> fba1a978f1b1b27aa4b6515a8f392666f73baa47
