@@ -19,31 +19,7 @@ use App\Http\Controllers\desiion_committee;
 |
 */
 
-Route::get('/', function () {
 
-    // $pdo = DB::getPdo();
-    // $P_ID = 111;
-    // $P_DATE = '08/11/21';
-
-    // $P_ster = "bader";
-    // ID,USERS_TB_ID,USER_CHAIMAN_ID,NUMBER_COMMITTEE_MEMBER,START_DATE,COMMITTEE_TERM,REASON_COMMITTEE
-    // $stmt = $pdo->prepare("begin BADER.insert_committee(:ID,:USERS_TB_ID,:USER_CHAIMAN_ID,:NUMBER_COMMITTEE_MEMBER,:START_DATE,:COMMITTEE_TERM,:REASON_COMMITTEE); end;");
-    // $stmt->bindParam(':ID', $P_ID, PDO::PARAM_INT);
-    // $stmt->bindParam(':USERS_TB_ID', $P_ID, PDO::PARAM_INT);
-    // $stmt->bindParam(':USER_CHAIMAN_ID', $P_ID, PDO::PARAM_INT);
-    // $stmt->bindParam(':NUMBER_COMMITTEE_MEMBER', $P_ID, PDO::PARAM_INT);
-
-    // $stmt->bindParam(':START_DATE', $P_DATE, PDO::PARAM_STR);
-
-
-    // $stmt->bindParam(':COMMITTEE_TERM', $P_ID, PDO::PARAM_INT);
-    // $stmt->bindParam(':REASON_COMMITTEE', $P_ster, PDO::PARAM_STR, 225);
-    // $stmt->execute();
-
-    // dd($stmt);
-
-    // return view('welcome');
-});
 
 Auth::routes();
 
@@ -100,8 +76,7 @@ Route::get('/request_committee/decision-to-prepare-a-committee', [desiion_commit
 // عرض صفحة الطلبات عند الشؤون الادارية
 Route::get('/request_committee/form_request_affairs', [App\Http\Controllers\C_request_committee::class, 'formrequestaffairs'])
     ->name('request_committee.formrequestaffairs');
-    Route::get('/request_committee/request_affairs/GetDataTable', [App\Http\Controllers\C_a_affairs::class, 'GetDataTable'])
-    ;
+    Route::get('/request_committee/request_affairs/GetDataTable', [App\Http\Controllers\C_a_affairs::class, 'GetDataTable']);
 
 /******************************************************نهاية الصفحة******************************************************** */
 // عرض صفحة تشكيل اعضاء اللجان
