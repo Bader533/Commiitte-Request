@@ -122,10 +122,7 @@ class C_request_committee extends Controller
         return view('request_committee.committee-members');
     }
 
-    public function decision_committee()
-    {
-        return view('request_committee.decision-to-prepare-a-committee');
-    }
+
 
     public function decision_to_form_committees()
     {

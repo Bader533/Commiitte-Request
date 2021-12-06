@@ -3,7 +3,9 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\C_request_committee;
+use App\Http\Controllers\desiion_committee;
 
 
 /*
@@ -45,7 +47,7 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 /* ******************************************** طلب تقديم لجنة و تخزين الطلب ******************************************************** */
 
@@ -83,15 +85,24 @@ Route::get('/request_committee/GetDataTable', [App\Http\Controllers\C_request_co
 
 /**********************************************************نهاية الصفحة************************************************ */
 
+/********************************************************** الشوون الادارية تشكليل اللجنة************************************************ */
+
+//الشؤون الادارية -عند الضعط على زر اعداد قرار تشكيل لجنة
+Route::get('/request_committee/decision-to-prepare-a-committee', [desiion_committee::class, 'decision_committee'])
+    ->name('request_committee.decision_committee');
+
+
+/********************************************************** الشوون الادارية تشكليل اللجنة نهاية ************************************************ */
+
+
+
 // عرض صفحة الطلبات عند الشؤون الادارية
 Route::get('/request_committee/form_request_affairs', [App\Http\Controllers\C_request_committee::class, 'formrequestaffairs'])
     ->name('request_committee.formrequestaffairs');
 // عرض صفحة تشكيل اعضاء اللجان
 Route::get('/request_committee/committee_members', [App\Http\Controllers\C_request_committee::class, 'committee_members'])
     ->name('request_committee.committeemembers');
-//الشؤون الادارية -عند الضعط على زر اعداد قرار تشكيل لجنة
-Route::get('/request_committee/decision to prepare a committee', [App\Http\Controllers\C_request_committee::class, 'decision_committee'])
-    ->name('request_committee.decision_committee');
+
 // صفحة لعرض جميع اللجان المشاركة فيها الادارة
 Route::get('/request_committee/decision to form committees at the relevant departments', [App\Http\Controllers\C_request_committee::class, 'decision_to_form_committees'])
     ->name('request_committee.decision_to_form_committees');
