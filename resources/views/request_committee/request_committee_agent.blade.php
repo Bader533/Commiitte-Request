@@ -226,7 +226,7 @@
 
                 });
                 $.ajax({
-                        url: "{{ route('request_committee.request_committee_agent') }}",
+                        url: "{{ route('request_committee.agent.status_step') }}",
                         method: "POST",
                         data: {
                             status: status,
@@ -296,7 +296,7 @@
 
                 });
                 $.ajax({
-                        url: "{{ route('request_committee.formrequest.detalis_req') }}",
+                        url: "{{ route('request_committee.agent.detalis_req') }}",
                         method: "get",
                         data: {
                             id_req: id_req
@@ -389,7 +389,7 @@
 				"processing": true,
 				"serverSide": true,
 				ajax:{
-					url: "{{url('/')}}/request_committee/GetDataTable",
+					url: "{{route('request_committee.agent.GetDataTable')}}",
 					data:{number_req:number_req,status:status, date_start:date_start,date_end:date_end}
 				},
 			});

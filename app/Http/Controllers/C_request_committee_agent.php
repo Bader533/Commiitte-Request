@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use PDO;
-
+// صفحة الوكيل لعرض الطلبات
 class C_request_committee_agent extends Controller
 {
     private $id_rq = 1;
@@ -52,28 +52,11 @@ class C_request_committee_agent extends Controller
             'message' => 'تمت العملية بنجاح'
         ];
     }
-    //عرض جميع الطلبات للوكيل
-    public function formrequest()
+    //عرض صفحة الطلبات للوكيل
+    public function index()
     {
-        $sql = "begin
-           HANI.Get_req_agent(:pageNumber,:req);
-               end;";
-        return DB::transaction(function ($conn) use ($sql) {
-            $pdo = $conn->getPdo();
-            $stmt = $pdo->prepare($sql);
-            $pageNumber = 1;
-            $stmt->bindParam(':pageNumber', $pageNumber, PDO::PARAM_INT);
-            $stmt->bindParam(':req', $req, PDO::PARAM_STMT);
-            $stmt->execute();
-            oci_execute($req, OCI_DEFAULT);
-            oci_fetch_all($req, $array, 0, -1, OCI_FETCHSTATEMENT_BY_ROW + OCI_ASSOC);
-            oci_free_cursor($req);
+            return view('request_committee.request_committee_agent');
 
-
-            return view('request_committee.request_committee_agent', [
-                'result' => $array
-            ]);
-        });
     }
     //عرض تفاصيل الطلب
     public function details_req(Request $request)
@@ -99,20 +82,21 @@ class C_request_committee_agent extends Controller
             ];
         });
     }
-    public function GetDataTable(Request $r)
+    //عرض جميع الطلبات للوكيل
+    public function GetDataTable(Request $request)
     {
-        $draw = $r->get('draw');
-        $start = $r->get('start');
-        $length = $r->get('length');
-        $order = $r->get('order');
-        $v_search = $r->search['value'];
+        $draw = $request->get('draw');
+        $start = $request->get('start');
+        $length = $request->get('length');
+        $order = $request->get('order');
+        $v_search = $request->search['value'];
         $column = array("id", "name", "updated_at");
         $dir = ($order[0]['dir'] === 'asc' ? 'asc' : 'desc');
 
-        $number_req = $r->get('number_req');
-        $status = $r->get('status');
-        $date_start = $r->get('date_start');
-        $date_end = $r->get('date_end');
+        $number_req = $request->get('number_req');
+        $status = $request->get('status');
+        $date_start = $request->get('date_start');
+        $date_end = $request->get('date_end');
 
         $dd = new REQUEST_COMMITTEE_TB();
 
@@ -121,9 +105,9 @@ class C_request_committee_agent extends Controller
         $d = $dd->get_req_agent($pageNumber, $number_req, $status, $date_start, $date_end); //$dd->where('name', 'like', "%{$v_search}%")->where('isdelete',0)->skip($start)->take($length)->orderBy($column[$order[0]['column']],$dir)->get();
         //$data_res = $d->skip($start)->take($length)->get();
         $data = [];
-        //dd($d);
+        //dd($d['result']);
 
-        foreach ($d as $index => $res) {
+        foreach ($d['result'] as $index => $res) {
             $action =   '<button id="' . $res['ID'] . '"
             class="Post_req_agent_accept bg-primary text-light rounded border-0">موافقة</button>
               <button id="' . $res['ID'] . '"

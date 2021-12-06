@@ -131,7 +131,7 @@
                                 </a>
                             </div>
                             <div class="menu-item">
-                                <a class="menu-link {{ request()->is('request_committee/form_request') ? 'active' : '' }}" href="{{route('request_committee.formrequest')}}">
+                                <a class="menu-link {{ request()->is('request_committee/agent/index') ? 'active' : '' }}" href="{{route('request_committee.agent.formrequest')}}">
                                     <span class="menu-icon">
                                         <!--begin::Svg Icon | path: icons/duotune/communication/com001.svg-->
                                         <span class="svg-icon svg-icon-2">

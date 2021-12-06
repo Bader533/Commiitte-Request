@@ -8,26 +8,27 @@ use Illuminate\Http\Request;
 class C_a_affairs extends Controller
 {
 
+    //عرض الصفحة
     public function index()
     {
 
         return view('request_committee.formrequest-affairs');
     }
-
-    public function GetDataTable(Request $r)
+    //كل الطلبات ما بعد موافقة الوكيل
+    public function GetDataTable(Request $request)
     {
-        $draw = $r->get('draw');
-        $start = $r->get('start');
-        $length = $r->get('length');
-        $order = $r->get('order');
-        $v_search = $r->search['value'];
+        $draw = $request->get('draw');
+        $start = $request->get('start');
+        $length = $request->get('length');
+        $order = $request->get('order');
+        $v_search = $request->search['value'];
         $column = array("id", "name", "updated_at");
         $dir = ($order[0]['dir'] === 'asc' ? 'asc' : 'desc');
 
-        $number_req = $r->get('number_req');
-        $status = $r->get('status');
-        $date_start = $r->get('date_start');
-        $date_end = $r->get('date_end');
+        $number_req = $request->get('number_req');
+        $status = $request->get('status');
+        $date_start = $request->get('date_start');
+        $date_end = $request->get('date_end');
 
         $dd = new REQUEST_COMMITTEE_TB();
 

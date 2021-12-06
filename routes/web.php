@@ -63,19 +63,19 @@ Route::post('/request_committee/store', [C_request_committee::class, 'storereque
 /************************************************بداية صفحة تظهر عند الوكيل ******************************************************** */
 
 // عرض صفحة الوكيل للموافقة على الطلب
-Route::get('/request_committee/form_request', [App\Http\Controllers\C_request_committee_agent::class, 'formrequest'])
-    ->name('request_committee.formrequest');
+Route::get('/request_committee/agent/index', [App\Http\Controllers\C_request_committee_agent::class, 'index'])
+    ->name('request_committee.agent.formrequest');
 
 //الموافقة او الرفض للطلب
-Route::post('/request_committee/form_request/status_step', [App\Http\Controllers\C_request_committee_agent::class, 'Post_req_agent'])
-->name('request_committee.request_committee_agent');
+Route::post('/request_committee/agent/status_step', [App\Http\Controllers\C_request_committee_agent::class, 'Post_req_agent'])
+->name('request_committee.agent.status_step');
 
  //عرض تفاصيل الطلب
- Route::get('/request_committee/form_request/detalis_req', [App\Http\Controllers\C_request_committee_agent::class, 'details_req'])
-    ->name('request_committee.formrequest.detalis_req');
+ Route::get('/request_committee/agent/detalis_req', [App\Http\Controllers\C_request_committee_agent::class, 'details_req'])
+    ->name('request_committee.agent.detalis_req');
 //عرض الطلبات في الجدول
-Route::get('/request_committee/GetDataTable', [App\Http\Controllers\C_request_committee_agent::class, 'GetDataTable'])
-;
+Route::get('/request_committee/agent/GetDataTable', [App\Http\Controllers\C_request_committee_agent::class, 'GetDataTable'])
+->name('request_committee.agent.GetDataTable');
 
 
 /**********************************************************نهاية الصفحة************************************************ */
