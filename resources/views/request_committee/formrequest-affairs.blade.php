@@ -144,7 +144,7 @@ function fill_datatable(number_req = '', status = '', date_start = '', date_end 
             "processing": true,
             "serverSide": true,
             ajax:{
-                url: "{{url('/')}}/request_committee/request_affairs/GetDataTable",
+                url: "{{route('request_committee.affairs.GetDataTable')}}",
                 data:{number_req:number_req,status:status, date_start:date_start,date_end:date_end}
             },
         });
