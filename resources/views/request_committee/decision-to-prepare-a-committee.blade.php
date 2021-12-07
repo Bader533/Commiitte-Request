@@ -10,7 +10,8 @@
                 <!--begin::Content-->
                 <div class="flex-lg-row-fluid me-10 me-lg-20">
                     <!--begin::Form-->
-                    <form action="" class="form mb-15" method="post" id="kt_careers_form">
+                    <form action="" class="form mb-15" method="post" id="updatedformreq">
+                        @csrf
                         <!--begin::Input group-->
                         <div class="row mb-5">
                             <!--begin::Col-->
@@ -106,7 +107,7 @@
 
                                 @foreach ($dp as $dp)
 
-                                    <select name="" class="form-control" id="">
+                                    <select name="department" class="form-control" id="">
                                         <option value=""></option>
                                         <option value="">{{ $dp['NAME'] }}</option>
                                     </select>
@@ -121,7 +122,8 @@
                                 <label class="required fs-5 fw-bold mb-2"> عدد الموظفين </label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
-                                <input type="number" class="form-control form-control-solid" placeholder="" name="numofemployee" />
+                                <input type="number" class="form-control form-control-solid" placeholder=""
+                                    name="numofemployee" />
                                 <!--end::Input-->
                             </div>
 
@@ -175,22 +177,28 @@
                             </div>
 
                             <div class="col-md-3 fv-row" style="margin-top: 27px">
-                                <button type="submit" class="btn btn-primary">ا</button>
+                                <button type="submit" id="update_req" class="btn btn-primary">موافق</button>
                             </div>
 
 
 
                         </div>
 
+
                         <!--begin::Submit-->
+
                         {{-- <button type="submit" class="btn btn-primary" id="kt_careers_submit_button">
-                    <!--begin::Indicator-->
-                    <span class="indicator-label">طلب تشكيل لجنة</span>
-                    <span class="indicator-progress">انتظر من فظلك
-                        <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
-                    <!--end::Indicator-->
-                </button> --}}
+
+                            <!--begin::Indicator-->
+                                <span class="indicator-label">طلب تشكيل لجنة</span>
+                                <span class="indicator-progress">انتظر من فظلك
+                                <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
+                              <!--end::Indicator-->
+
+                            </button> --}}
+
                         <!--end::Submit-->
+
                     </form>
                     <!--end::Form-->
 
@@ -201,3 +209,63 @@
     </div>
 
 @endsection
+
+@push('script')
+
+    <script>
+         $(document).on('click', '#update_req', function(e) {
+            e.preventDefault();
+
+            // $('#membercount_error').text('');
+            // $('#start_date_error').text('');
+            // $('#work_day_error').text('');
+            // $('#experience_error').text('');
+            // $('#details_ar_error').text('');
+            // $('#details_en_error').text('');
+
+            var formData = new FormData($('#updatedformreq')[0]);
+            $.ajax({
+                type: 'post',
+                enctype: 'multipart/form-data',
+                url: "{{ route('request_committee.update_request') }}",
+                data: formData,
+                processData: false,
+                contentType: false,
+                cache: false,
+                success: function(data) {
+                    if (data.status == true) {
+                        Swal.fire({
+                            position: 'top-right',
+                            icon: 'success',
+                            title: 'تمت العملية بنجاح',
+                            showConfirmButton: false,
+                            timer: 1500
+
+                        })
+                    }
+
+
+                },
+                error: function(data) {
+
+                    var errors = data.responseJSON;
+                    $.each(errors.message, function (key, val) {
+                        $("#" + key + "_error").text(val[0]);
+                    });
+
+                    Swal.fire({
+                        position: 'top-right',
+                        icon: 'error',
+                        title: 'فشلت العملية',
+                        showConfirmButton: false,
+                        timer: 1500
+
+                    })
+
+                }
+            });
+
+        });
+    </script>
+
+@endpush
