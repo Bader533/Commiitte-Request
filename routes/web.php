@@ -61,17 +61,16 @@ Route::get('/request_committee/agent/GetDataTable', [App\Http\Controllers\C_requ
 /********************************************************** الشوون الادارية تشكليل اللجنة************************************************ */
 
 //الشؤون الادارية -عند الضعط على زر اعداد قرار تشكيل لجنة
-Route::get('/request_committee/decision-to-prepare-a-committee', [C_decision_committee::class, 'decision_committee'])
+/*Route::get('/request_committee/decision-to-prepare-a-committee/{id}', [C_decision_committee::class, 'decision_committee'])
     ->name('request_committee.decision_committee');
-
-Route::get('/request_committee/decision-to-prepare-a-committee', [C_decision_committee::class, 'get_request_committee'])
+*/
+Route::get('/request_committee/decision-to-prepare-a-committee/{id}', [C_decision_committee::class, 'get_request_committee'])
     ->name('request_committee.get_request_committee');
 
 // Route::get('/request_committee/decision-to-prepare-a-committee', [C_decision_committee::class, 'get_department'])
 //     ->name('request_committee.get_department');
 
 /********************************************************** الشوون الادارية تشكليل اللجنة نهاية ************************************************ */
-
 
 // عرض صفحة الطلبات عند الشؤون الادارية
 Route::get('/request_committee/affairs/index', [App\Http\Controllers\C_a_affairs::class, 'index'])
