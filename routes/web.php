@@ -73,10 +73,10 @@ Route::get('/request_committee/decision-to-prepare-a-committee', [C_decision_com
 
 
 // عرض صفحة الطلبات عند الشؤون الادارية
-Route::get('/request_committee/form_request_affairs', [App\Http\Controllers\C_a_affairs::class, 'index'])
-    ->name('request_committee.formrequestaffairs');
-Route::get('/request_committee/request_affairs/GetDataTable', [App\Http\Controllers\C_a_affairs::class, 'GetDataTable']);
-
+Route::get('/request_committee/affairs/index', [App\Http\Controllers\C_a_affairs::class, 'index'])
+    ->name('request_committee.affairs.index');
+Route::get('/request_committee/affairs/GetDataTable', [App\Http\Controllers\C_a_affairs::class, 'GetDataTable'])
+    ->name('request_committee.affairs.GetDataTable');
 
 /******************************************************نهاية الصفحة******************************************************** */
 // عرض صفحة تشكيل اعضاء اللجان
