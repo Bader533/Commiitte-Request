@@ -46,14 +46,14 @@ Route::get('/request_committee/agent/index', [App\Http\Controllers\C_request_com
 
 //الموافقة او الرفض للطلب
 Route::post('/request_committee/agent/status_step', [App\Http\Controllers\C_request_committee_agent::class, 'Post_req_agent'])
-->name('request_committee.agent.status_step');
+    ->name('request_committee.agent.status_step');
 
- //عرض تفاصيل الطلب
- Route::get('/request_committee/agent/detalis_req', [App\Http\Controllers\C_request_committee_agent::class, 'details_req'])
+//عرض تفاصيل الطلب
+Route::get('/request_committee/agent/detalis_req', [App\Http\Controllers\C_request_committee_agent::class, 'details_req'])
     ->name('request_committee.agent.detalis_req');
 //عرض الطلبات في الجدول
 Route::get('/request_committee/agent/GetDataTable', [App\Http\Controllers\C_request_committee_agent::class, 'GetDataTable'])
-->name('request_committee.agent.GetDataTable');
+    ->name('request_committee.agent.GetDataTable');
 
 
 /**********************************************************نهاية الصفحة************************************************ */
@@ -67,7 +67,8 @@ Route::get('/request_committee/decision-to-prepare-a-committee', [C_decision_com
 Route::get('/request_committee/decision-to-prepare-a-committee', [C_decision_committee::class, 'get_request_committee'])
     ->name('request_committee.get_request_committee');
 
-
+// Route::get('/request_committee/decision-to-prepare-a-committee', [C_decision_committee::class, 'get_department'])
+//     ->name('request_committee.get_department');
 
 /********************************************************** الشوون الادارية تشكليل اللجنة نهاية ************************************************ */
 
@@ -76,7 +77,7 @@ Route::get('/request_committee/decision-to-prepare-a-committee', [C_decision_com
 // عرض صفحة الطلبات عند الشؤون الادارية
 Route::get('/request_committee/form_request_affairs', [App\Http\Controllers\C_request_committee::class, 'formrequestaffairs'])
     ->name('request_committee.formrequestaffairs');
-    Route::get('/request_committee/request_affairs/GetDataTable', [App\Http\Controllers\C_a_affairs::class, 'GetDataTable']);
+Route::get('/request_committee/request_affairs/GetDataTable', [App\Http\Controllers\C_a_affairs::class, 'GetDataTable']);
 
 /******************************************************نهاية الصفحة******************************************************** */
 // عرض صفحة تشكيل اعضاء اللجان
