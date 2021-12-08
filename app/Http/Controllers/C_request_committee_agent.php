@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\REQUEST_COMMITTEE_TB;
+use App\Models\STEPS_TB;
 use Illuminate\Auth\Events\Validated;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -20,11 +21,12 @@ class C_request_committee_agent extends Controller
             'id_req' =>  'required',
         ]);
 
-        if ($validator->fails()) {
+        if ($validator->fails())
+        {
             return response()->json(
                 [
-                    'code' => 400,
-                    'message' => $validator->errors()
+                  'code' => 400,
+                  'message' => $validator->errors()
                 ],
                 400
             );
@@ -39,14 +41,18 @@ class C_request_committee_agent extends Controller
             //رفض
             $P_STATUS_TB_ID = 2;
         }
-        $pdo = DB::getPdo();
-        $P_REQUEST_COMMITTEE_TB = $request->id_req;
+      //  $pdo = DB::getPdo();
+        $id_req = $request->id_req;
+
+        $STEPS_TB = new STEPS_TB();
+        $STEPS_TB->change_status_req_agent($id_req,$P_STATUS_TB_ID);
+
         //  $USERS_TB_ID = 2;
         // $NAME = 'الوكيل يوافق على الطلب';
-        $stmt = $pdo->prepare("begin HANI.Post_req_agent(:P_STATUS_TB_ID,:P_REQUEST_COMMITTEE_TB); end;");
+      /*  $stmt = $pdo->prepare("begin HANI.Post_req_agent(:P_STATUS_TB_ID,:P_REQUEST_COMMITTEE_TB); end;");
         $stmt->bindParam(':P_STATUS_TB_ID', $P_STATUS_TB_ID, PDO::PARAM_INT);
         $stmt->bindParam(':P_REQUEST_COMMITTEE_TB', $P_REQUEST_COMMITTEE_TB, PDO::PARAM_INT);
-        $stmt->execute();
+        $stmt->execute();*/
         return [
             'code' => 200,
             'message' => 'تمت العملية بنجاح'
@@ -98,16 +104,15 @@ class C_request_committee_agent extends Controller
         $date_start = $request->get('date_start');
         $date_end = $request->get('date_end');
 
-        $dd = new REQUEST_COMMITTEE_TB();
+        $REQUEST_COMMITTEE_TB = new REQUEST_COMMITTEE_TB();
 
         $d_count = 10; //$dd->Count();
         $pageNumber = 1;
-        $d = $dd->get_req_agent($pageNumber, $number_req, $status, $date_start, $date_end); //$dd->where('name', 'like', "%{$v_search}%")->where('isdelete',0)->skip($start)->take($length)->orderBy($column[$order[0]['column']],$dir)->get();
+        $get_req_agent = $REQUEST_COMMITTEE_TB->get_req_agent($pageNumber, $number_req, $status, $date_start, $date_end); //$dd->where('name', 'like', "%{$v_search}%")->where('isdelete',0)->skip($start)->take($length)->orderBy($column[$order[0]['column']],$dir)->get();
         //$data_res = $d->skip($start)->take($length)->get();
         $data = [];
-        //dd($d['result']);
 
-        foreach ($d['result'] as $index => $res) {
+        foreach ($get_req_agent['result'] as $index => $res) {
             $action =   '<button id="' . $res['ID'] . '"
             class="Post_req_agent_accept bg-primary text-light rounded border-0">موافقة</button>
               <button id="' . $res['ID'] . '"
