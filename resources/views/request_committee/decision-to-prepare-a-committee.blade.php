@@ -82,6 +82,7 @@
                                 <!--begin::Input-->
                                 <input type="text" class="form-control form-control-solid" placeholder=""
                                     name="nature_committe" />
+                                    <small id="nature_committe_error" class="form-text text-danger"></small>
                                 <!--end::Input-->
                             </div>
 
@@ -109,10 +110,12 @@
 
                                     <select name="department" class="form-control" id="">
                                         <option value=""></option>
-                                        <option value="">{{ $dp['NAME'] }}</option>
+                                        <option value="{{$dp['ID']}}">{{ $dp['NAME'] }}</option>
                                     </select>
 
                                 @endforeach
+                                <small id="department_error" class="form-text text-danger"></small>
+
 
                                 <!--end::Input-->
                             </div>
@@ -124,6 +127,8 @@
                                 <!--begin::Input-->
                                 <input type="number" class="form-control form-control-solid" placeholder=""
                                     name="numofemployee" />
+                                    <small id="numofemployee_error" class="form-text text-danger"></small>
+
                                 <!--end::Input-->
                             </div>
 
@@ -153,6 +158,8 @@
 
                                 <textarea name="law" id="" class="form-control form-control-solid" cols="30"
                                     rows="10"></textarea>
+                                    <small id="law_error" class="form-text text-danger"></small>
+
                                 <!--end::Input-->
                             </div>
 
@@ -216,12 +223,11 @@
          $(document).on('click', '#update_req', function(e) {
             e.preventDefault();
 
-            // $('#membercount_error').text('');
-            // $('#start_date_error').text('');
-            // $('#work_day_error').text('');
-            // $('#experience_error').text('');
-            // $('#details_ar_error').text('');
-            // $('#details_en_error').text('');
+
+            $('#nature_committe_error').text('');
+            $('#department_error').text('');
+            $('#numofemployee_error').text('');
+            $('#law_error').text('');
 
             var formData = new FormData($('#updatedformreq')[0]);
             $.ajax({
@@ -243,8 +249,6 @@
 
                         })
                     }
-
-
                 },
                 error: function(data) {
 
@@ -252,7 +256,6 @@
                     $.each(errors.message, function (key, val) {
                         $("#" + key + "_error").text(val[0]);
                     });
-
                     Swal.fire({
                         position: 'top-right',
                         icon: 'error',
