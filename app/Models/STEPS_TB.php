@@ -23,5 +23,9 @@ public function change_status_req_agent($id_req,$P_STATUS_TB_ID)
     $stmt->bindParam(':P_REQUEST_COMMITTEE_TB', $P_REQUEST_COMMITTEE_TB, PDO::PARAM_INT);
     $stmt->execute();
 }
+public function get_detials_req_affairs()
+{
+    
+}
 
 }

@@ -146,6 +146,7 @@
                         <table class="table table-hover table-row-bordered">
                             <tbody class="table-bordered">
 
+                                
                                 <tr style="font-size: 16px;">
                                     <th scope="row">صاحب الطلب</th>
                                     <th id="USERS_NAME" scope="row">احمد</th>
@@ -162,7 +163,7 @@
                                     <th scope="row"> سبب اللجنة</th>
                                     <th id="REASON_COMMITTEE" scope="row">تجريبي تجريبي</th>
                                 </tr>
-                                
+
 
                             </tbody>
                         </table>
