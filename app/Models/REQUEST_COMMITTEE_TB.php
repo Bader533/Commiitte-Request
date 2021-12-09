@@ -65,9 +65,5 @@ public function get_req_affairs($pageNumber,$id_rq,$status,$date_in,$date_to)
         return $array;
     });
 }
-//تغير حالة الطلب موافق او رفض من قبل الوكيل
-public function change_status_req_agent()
-{
 
-}
 }
