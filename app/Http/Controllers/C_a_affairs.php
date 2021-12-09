@@ -40,8 +40,9 @@ class C_a_affairs extends Controller
         //dd($d);
 
         foreach ($d as $index => $res) {
-            $action =   '<button id="' . $res['ID'] . '"
-            class=" bg-primary text-light rounded border-0">اعداد قرار تشكيل لجنة</button>';
+         $url = route('request_committee.get_request_committee',['id' =>$res['ID']]);
+            $action =   '<a href="'.$url.'" id="' . $res['ID'] . '"
+            class=" bg-primary text-light rounded border-0">اعداد قرار تشكيل لجنة</a>';
             $status = ' <label id="' . $res['ID'] . '"
             class=" bg-warning text-light rounded border-0">قيد الانتظار</label >';
             if ($res['STATUS_TB_ID'] == 1) {
