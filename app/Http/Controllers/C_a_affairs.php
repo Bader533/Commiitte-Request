@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\REQUEST_COMMITTEE_TB;
+use App\Models\STEPS_TB;
 use Illuminate\Http\Request;
 //صفحة الشؤون الادارية
 class C_a_affairs extends Controller
@@ -90,5 +91,21 @@ class C_a_affairs extends Controller
             "recordsFiltered" => $d_count, //->count(),
             "data" => $data
         ]);
+    }
+    //عرض التفاصيل عند الشؤون الادارية
+    public function get_detials_req_affairs(Request $request)
+    {
+        $steps = new STEPS_TB();
+        $get_detials_req_affairs = $steps->get_detials_req_affairs(202);
+
+        $NAME_STEPS = explode(',', $get_detials_req_affairs[0]['NAME_STEPS']);
+        $STATUS_NAME = explode(',', $get_detials_req_affairs[0]['STATUS_NAME']);
+        return [
+            'code' => 200,
+            'result' => $get_detials_req_affairs,
+            'NAME_STEPS'=>$NAME_STEPS,
+            'STATUS_NAME'=>$STATUS_NAME,
+        ];
+
     }
 }

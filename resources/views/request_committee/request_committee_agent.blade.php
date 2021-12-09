@@ -252,7 +252,8 @@
                                     showConfirmButton: false,
                                     timer: 1500
                                 })
-                                Run_DataTable();
+                               // Run_DataTable();
+                               fill_datatable();
                             } else {
 
                                 Swal.fire({
