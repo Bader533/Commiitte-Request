@@ -2,7 +2,6 @@
 
 
 @section('content')
-
     <div class="card">
         <div class="card-body p-lg-17">
 
@@ -149,9 +148,6 @@
                                 <tbody id="steps_req" class="table-bordered">
 
 
-
-
-
                                 </tbody>
                             </table>
                             <!--end::List-->
@@ -287,7 +283,7 @@
                                     `);
 
                                     data.NAME_STEPS.forEach((element,key) => {
-                                            
+
                                           $('#steps_req').append(`
                                                 <tr>
                                                     <th scope="row">`+element+`</th>

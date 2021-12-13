@@ -253,7 +253,7 @@
                                     timer: 1500
                                 })
                                // Run_DataTable();
-                               fill_datatable();
+                             //  fill_datatable();
                             } else {
 
                                 Swal.fire({
@@ -395,7 +395,9 @@
 				},
 			});
 
-	}
+         //   dataTable.destroy();
+
+    }
 	$('#filter').click(function(){
         var number_req = $('#number_req').val();
        // alert(number_req);
