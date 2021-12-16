@@ -168,7 +168,7 @@
                                 <label class="required fs-5 fw-bold mb-2"> الادارات المعنية </label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
-                                <table border="" class="table">
+                                <table border="" class="table table-striped">
                                     <thead>
                                         <tr>
                                             <th scope="col">الادارة</th>
@@ -177,6 +177,18 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        @foreach ($request_dep as $request_dep)
+
+
+                                        <tr>
+                                            <td scope="row">{{ $request_dep['NAME'] }}</td>
+                                            <td scope="row">{{ $request_dep['NUMBER_EMPLOYEES'] }}</td>
+                                            <td>
+                                                <a id="delete-dep" class="btn btn-danger">Danger</a>
+                                            </td>
+                                        </tr>
+
+                                        @endforeach
 
                                     </tbody>
                                 </table>
@@ -184,7 +196,9 @@
                             </div>
 
                             <div class="col-md-3 fv-row" style="margin-top: 27px">
-                                <button type="submit" id="update_req" class="btn btn-primary">موافق</button>
+                                @foreach ($request_dep as $request_dep)
+                                <button type="submit" dep_id="{{$request_dep -> ID}}" class="delete_btn btn btn-danger">موافق</button>
+                                @endforeach
                             </div>
 
 
@@ -269,6 +283,52 @@
             });
 
         });
+
+
+        $(document).on('click', '.delete_btn', function (e) {
+            e.preventDefault();
+              var dep_id =  $(this).attr('updatedformreq');
+            $.ajax({
+                type: 'post',
+                 url: "{{route('request_committee.delete_request')}}",
+                data: {
+                    '_token': "{{csrf_token()}}",
+                    'id' :dep_id
+                },
+                success: function(data) {
+                    if (data.status == true) {
+                        Swal.fire({
+                            position: 'top-right',
+                            icon: 'success',
+                            title: 'تمت العملية بنجاح',
+                            showConfirmButton: false,
+                            timer: 1500
+
+                        })
+                    }
+                },
+                error: function(data) {
+
+                    // var errors = data.responseJSON;
+                    // $.each(errors.message, function (key, val) {
+                    //     $("#" + key + "_error").text(val[0]);
+                    // });
+                    Swal.fire({
+                        position: 'top-right',
+                        icon: 'error',
+                        title: 'فشلت العملية',
+                        showConfirmButton: false,
+                        timer: 1500
+
+                    })
+
+                }
+
+
+            });
+        });
+
+
     </script>
 
 @endpush

@@ -35,7 +35,8 @@ class C_decision_committee extends Controller
 
             return view('request_committee.decision-to-prepare-a-committee', [
                 'result' => $array,
-                'dp' => $this->get_department()
+                'dp' => $this->get_department(),
+                'request_dep' => $this->get_request(202),
             ]);
         });
     }
@@ -56,6 +57,27 @@ class C_decision_committee extends Controller
         });
     }
 
+    //عرض اقسام الخاصة بالطلب
+    public function get_request($id)
+    {
+
+        $sql = "begin BADER.get_request_department(:IDreq,:P_request); end;";
+
+        return DB::transaction(function ($conn) use ($sql, $id) {
+            $pdo = $conn->getPdo();
+            $stmt = $pdo->prepare($sql);
+            $IDreq = $id;
+            $stmt->bindParam(':IDreq', $IDreq, PDO::PARAM_INT);
+            $stmt->bindParam(':p_request', $p_request, PDO::PARAM_STMT);
+            $stmt->execute();
+            oci_execute($p_request, OCI_DEFAULT);
+            oci_fetch_all($p_request, $array, 0, -1, OCI_FETCHSTATEMENT_BY_ROW + OCI_ASSOC);
+            oci_free_cursor($p_request);
+            return $array;
+        });
+    }
+
+    //اضافة على بيانات  على الطلب
     public function update_request(REQUEST $request)
     {
 
@@ -68,8 +90,10 @@ class C_decision_committee extends Controller
 
         if ($validator->fails()) {
             return response()->json(
-                ['code' => 400,
-                 'message' => $validator->errors()],
+                [
+                    'code' => 400,
+                    'message' => $validator->errors()
+                ],
                 400
             );
         }
@@ -107,7 +131,13 @@ class C_decision_committee extends Controller
                 'status' => false,
                 'msg' => 'فشل الحفظ برجاء المحاوله مجددا',
             ]);
+    }
+
+    //حذف الادارة المعنية
+    public function delete_request(Request $request)
+    {
 
 
     }
+
 }
