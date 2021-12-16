@@ -174,11 +174,11 @@
                                         </span>
                                         <!--end::Svg Icon-->
                                     </span>
-                                    <span class="menu-title">طلب تشكيل لجنة الشئون الادارية</span>
+                                    <span class="menu-title">طلب تشكيل لجنة الشؤون الادارية</span>
                                 </a>
                             </div>
 
-                           
+
 
                         </div>
                         <!--end::Menu-->

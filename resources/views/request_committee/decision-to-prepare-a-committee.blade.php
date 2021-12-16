@@ -4,6 +4,7 @@
 @section('content')
 
     <div class="card">
+        <h3 class="p-6">اعداد قرار تشكيل لجنة</h3>
         <div class="card-body p-lg-17">
 
             <div class="d-flex flex-column flex-lg-row mb-17">
@@ -168,7 +169,7 @@
                                 <label class="required fs-5 fw-bold mb-2"> الادارات المعنية </label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
-                                <table border="" class="table table-striped">
+                                <table  class="table">
                                     <thead>
                                         <tr>
                                             <th scope="col">الادارة</th>

@@ -74,8 +74,13 @@ Route::post('/request_committee/delete-decision-to-prepare-a-committee', [C_deci
 // عرض صفحة الطلبات عند الشؤون الادارية
 Route::get('/request_committee/affairs/index', [App\Http\Controllers\C_a_affairs::class, 'index'])
     ->name('request_committee.affairs.index');
+//عرض الطلبات في الجدول
 Route::get('/request_committee/affairs/GetDataTable', [App\Http\Controllers\C_a_affairs::class, 'GetDataTable'])
     ->name('request_committee.affairs.GetDataTable');
+//عرض التفاصيل
+Route::get('/request_committee/affairs/get_detials_req_affairs', [App\Http\Controllers\C_a_affairs::class, 'get_detials_req_affairs'])
+    ->name('request_committee.affairs.get_detials_req_affairs');
+
 
 /******************************************************نهاية الصفحة******************************************************** */
 

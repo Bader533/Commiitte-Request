@@ -23,9 +23,26 @@ public function change_status_req_agent($id_req,$P_STATUS_TB_ID)
     $stmt->bindParam(':P_REQUEST_COMMITTEE_TB', $P_REQUEST_COMMITTEE_TB, PDO::PARAM_INT);
     $stmt->execute();
 }
-public function get_detials_req_affairs()
+//عرض تفاصيل الطلب عند الشؤون الادارية
+public function get_detials_req_affairs($id_req)
 {
-    
+    $sql = "begin
+    HANI.Get_committee_details_affairs(:id_rq,:req);
+          end;";
+     $id_rq = $id_req;
+    return DB::transaction(function ($conn) use ($sql,$id_rq) {
+        $pdo = $conn->getPdo();
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':id_rq', $id_rq, PDO::PARAM_INT);
+        $stmt->bindParam(':req', $req, PDO::PARAM_STMT);
+        $stmt->execute();
+        oci_execute($req, OCI_DEFAULT);
+        oci_fetch_all($req, $array, 0, -1, OCI_FETCHSTATEMENT_BY_ROW + OCI_ASSOC);
+        oci_free_cursor($req);
+
+        return $array;
+    });
 }
 
 }
