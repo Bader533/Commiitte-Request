@@ -60,12 +60,15 @@ Route::get('/request_committee/agent/GetDataTable', [App\Http\Controllers\C_requ
 
 /********************************************************** الشوون الادارية تشكليل اللجنة************************************************ */
 
+//عرض تفاصيل اللجنة
 Route::get('/request_committee/decision-to-prepare-a-committee/{id}', [C_decision_committee::class, 'get_request_committee'])
     ->name('request_committee.get_request_committee');
 
+//تعديل اللجنة
 Route::post('/request_committee/update-decision-to-prepare-a-committee', [C_decision_committee::class, 'update_request'])
     ->name('request_committee.update_request');
 
+// حذف الادارة المعنية
 Route::post('/request_committee/delete-decision-to-prepare-a-committee', [C_decision_committee::class, 'delete_request'])
     ->name('request_committee.delete_request');
 
@@ -84,14 +87,21 @@ Route::get('/request_committee/affairs/get_detials_req_affairs', [App\Http\Contr
 
 /******************************************************نهاية الصفحة******************************************************** */
 
+// صفحة لعرض جميع اللجان المشاركة فيها الادارة
+Route::get('/request_committee/decision to form committees at the relevant departments', [App\Http\Controllers\C_request_committee::class, 'decision_to_form_committees'])
+    ->name('request_committee.decision_to_form_committees');
+
+
+
+
+
+
+//********************************************************************************************************************************* */
 
 // عرض صفحة تشكيل اعضاء اللجان
 Route::get('/request_committee/committee_members', [App\Http\Controllers\C_request_committee::class, 'committee_members'])
     ->name('request_committee.committeemembers');
 
-// صفحة لعرض جميع اللجان المشاركة فيها الادارة
-Route::get('/request_committee/decision to form committees at the relevant departments', [App\Http\Controllers\C_request_committee::class, 'decision_to_form_committees'])
-    ->name('request_committee.decision_to_form_committees');
 //صفحة لعرض التقرير النهائي لبيانات اللجان
 Route::get('/request_committee/final report for the adoption of the committees data', [App\Http\Controllers\C_request_committee::class, 'final_report_for_the_adoption'])
     ->name('request_committee.final_report_for_the_adoption');

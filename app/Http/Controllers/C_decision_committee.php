@@ -134,10 +134,28 @@ class C_decision_committee extends Controller
     }
 
     //حذف الادارة المعنية
-    public function delete_request(Request $request)
-    {
+    // public function delete_request(Request $request)
+    // {
+    //     $sql = 'begin BADER.delete_department(:IDreq)';
+    //     return DB::transaction(function ($conn) use ($sql, $id) {
+    //         $pdo = $conn->getPdo();
+    //         $stmt = $pdo->prepare();
+    //         $stmt->bindParam(':IDreq', $IDreq, PDO::PARAM_INT);
+    //     });
 
+    //     if ($stmt)
+    //         return response()->json([
+    //             'status' => true,
+    //             'msg' => 'تم الحفظ بنجاح',
 
-    }
+    //         ]);
+
+    //     else
+    //         return response()->json([
+    //             'status' => false,
+    //             'msg' => 'فشل الحفظ برجاء المحاوله مجددا',
+    //         ]);
+    // }
+
 
 }

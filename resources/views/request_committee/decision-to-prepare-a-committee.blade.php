@@ -13,6 +13,7 @@
                     <!--begin::Form-->
                     <form action="" class="form mb-15" method="post" id="updatedformreq">
                         @csrf
+
                         <!--begin::Input group-->
                         <div class="row mb-5">
                             <!--begin::Col-->
@@ -93,7 +94,7 @@
                                 <!--end::Label-->
                                 <!--begin::Input-->
                                 <input type="text" class="form-control form-control-solid" placeholder=""
-                                    name="user_chaiman" />
+                                   value="{{$arr['NAME']}}" name="user_chaiman" />
                                 <!--end::Input-->
                             </div>
 
@@ -185,7 +186,8 @@
                                             <td scope="row">{{ $request_dep['NAME'] }}</td>
                                             <td scope="row">{{ $request_dep['NUMBER_EMPLOYEES'] }}</td>
                                             <td>
-                                                <a id="delete-dep" class="btn btn-danger">Danger</a>
+                                                {{-- dep_id="{{$request_dep -> ID}}" --}}
+                                                <a id="delete-dep" class="btn btn-danger">حذف</a>
                                             </td>
                                         </tr>
 
@@ -196,10 +198,11 @@
                                 <!--end::Input-->
                             </div>
 
+
                             <div class="col-md-3 fv-row" style="margin-top: 27px">
-                                @foreach ($request_dep as $request_dep)
-                                <button type="submit" dep_id="{{$request_dep -> ID}}" class="delete_btn btn btn-danger">موافق</button>
-                                @endforeach
+
+                                <button type="submit"  class="btn btn-primary">موافق</button>
+
                             </div>
 
 
@@ -285,7 +288,7 @@
 
         });
 
-
+        //حذف الادارة
         $(document).on('click', '.delete_btn', function (e) {
             e.preventDefault();
               var dep_id =  $(this).attr('updatedformreq');

@@ -111,19 +111,20 @@ class C_request_committee extends Controller
     }
 
 
+    //جدول تظهر عند الادارات المعنية
+    public function decision_to_form_committees()
+    {
+
+        return view('request_committee.decision-to-form-committees-at-the-relevant-departments');
+    }
+
+
+    //******************************************************************************** */
 
     public function committee_members()
     {
 
         return view('request_committee.committee-members');
-    }
-
-
-
-    public function decision_to_form_committees()
-    {
-
-        return view('request_committee.decision-to-form-committees-at-the-relevant-departments');
     }
 
     public function final_report_for_the_adoption()
