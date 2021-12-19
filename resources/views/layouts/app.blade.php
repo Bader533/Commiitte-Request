@@ -177,9 +177,6 @@
                                     <span class="menu-title">طلب تشكيل لجنة الشؤون الادارية</span>
                                 </a>
                             </div>
-
-
-
                         </div>
                         <!--end::Menu-->
                     </div>

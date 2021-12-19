@@ -200,8 +200,9 @@
 
 
                             <div class="col-md-3 fv-row" style="margin-top: 27px">
-
-                                <button type="submit"  class="btn btn-primary">موافق</button>
+                                @foreach ($request_dep as $value)
+                                    <button type="submit" dep_id="{{$value}}" class="delete_btn btn btn-danger">موافق</button>
+                                @endforeach
 
                             </div>
 
