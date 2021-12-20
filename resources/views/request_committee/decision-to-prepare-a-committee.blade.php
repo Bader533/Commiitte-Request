@@ -111,8 +111,8 @@
 
 
                                 <select name="department" class="form-control" id="">
+                                    <option selected value="0">اختر الادارة</option>
                                     @foreach ($dp as $dp)
-                                        <option value=""></option>
                                         <option value="{{ $dp['ID'] }}">{{ $dp['NAME'] }}</option>
                                     @endforeach
                                 </select>
