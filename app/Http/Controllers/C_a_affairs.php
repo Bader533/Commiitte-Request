@@ -97,7 +97,7 @@ class C_a_affairs extends Controller
     public function get_detials_req_affairs(Request $request)
     {
         $steps = new STEPS_TB();
-        $get_detials_req_affairs = $steps->get_detials_req_affairs(202);
+        $get_detials_req_affairs = $steps->get_detials_req_affairs($request->id_req);
 
         $NAME_STEPS = explode(',', $get_detials_req_affairs[0]['NAME_STEPS']);
         $STATUS_NAME = explode(',', $get_detials_req_affairs[0]['STATUS_NAME']);
