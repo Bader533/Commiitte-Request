@@ -84,7 +84,7 @@
                                 <!--begin::Input-->
                                 <input type="text" class="form-control form-control-solid" placeholder=""
                                     name="nature_committe" />
-                                    <small id="nature_committe_error" class="form-text text-danger"></small>
+                                <small id="nature_committe_error" class="form-text text-danger"></small>
                                 <!--end::Input-->
                             </div>
 
@@ -94,7 +94,7 @@
                                 <!--end::Label-->
                                 <!--begin::Input-->
                                 <input type="text" class="form-control form-control-solid" placeholder=""
-                                   value="{{$arr['NAME']}}" name="user_chaiman" />
+                                    value="{{ $arr['NAME'] }}" name="user_chaiman" />
                                 <!--end::Input-->
                             </div>
 
@@ -108,30 +108,37 @@
                                 <!--begin::Input-->
                                 {{-- <input type="text" class="form-control form-control-solid" placeholder="" name="" /> --}}
 
-                                @foreach ($dp as $dp)
 
-                                    <select name="department" class="form-control" id="">
+
+                                <select name="department" class="form-control" id="">
+                                    @foreach ($dp as $dp)
                                         <option value=""></option>
-                                        <option value="{{$dp['ID']}}">{{ $dp['NAME'] }}</option>
-                                    </select>
+                                        <option value="{{ $dp['ID'] }}">{{ $dp['NAME'] }}</option>
+                                    @endforeach
+                                </select>
 
-                                @endforeach
+
                                 <small id="department_error" class="form-text text-danger"></small>
 
 
                                 <!--end::Input-->
                             </div>
 
-                            <div class="col-md-6 fv-row">
+                            <div class="col-md-3 fv-row">
                                 <!--begin::Label-->
                                 <label class="required fs-5 fw-bold mb-2"> عدد الموظفين </label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
-                                <input type="number" class="form-control form-control-solid" placeholder=""
+                                <input type="number" class="form-control form-control-solid" id="empnum" placeholder=""
                                     name="numofemployee" />
-                                    <small id="numofemployee_error" class="form-text text-danger"></small>
+                                <small id="numofemployee_error" class="form-text text-danger"></small>
 
                                 <!--end::Input-->
+                            </div>
+                            {{-- اضافة القسم --}}
+                            <div class="col-md-3 fv-row">
+                                <button type="submit" name="action" value="add_department"
+                                    class="btn btn-primary">+</button>
                             </div>
 
                         </div>
@@ -160,7 +167,7 @@
 
                                 <textarea name="law" id="" class="form-control form-control-solid" cols="30"
                                     rows="10"></textarea>
-                                    <small id="law_error" class="form-text text-danger"></small>
+                                <small id="law_error" class="form-text text-danger"></small>
 
                                 <!--end::Input-->
                             </div>
@@ -170,7 +177,7 @@
                                 <label class="required fs-5 fw-bold mb-2"> الادارات المعنية </label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
-                                <table  class="table">
+                                <table class="table">
                                     <thead>
                                         <tr>
                                             <th scope="col">الادارة</th>
@@ -182,14 +189,14 @@
                                         @foreach ($request_dep as $request_dep)
 
 
-                                        <tr>
-                                            <td scope="row">{{ $request_dep['NAME'] }}</td>
-                                            <td scope="row">{{ $request_dep['NUMBER_EMPLOYEES'] }}</td>
-                                            <td>
-                                                {{-- dep_id="{{$request_dep -> ID}}" --}}
-                                                <a id="delete-dep" class="btn btn-danger">حذف</a>
-                                            </td>
-                                        </tr>
+                                            <tr>
+                                                <td scope="row">{{ $request_dep['NAME'] }}</td>
+                                                <td scope="row">{{ $request_dep['NUMBER_EMPLOYEES'] }}</td>
+                                                <td>
+                                                    {{-- dep_id="{{$request_dep -> ID}}" --}}
+                                                    <a id="delete-dep" class="btn btn-danger">حذف</a>
+                                                </td>
+                                            </tr>
 
                                         @endforeach
 
@@ -200,9 +207,9 @@
 
 
                             <div class="col-md-3 fv-row" style="margin-top: 27px">
-                                @foreach ($request_dep as $value)
-                                    <button type="submit" dep_id="{{$value}}" class="delete_btn btn btn-danger">موافق</button>
-                                @endforeach
+
+                                <button type="submit" id="update_req" name="action" value="update_request"
+                                    class="btn btn-primary">موافق</button>
 
                             </div>
 
@@ -239,7 +246,7 @@
 @push('script')
 
     <script>
-         $(document).on('click', '#update_req', function(e) {
+        $(document).on('click', '#update_req', function(e) {
             e.preventDefault();
 
 
@@ -272,7 +279,7 @@
                 error: function(data) {
 
                     var errors = data.responseJSON;
-                    $.each(errors.message, function (key, val) {
+                    $.each(errors.message, function(key, val) {
                         $("#" + key + "_error").text(val[0]);
                     });
                     Swal.fire({
@@ -289,51 +296,19 @@
 
         });
 
-        //حذف الادارة
-        $(document).on('click', '.delete_btn', function (e) {
-            e.preventDefault();
-              var dep_id =  $(this).attr('updatedformreq');
-            $.ajax({
-                type: 'post',
-                 url: "{{route('request_committee.delete_request')}}",
-                data: {
-                    '_token': "{{csrf_token()}}",
-                    'id' :dep_id
-                },
-                success: function(data) {
-                    if (data.status == true) {
-                        Swal.fire({
-                            position: 'top-right',
-                            icon: 'success',
-                            title: 'تمت العملية بنجاح',
-                            showConfirmButton: false,
-                            timer: 1500
-
-                        })
-                    }
-                },
-                error: function(data) {
-
-                    // var errors = data.responseJSON;
-                    // $.each(errors.message, function (key, val) {
-                    //     $("#" + key + "_error").text(val[0]);
-                    // });
-                    Swal.fire({
-                        position: 'top-right',
-                        icon: 'error',
-                        title: 'فشلت العملية',
-                        showConfirmButton: false,
-                        timer: 1500
-
-                    })
-
-                }
+        $(document).on('change', )
 
 
-            });
-        });
 
+        // $(document).ready(function() {
+        //     $("table").hide();
 
+        //     $("#add_dep").click(function() {
+        //         $("table").show();
+        //         //$('table').data('info', '222');
+
+        //     });
+        // });
     </script>
 
 @endpush

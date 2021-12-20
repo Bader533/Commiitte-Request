@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Input;
 use PDO;
 use phpDocumentor\Reflection\Types\This;
 use PhpParser\Node\Stmt;
@@ -81,6 +82,11 @@ class C_decision_committee extends Controller
     public function update_request(REQUEST $request)
     {
 
+        if($request->input('action')=='add_department')
+        {
+            dd('action done');
+        }
+
         $validator = Validator::make($request->all(), [
             'department' => 'required',
             'numofemployee' => 'required',
@@ -133,6 +139,29 @@ class C_decision_committee extends Controller
             ]);
     }
 
+    // public function add_dep(REQUEST $request)
+    // {
+
+    //     if($request->input('action') == "add_department")
+    //     {
+    //         dd('add sucess');
+    //     }
+
+    //     session()->forget('TrashItems');
+    //     $items = session()->get('TrashItems');
+    //     if($items==null)
+    //     {
+    //         $item []= array("department" => $request->input('department'),
+    //                         "empnum" => $request->input('numofemployee'));
+
+    //     }
+    //     else
+    //     {
+
+    //     }
+
+    // }
+
     //حذف الادارة المعنية
     // public function delete_request(Request $request)
     // {
@@ -156,6 +185,7 @@ class C_decision_committee extends Controller
     //             'msg' => 'فشل الحفظ برجاء المحاوله مجددا',
     //         ]);
     // }
+
 
 
 }

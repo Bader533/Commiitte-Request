@@ -68,9 +68,10 @@ Route::get('/request_committee/decision-to-prepare-a-committee/{id}', [C_decisio
 Route::post('/request_committee/update-decision-to-prepare-a-committee', [C_decision_committee::class, 'update_request'])
     ->name('request_committee.update_request');
 
+
 // حذف الادارة المعنية
-Route::post('/request_committee/delete-decision-to-prepare-a-committee', [C_decision_committee::class, 'delete_request'])
-    ->name('request_committee.delete_request');
+// Route::post('/request_committee/delete-decision-to-prepare-a-committee', [C_decision_committee::class, 'delete_request'])
+//     ->name('request_committee.delete_request');
 
 /********************************************************** الشوون الادارية تشكليل اللجنة نهاية ************************************************ */
 
