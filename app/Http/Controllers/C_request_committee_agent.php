@@ -82,11 +82,12 @@ class C_request_committee_agent extends Controller
     //عرض جميع الطلبات للوكيل
     public function GetDataTable(Request $request)
     {
-        $draw = $request->get('draw');
-      //  $start = $request->get('start');//0
-      $start=0;
-      //  $length = $request->get('length');//10
-      $length=10;
+        $draw = $request->get('draw');//draw
+        $start = $request->get('start');//0
+     // $start=1;
+        $length = $request->get('length');//10
+        $PageIndex=$start/$length;
+     // $length=10;
         $order = $request->get('order');
         $v_search = $request->search['value'];
         $column = array("id", "name", "updated_at");
@@ -101,7 +102,7 @@ class C_request_committee_agent extends Controller
 
          //$dd->Count();
 
-        $get_req_agent = $REQUEST_COMMITTEE_TB->get_req_agent($number_req, $status, $date_start, $date_end,(int)$start,(int)$length); //$dd->where('name', 'like', "%{$v_search}%")->where('isdelete',0)->skip($start)->take($length)->orderBy($column[$order[0]['column']],$dir)->get();
+        $get_req_agent = $REQUEST_COMMITTEE_TB->get_req_agent($number_req, $status, $date_start, $date_end,(int)$PageIndex,(int)$length); //$dd->where('name', 'like', "%{$v_search}%")->where('isdelete',0)->skip($start)->take($length)->orderBy($column[$order[0]['column']],$dir)->get();
         //$data_res = $d->skip($start)->take($length)->get();
        // dd($get_req_agent['result']);
         $d_count = $get_req_agent['p_count'];

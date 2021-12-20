@@ -16,8 +16,8 @@ class REQUEST_COMMITTEE_TB extends Model
   {
       /* id_rq NUMBER,date_in DATE,date_to DATE,status NUMBER,req out SYS_REFCURSOR,
       p_count out NUMBER,PageSize NUMBER DEFAULT 10,PageIndex  NUMBER DEFAULT 0 */
-      $PageSize =10;
-      $PageIndex=0;
+     // $PageSize =10;
+     // $PageIndex=0;
 
       $sql = "begin
         HANI.Get_search_req_agent(:id_rq,:date_in,:date_to,:status,:req,:p_count,:PageSize,:PageIndex);
