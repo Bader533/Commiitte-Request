@@ -21,6 +21,7 @@ class C_a_affairs extends Controller
         $draw = $request->get('draw');
         $start = $request->get('start');
         $length = $request->get('length');
+        $PageIndex=$start/$length;
         $order = $request->get('order');
         $v_search = $request->search['value'];
         $column = array("id", "name", "updated_at");
@@ -31,16 +32,16 @@ class C_a_affairs extends Controller
         $date_start = $request->get('date_start');
         $date_end = $request->get('date_end');
 
-        $dd = new REQUEST_COMMITTEE_TB();
+        $REQUEST_COMMITTEE_TB= new REQUEST_COMMITTEE_TB();
 
-        $d_count = 10; //$dd->Count();
-        $pageNumber = 1;
-        $d = $dd->get_req_affairs($pageNumber, $number_req, $status, $date_start, $date_end); //$dd->where('name', 'like', "%{$v_search}%")->where('isdelete',0)->skip($start)->take($length)->orderBy($column[$order[0]['column']],$dir)->get();
+
+        $get_a_affairs= $REQUEST_COMMITTEE_TB->get_req_affairs($number_req, $status, $date_start, $date_end,(int)$PageIndex,(int)$length); //$dd->where('name', 'like', "%{$v_search}%")->where('isdelete',0)->skip($start)->take($length)->orderBy($column[$order[0]['column']],$dir)->get();
         //$data_res = $d->skip($start)->take($length)->get();
         $data = [];
+        $d_count = $get_a_affairs['p_count'];
         //dd($d);
 
-        foreach ($d as $index => $res) {
+        foreach ($get_a_affairs['result'] as $index => $res) {
          $url = route('request_committee.get_request_committee',['id' =>$res['ID']]);
             $action =   '<a href="'.$url.'" id="' . $res['ID'] . '"
             class=" bg-primary text-light rounded border-0">اعداد قرار تشكيل لجنة</a>';

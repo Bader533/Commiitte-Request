@@ -48,13 +48,13 @@ class REQUEST_COMMITTEE_TB extends Model
       });
   }
 //كل الطلبات  اللجان عند الشؤون الادارية مع البحث
-public function get_req_affairs($pageNumber,$id_rq,$status,$date_in,$date_to)
+public function get_req_affairs($id_rq,$status,$date_in,$date_to,$PageIndex,$PageSize)
 {
 
     $sql = "begin
-      HANI.Get_search_req_a_affairs(:pageNumber,:id_rq,:date_in,:date_to,:status,:req);
+      HANI.Get_search_req_a_affairs(:id_rq,:date_in,:date_to,:status,:req,:p_count,:PageSize,:PageIndex);
     end;";
-    return DB::transaction(function ($conn) use ($sql,$pageNumber,$id_rq,$status,$date_in,$date_to) {
+    return DB::transaction(function ($conn) use ($sql,$id_rq,$status,$date_in,$date_to,$PageIndex,$PageSize) {
         $pdo = $conn->getPdo();
         $stmt = $pdo->prepare($sql);
       //  $pageNumber =1;
@@ -62,14 +62,18 @@ public function get_req_affairs($pageNumber,$id_rq,$status,$date_in,$date_to)
         $stmt->bindParam(':date_in',$date_in, PDO::PARAM_NULL);
         $stmt->bindParam(':date_to',$date_to, PDO::PARAM_NULL);
         $stmt->bindParam(':status',$status, PDO::PARAM_NULL);
-        $stmt->bindParam(':pageNumber',$pageNumber, PDO::PARAM_NULL);
         $stmt->bindParam(':req', $req, PDO::PARAM_STMT);
+        $stmt->bindParam(':p_count',$p_count, PDO::PARAM_NULL,12);
+        $stmt->bindParam(':PageSize',$PageSize, PDO::PARAM_INT);
+        $stmt->bindParam(':PageIndex',$PageIndex, PDO::PARAM_INT);
         $stmt->execute();
         oci_execute($req, OCI_DEFAULT);
         oci_fetch_all($req, $array, 0, -1, OCI_FETCHSTATEMENT_BY_ROW + OCI_ASSOC);
         oci_free_cursor($req);
 
-        return $array;
+        return ['result'=>$array,
+        'p_count'=>$p_count,
+       ];
     });
 }
 
