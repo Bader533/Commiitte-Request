@@ -37,7 +37,7 @@
                                 <!--end::Label-->
                                 <!--begin::Select-->
                                 <select  name="status" class="form-control form-control-solid" id="status">
-                                    <option value=""></option>
+                                    <option selected value="">اختر الحالة</option>
                                     <option value="1">موافقة</option>
                                     <option value="2">رفض</option>
                                     <option value="3">قيد التدقيق</option>

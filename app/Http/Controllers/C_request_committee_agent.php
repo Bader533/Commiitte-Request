@@ -120,8 +120,7 @@ class C_request_committee_agent extends Controller
             <button id=""
             class="bg-warning text-light rounded border-0">تم الاجراء</button>';
             }
-            $data[] =
-                [
+            $data[] =[
                     $index + 1,
                     $res['ID'],
                     $res['REASON_COMMITTEE'],
