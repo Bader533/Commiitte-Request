@@ -556,7 +556,6 @@
     <script src="{{ asset('assets/js/custom/modals/upgrade-plan.js') }}"></script>
     <script src="{{ asset('assets/js/app.js') }}"></script>
     <script src="{{ asset('assets/js/appjs.js') }}"></script>
-    <script src="{{ asset('assets/js/js.js') }}"></script>
     <!--end::Page Custom Javascript-->
     <!--end::Javascript-->
     <script>

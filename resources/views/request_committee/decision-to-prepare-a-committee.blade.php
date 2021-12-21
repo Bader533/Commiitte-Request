@@ -11,8 +11,12 @@
                 <!--begin::Content-->
                 <div class="flex-lg-row-fluid me-10 me-lg-20">
                     <!--begin::Form-->
-                    <form action="" class="form mb-15" method="post" id="updatedformreq">
-                        @csrf
+                    @csrf
+                    {{-- <form action="" class="form mb-15" method="post" id="updatedformreq"> --}}
+                        <form id="AddItemFormNew" method="post" data-toggle="ajaxformmultipart" data_acallback="rebind_dn" autocomplete="off">
+
+                            {{-- "{{ route('blog.by.slug', ['slug' => 'someslug']) }} --}}
+                            {{-- {{ route('project.update',$project->id) --}}
 
                         <!--begin::Input group-->
                         <div class="row mb-5">
@@ -137,7 +141,7 @@
                             </div>
                             {{-- اضافة القسم --}}
                             <div class="col-md-3 fv-row">
-                                <button type="submit" name="action" value="add_department"
+                                <button type="submit" name="_btn" id="add_dep" value="add_department"
                                     class="btn btn-primary">+</button>
                             </div>
 
@@ -208,7 +212,7 @@
 
                             <div class="col-md-3 fv-row" style="margin-top: 27px">
 
-                                <button type="submit" id="update_req" name="action" value="update_request"
+                                <button type="submit" id="update_req" name="_btn" value="update_request"
                                     class="btn btn-primary">موافق</button>
 
                             </div>
@@ -246,57 +250,101 @@
 @push('script')
 
     <script>
-        $(document).on('click', '#update_req', function(e) {
-            e.preventDefault();
 
 
-            $('#nature_committe_error').text('');
-            $('#department_error').text('');
-            $('#numofemployee_error').text('');
-            $('#law_error').text('');
+        // $(document).on('click', '#update_req', function(e) {
+        //     e.preventDefault();
 
-            var formData = new FormData($('#updatedformreq')[0]);
-            $.ajax({
-                type: 'post',
-                enctype: 'multipart/form-data',
-                url: "{{ route('request_committee.update_request') }}",
-                data: formData,
-                processData: false,
-                contentType: false,
-                cache: false,
-                success: function(data) {
-                    if (data.status == true) {
-                        Swal.fire({
-                            position: 'top-right',
-                            icon: 'success',
-                            title: 'تمت العملية بنجاح',
-                            showConfirmButton: false,
-                            timer: 1500
 
-                        })
-                    }
-                },
-                error: function(data) {
+        //     $('#nature_committe_error').text('');
+        //     $('#department_error').text('');
+        //     $('#numofemployee_error').text('');
+        //     $('#law_error').text('');
 
-                    var errors = data.responseJSON;
-                    $.each(errors.message, function(key, val) {
-                        $("#" + key + "_error").text(val[0]);
-                    });
-                    Swal.fire({
-                        position: 'top-right',
-                        icon: 'error',
-                        title: 'فشلت العملية',
-                        showConfirmButton: false,
-                        timer: 1500
+        //     var formData = new FormData($('#updatedformreq')[0]);
+        //     $.ajax({
+        //         type: 'post',
+        //         enctype: 'multipart/form-data',
+        //         url: "{{ route('request_committee.update_request') }}",
+        //         data: formData,
+        //         processData: false,
+        //         contentType: false,
+        //         cache: false,
+        //         success: function(data) {
+        //             if (data.status == true) {
+        //                 Swal.fire({
+        //                     position: 'top-right',
+        //                     icon: 'success',
+        //                     title: 'تمت العملية بنجاح',
+        //                     showConfirmButton: false,
+        //                     timer: 1500
 
-                    })
+        //                 })
+        //             }
+        //         },
+        //         error: function(data) {
 
-                }
-            });
+        //             var errors = data.responseJSON;
+        //             $.each(errors.message, function(key, val) {
+        //                 $("#" + key + "_error").text(val[0]);
+        //             });
+        //             Swal.fire({
+        //                 position: 'top-right',
+        //                 icon: 'error',
+        //                 title: 'فشلت العملية',
+        //                 showConfirmButton: false,
+        //                 timer: 1500
 
-        });
+        //             })
 
-        $(document).on('change', )
+        //         }
+        //     });
+
+        // });
+
+        // $(document).on('click', '#add_dep', function(e) {
+        //     e.preventDefault();
+
+        //     var formData = new FormData($('#updatedformreq')[0]);
+        //     $.ajax({
+        //         type: 'post',
+        //         enctype: 'multipart/form-data',
+        //         url: "{{ route('request_committee.update_request') }}",
+        //         data: formData,
+        //         processData: false,
+        //         contentType: false,
+        //         cache: false,
+        //         success: function(data) {
+        //             if (data.status == true) {
+        //                 Swal.fire({
+        //                     position: 'top-right',
+        //                     icon: 'success',
+        //                     title: 'تمت العملية بنجاح',
+        //                     showConfirmButton: false,
+        //                     timer: 1500
+
+        //                 })
+        //             }
+        //         },
+        //         error: function(data) {
+
+        //             // var errors = data.responseJSON;
+        //             // $.each(errors.message, function(key, val) {
+        //             //     $("#" + key + "_error").text(val[0]);
+        //             // });
+        //             Swal.fire({
+        //                 position: 'top-right',
+        //                 icon: 'error',
+        //                 title: 'فشلت العملية',
+        //                 showConfirmButton: false,
+        //                 timer: 1500
+
+        //             })
+
+        //         }
+        //     });
+
+        // });
 
 
 

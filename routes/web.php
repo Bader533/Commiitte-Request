@@ -65,7 +65,7 @@ Route::get('/request_committee/decision-to-prepare-a-committee/{id}', [C_decisio
     ->name('request_committee.get_request_committee');
 
 //تعديل اللجنة
-Route::post('/request_committee/update-decision-to-prepare-a-committee', [C_decision_committee::class, 'update_request'])
+Route::post('/request_committee/decision-to-prepare-a-committee', [C_decision_committee::class, 'update_request'])
     ->name('request_committee.update_request');
 
 

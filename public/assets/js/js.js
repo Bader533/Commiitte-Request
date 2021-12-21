@@ -755,6 +755,7 @@ var Util = function () {
 
             $(document).on('submit', '[data-toggle="ajaxformmultipart"]', function (e) {
                 e.preventDefault();
+                alert(1)
                 //if()
                 //log(e);
                 var form = $(this);
