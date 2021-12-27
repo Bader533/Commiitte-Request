@@ -88,13 +88,20 @@ Route::get('/request_committee/affairs/get_detials_req_affairs', [App\Http\Contr
 
 /******************************************************نهاية الصفحة******************************************************** */
 
+/*************************************************ادارة معينة********************************/// */
 // صفحة لعرض جميع اللجان المشاركة فيها الادارة
-Route::get('/request_committee/decision to form committees at the relevant departments', [App\Http\Controllers\C_request_committee::class, 'decision_to_form_committees'])
-    ->name('request_committee.decision_to_form_committees');
+Route::get('/request_committee/department/index', [App\Http\Controllers\C_request_committee_dep::class,'index'])
+       ->name('request_committee.department.index');
+//عرض الطلبات في الجدول
+Route::get('/request_committee/department/GetDataTable', [App\Http\Controllers\C_request_committee_dep::class, 'GetDataTable'])
+    ->name('request_committee.department.GetDataTable');
+//عرض التفاصيل
+Route::get('/request_committee/department/get_detials_req_dep', [App\Http\Controllers\C_request_committee_dep::class, 'get_detials_req_dep'])
+    ->name('request_committee.department.get_detials_req_dep');
 
 
 
-
+/**************************************************نهاية الصفحة ادارة معينة******************************** */
 
 
 //********************************************************************************************************************************* */
@@ -121,6 +128,6 @@ Route::get('/request_committee/notification', [App\Http\Controllers\C_request_co
 
 
 ///test
-/*Route::get('/test', function () {
-
-});*/
+Route::get('/', function () {
+return 1;
+});

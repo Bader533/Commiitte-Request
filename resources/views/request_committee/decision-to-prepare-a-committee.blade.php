@@ -11,10 +11,10 @@
                 <!--begin::Content-->
                 <div class="flex-lg-row-fluid me-10 me-lg-20">
                     <!--begin::Form-->
-                    @csrf
-                    {{-- <form action="" class="form mb-15" method="post" id="updatedformreq"> --}}
-                        <form id="AddItemFormNew" method="post" data-toggle="ajaxformmultipart" data_acallback="rebind_dn" autocomplete="off">
 
+                    {{-- <form action="" class="form mb-15" method="post" id="updatedformreq"> --}}
+                        <form id="AddItemFormNew" action="{{route('request_committee.update_request')}}" method="post" data-toggle="ajaxformmultipart" data_acallback="rebind_dn" autocomplete="off">
+                            @csrf
                             {{-- "{{ route('blog.by.slug', ['slug' => 'someslug']) }} --}}
                             {{-- {{ route('project.update',$project->id) --}}
 
@@ -245,116 +245,158 @@
 
 @endsection
 
-@push('script')
+@section('js')
+<script>
 
-    <script>
+$(document).on('submit', '[data-toggle="ajaxformmultipart"]', function (e) {
+    e.preventDefault();
+    alert(1)
+    //if()
+    //log(e);
+    var form = $(this);
+    var formData = new FormData();
+    form.find('.custom-summary').html('');
 
+    var id = $(this).attr('id');
+    var action = $(this).attr('action');
+    var method = $(this).attr('method');
+    var extraVals = $(this).data('extravals') || '';
+    var acallback = $(this).attr('data_acallback') || '';
+    var bcallback = $(this).data('bcallback') || '';
+    var realvals = extraVals.split(',');
+    //var serialzeArr = [];
+    var serialized = '';
+    var lastparam = $(this).data('lastparam') || false;
 
-        // $(document).on('click', '#update_req', function(e) {
-        //     e.preventDefault();
+    $.each(realvals, function (i, e) {
+        if (lastparam) {
 
+            if ($(e).is('div') || $(e).is('form')) {
+                $.each($(e).find('input, select, checkbox, textarea, file'), function (j, y) {
+                    var p = $.param($(y));
+                    var temp = p.slice(p.lastIndexOf('.') + 1, p.length);
+                    var x = temp.split('=');
+                    formData.append(x[0], x[1]);
+                    //serialzeArr.push(p.slice(p.lastIndexOf('.') + 1, p.length));
+                })
+            } else {
+                var p = $.param($(e));
+                var temp = p.slice(p.lastIndexOf('.') + 1, p.length);
+                var x = temp.split('=');
+                formData.append(x[0], x[1]);
+            }
 
-        //     $('#nature_committe_error').text('');
-        //     $('#department_error').text('');
-        //     $('#numofemployee_error').text('');
-        //     $('#law_error').text('');
+        } else {
+            if ($(e).is('div') || $(e).is('form')) {
+                $.each($(e).find('input, select, checkbox, textarea, file'), function (j, y) {
+                    var p = $.param($(y));
+                    var temp = p.slice(p.lastIndexOf('.') + 1, p.length);
+                    var x = temp.split('=');
+                    formData.append(x[0], x[1]);
+                })
+            }
+            else {
+                var p = $.param($(e));
+                var temp = p.slice(p.lastIndexOf('.') + 1, p.length);
+                var x = temp.split('=');
+                formData.append(x[0], x[1]);
+            }
 
-        //     var formData = new FormData($('#updatedformreq')[0]);
-        //     $.ajax({
-        //         type: 'post',
-        //         enctype: 'multipart/form-data',
-        //         url: "{{ route('request_committee.update_request') }}",
-        //         data: formData,
-        //         processData: false,
-        //         contentType: false,
-        //         cache: false,
-        //         success: function(data) {
-        //             if (data.status == true) {
-        //                 Swal.fire({
-        //                     position: 'top-right',
-        //                     icon: 'success',
-        //                     title: 'تمت العملية بنجاح',
-        //                     showConfirmButton: false,
-        //                     timer: 1500
+        }
 
-        //                 })
-        //             }
-        //         },
-        //         error: function(data) {
+    });
 
-        //             var errors = data.responseJSON;
-        //             $.each(errors.message, function(key, val) {
-        //                 $("#" + key + "_error").text(val[0]);
-        //             });
-        //             Swal.fire({
-        //                 position: 'top-right',
-        //                 icon: 'error',
-        //                 title: 'فشلت العملية',
-        //                 showConfirmButton: false,
-        //                 timer: 1500
+    bcb = eval(bcallback)
+    if (typeof bcb === 'function') {
+        var ret = bcb(formData, form);
+        if (ret == false) {
+            return false;
+        }
+    }
+    realForm = new FormData(this);
+    realForm.append('_token', $('input[name="_token"]').val());
+    formData.forEach(function (value, key) {
+        realForm.append(key, value);
+    });
+    try {
+        App.blockUI({
+            target: '#' + id
+        })
+       $.ajax({
+        type: method,
+        url: action,
+        data: realForm,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (data) {
 
-        //             })
-
-        //         }
-        //     });
-
-        // });
-
-        // $(document).on('click', '#add_dep', function(e) {
-        //     e.preventDefault();
-
-        //     var formData = new FormData($('#updatedformreq')[0]);
-        //     $.ajax({
-        //         type: 'post',
-        //         enctype: 'multipart/form-data',
-        //         url: "{{ route('request_committee.update_request') }}",
-        //         data: formData,
-        //         processData: false,
-        //         contentType: false,
-        //         cache: false,
-        //         success: function(data) {
-        //             if (data.status == true) {
-        //                 Swal.fire({
-        //                     position: 'top-right',
-        //                     icon: 'success',
-        //                     title: 'تمت العملية بنجاح',
-        //                     showConfirmButton: false,
-        //                     timer: 1500
-
-        //                 })
-        //             }
-        //         },
-        //         error: function(data) {
-
-        //             // var errors = data.responseJSON;
-        //             // $.each(errors.message, function(key, val) {
-        //             //     $("#" + key + "_error").text(val[0]);
-        //             // });
-        //             Swal.fire({
-        //                 position: 'top-right',
-        //                 icon: 'error',
-        //                 title: 'فشلت العملية',
-        //                 showConfirmButton: false,
-        //                 timer: 1500
-
-        //             })
-
-        //         }
-        //     });
-
-        // });
+            if (data.hasOwnProperty("validationError")) {
 
 
+                $.each(data.validationMessage, function (index, value) {
+                    form.find('input[name="'+index+'"]').addClass('is-invalid');
+                    });
 
-        // $(document).ready(function() {
-        //     $("table").hide();
 
-        //     $("#add_dep").click(function() {
-        //         $("table").show();
-        //         //$('table').data('info', '222');
+                    form.goto('-80', 1000);
+                    return false;
+                //form.find('.custom-summary').html('');
+                //form.find('.custom-summary').html(data.validationMessage);
+                //form.find('.custom-summary').goto('-30', 2000);
+            }
+            if (data.hasOwnProperty("status") && data.hasOwnProperty("message")) {
+                m.toast(data);
 
-        //     });
-        // });
-    </script>
+                // this a custom code for item add
+                if (data.status > 0) {
+                    $('[name="_returnid"]').val(data.status);
+                    var formID = $(form).attr('id');
+                    if (formID == 'AddItemForm') {
+                        if (!$(form).hasClass('stay'))
+                            $(form).find('[data-toggle="clear_form"]').trigger('click');
+                        $(form).find('[data-toggle="button_form"]').trigger('click');
+                    }
+                }
+                else
+                    return false;
+            }
 
-@endpush
+            //loadSideRec(); // refresh side menu
+
+            cb = eval(acallback);
+            if (typeof cb === 'function') {
+                cb(data, form);
+            }
+        },
+        error: function (data) {
+            console.log("error");
+            console.log(data);
+        },
+        complete: function () {
+            App.unblockUI(
+                '#' + id
+            )
+
+            try {
+                var chkfrm = eval('checkForm');
+                if (typeof chkfrm === 'function') {
+                    chkfrm();
+                }
+            } catch (e) {
+
+            }
+        }
+    });
+
+    } catch (err) {
+        App.unblockUI(
+            '#' + id
+        )
+    } finally {
+
+    }
+    return false;
+});
+</script>
+@endsection
