@@ -121,7 +121,6 @@
                                     @endforeach
                                 </select>
 
-
                                 <small id="department_error" class="form-text text-danger"></small>
 
                                 <!--end::Input-->
