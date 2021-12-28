@@ -90,8 +90,8 @@ class C_request_committee_dep extends Controller
          $steps = new STEPS_TB();
          $get_detials_req_dep = $steps->get_detials_req_dep($request->id_req);
 
-         $NAME_STEPS = explode(',', $get_detials_req_dep[0]['NAME_STEPS']);
-         $STATUS_NAME = explode(',', $get_detials_req_dep[0]['STATUS_NAME']);
+         $NAME_STEPS = explode(',', $get_detials_req_dep['steps'][0]['NAME_STEPS']);
+         $STATUS_NAME = explode(',', $get_detials_req_dep['steps'][0]['STATUS_NAME']);
          return [
              'code' => 200,
              'result' => $get_detials_req_dep,

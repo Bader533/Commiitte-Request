@@ -48,7 +48,7 @@ public function get_detials_req_affairs($id_req)
 public function get_detials_req_dep($id_req)
 {
     $sql = "begin
-    HANI.Get_committee_details_dep(:id_rq,:req);
+    HANI.Get_committee_details_dep(:id_rq,:req,:rol_members);
           end;";
      $id_rq = $id_req;
     return DB::transaction(function ($conn) use ($sql,$id_rq) {
@@ -57,12 +57,21 @@ public function get_detials_req_dep($id_req)
         $stmt = $pdo->prepare($sql);
         $stmt->bindParam(':id_rq', $id_rq, PDO::PARAM_INT);
         $stmt->bindParam(':req', $req, PDO::PARAM_STMT);
+        $stmt->bindParam(':rol_members', $rol_members, PDO::PARAM_STMT);
+
         $stmt->execute();
         oci_execute($req, OCI_DEFAULT);
+        oci_execute($rol_members, OCI_DEFAULT);
         oci_fetch_all($req, $array, 0, -1, OCI_FETCHSTATEMENT_BY_ROW + OCI_ASSOC);
-        oci_free_cursor($req);
+        oci_fetch_all($rol_members, $array2, 0, -1, OCI_FETCHSTATEMENT_BY_ROW + OCI_ASSOC);
 
-        return $array;
+        oci_free_cursor($req);
+        oci_free_cursor($rol_members);
+        return[
+            'steps'=> $array,
+            'rol_members'=>$array2
+        ]
+       ;
     });
 }
 

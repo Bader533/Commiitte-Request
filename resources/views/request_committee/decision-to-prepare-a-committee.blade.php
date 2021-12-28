@@ -114,7 +114,6 @@
                                 {{-- <input type="text" class="form-control form-control-solid" placeholder="" name="" /> --}}
 
 
-
                                 <select name="department" class="form-control" id="">
                                     @foreach ($dp as $dp)
                                         <option value=""></option>
@@ -124,7 +123,6 @@
 
 
                                 <small id="department_error" class="form-text text-danger"></small>
-
 
                                 <!--end::Input-->
                             </div>

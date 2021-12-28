@@ -96,6 +96,7 @@
                                 </tbody>
                             </table>
 
+
                         </div>
                     </div>
 
@@ -149,6 +150,23 @@
 
                                 </tbody>
                             </table>
+                            <div class="row mb-5">
+                                <table class="table table-row-bordered" >
+                                    <thead>
+                                        <tr class="text-right">
+                                            <th scope="col">#</th>
+                                            <th scope="col">اسم العضو</th>
+                                            <th scope="col">المسمى</th>
+                                            <th scope="col">دورة في اللجنة</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="rol_members">
+
+
+
+                                    </tbody>
+                                </table>
+                            </div>
                             <!--end::List-->
                         </div>
                         <!--end::Users-->
@@ -260,38 +278,54 @@
                             $('#steps_req').html('');
 
                             if (data.code == 200) {
-                                //  alert(data.result[0]['NUMBER_COMMITTEE_MEMBER']);
-                                if (data.result[0] != null) {
+                                  //alert(data.result.steps[0]['NUMBER_COMMITTEE_MEMBER']);
+                                if (data.result.steps[0] != null) {
                                     $('#steps_req').html(`
                                     <tr style="font-size: 16px;">
                                         <th scope="row">صاحب الطلب</th>
-                                        <th id="USERS_NAME" scope="row">`+data.result[0]['USERS_NAME']+`</th>
+                                        <th id="USERS_NAME" scope="row">`+data.result.steps[0]['USERS_NAME']+`</th>
                                     </tr>
                                     <tr>
                                         <th scope="row"> عدد اعضاء اللجنة</th>
-                                        <th id="NUMBER_COMMITTEE_MEMBER" scope="row"> `+data.result[0]['NUMBER_COMMITTEE_MEMBER']+` </th>
+                                        <th id="NUMBER_COMMITTEE_MEMBER" scope="row"> `+data.result.steps[0]['NUMBER_COMMITTEE_MEMBER']+` </th>
                                     </tr>
                                     <tr>
                                         <th scope="row"> تاريخ البدء</th>
-                                        <th id="START_DATE" scope="row">`+data.result[0]['START_DATE']+`</th>
+                                        <th id="START_DATE" scope="row">`+data.result.steps[0]['START_DATE']+`</th>
                                     </tr>
                                     <tr>
                                         <th scope="row"> تاريخ الانتهاء</th>
-                                        <th id="START_DATE" scope="row">`+data.result[0]['END_DATE']+`</th>
+                                        <th id="START_DATE" scope="row">`+data.result.steps[0]['END_DATE']+`</th>
                                     </tr>
                                     <tr>
                                         <th scope="row"> سبب اللجنة</th>
-                                        <th id="REASON_COMMITTEE" scope="row">`+data.result[0]['REASON_COMMITTEE']+`</th>
+                                        <th id="REASON_COMMITTEE" scope="row">`+data.result.steps[0]['REASON_COMMITTEE']+`</th>
                                     </tr>
                                     <tr>
                                         <th scope="row"> اللوائح و القوانين</th>
-                                        <th id="START_DATE" scope="row">`+data.result[0]['LAW']+`</th>
+                                        <th id="START_DATE" scope="row">`+data.result.steps[0]['LAW']+`</th>
                                     </tr>
                                     <tr>
                                         <th scope="row"> طبيعة اللجنة</th>
-                                        <th id="START_DATE" scope="row">`+data.result[0]['NATURE_COMMITTEE']+`</th>
+                                        <th id="START_DATE" scope="row">`+data.result.steps[0]['NATURE_COMMITTEE']+`</th>
                                     </tr>
                                     `);
+                                      data.result.rol_members.forEach((element,key) => {
+
+                                     // alert(element.NAME);
+                                      $('#rol_members').append(`
+                                                <tr>
+                                                    <th scope="row">`+(key+1)+`</th>
+                                                    <th scope="row">`+element.NAME+`</th>
+                                                    <th scope="row"></th>
+                                                    <th scope="row">`+element.TEXT+`</th>
+
+                                                </tr>
+                                          `);
+
+                                      });
+
+
 
                                     data.NAME_STEPS.forEach((element,key) => {
 
@@ -332,7 +366,6 @@
 
                     })
                     .done(function(msg) {
-
                         //$("#home_message_container").html(msg);
                     });
             }
