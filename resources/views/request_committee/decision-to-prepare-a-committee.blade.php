@@ -115,8 +115,8 @@
 
 
                                 <select name="department" class="form-control" id="">
+                                    <option value="">--</option>
                                     @foreach ($dp as $dp)
-                                        <option value=""></option>
                                         <option value="{{ $dp['ID'] }}">{{ $dp['NAME'] }}</option>
                                     @endforeach
                                 </select>
