@@ -1,13 +1,7 @@
 @extends('layouts.app')
 
-@section('css')
-
-
-
-@endsection
 
 @section('content')
-
     <div class="card">
         <div class="card-body p-lg-17">
 
@@ -36,8 +30,8 @@
                                 <label class="required fs-5 fw-bold mb-2"> الحالة</label>
                                 <!--end::Label-->
                                 <!--begin::Select-->
-                                <select  name="status" class="form-control form-control-solid" id="status">
-                                    <option selected value="">اختر الحالة</option>
+                                <select name="status" class="form-control form-control-solid" id="status">
+                                    <option value=""></option>
                                     <option value="1">موافقة</option>
                                     <option value="2">رفض</option>
                                     <option value="3">قيد التدقيق</option>
@@ -56,7 +50,8 @@
                                 <label class="required fs-5 fw-bold mb-2"> تاريخ البدء </label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
-                                <input type="date" class="form-control form-control-solid" placeholder="" id="date_start" name="date_start" />
+                                <input type="date" class="form-control form-control-solid" placeholder="" id="date_start"
+                                    name="date_start" />
                                 <!--end::Input-->
                             </div>
 
@@ -66,7 +61,8 @@
                                 <label class="required fs-5 fw-bold mb-2">تاريخ الانتهاء </label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
-                                <input type="date" class="form-control form-control-solid" placeholder="" id="date_end" name="date_end" />
+                                <input type="date" class="form-control form-control-solid" placeholder="" id="date_end"
+                                    name="date_end" />
                                 <!--end::Input-->
                             </div>
 
@@ -87,12 +83,12 @@
 
                             <table class="table table-row-bordered" id="kt_table_ajax_advanced">
                                 <thead>
-                                    <tr>
+                                    <tr class="text-right">
                                         <th scope="col">#</th>
                                         <th scope="col">رقم اللجنة</th>
                                         <th scope="col">طلب اللجنة</th>
                                         <th scope="col">تفاصيل</th>
-                                        <th scope="col" width="25%">اجراءات</th>
+                                        <th scope="col" width="25%">اعضاء اللجنة</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -109,7 +105,6 @@
             </div>
         </div>
     </div>
-
 
     <!--begin::Modal -->
     <div class="modal fade" id="kt_modal_view_users" tabindex="-1" aria-hidden="true">
@@ -149,24 +144,8 @@
                         <div class="mb-15">
                             <!--begin::List-->
                             <table class="table table-hover table-row-bordered">
-                                <tbody class="table-bordered">
+                                <tbody id="steps_req" class="table-bordered">
 
-                                    <tr style="font-size: 16px;">
-                                        <th scope="row">صاحب الطلب</th>
-                                        <th id="USERS_NAME" scope="row">احمد</th>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row"> عدد اعضاء اللجنة</th>
-                                        <th id="NUMBER_COMMITTEE_MEMBER" scope="row"> 5 </th>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row"> تاريخ البدء</th>
-                                        <th id="START_DATE" scope="row">2020-2-5</th>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row"> سبب اللجنة</th>
-                                        <th id="REASON_COMMITTEE" scope="row">تجريبي تجريبي</th>
-                                    </tr>
 
                                 </tbody>
                             </table>
@@ -185,106 +164,71 @@
     @endsection
 
     @section('js')
-
-    <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script src="{{asset('assets/plugins/custom/datatables/datatables.bundle.js')}}"></script>
+        <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+        <script src="{{ asset('assets/plugins/custom/datatables/datatables.bundle.js') }}"></script>
 
         <script>
-            //موافقة
-            $(document).on("click", '.Post_req_agent_accept', function(event) {
-                let id =$(this).attr('id');
-                Util.ConfirmAprove(function () {
-                Post_req_agent(1,id);
-                            });
+            fill_datatable();
 
+            function fill_datatable(number_req = '', status = '', date_start = '', date_end = '') {
+                var dataTable = $('#kt_table_ajax_advanced').DataTable({
+                    "language": {
+                        "sEmptyTable": "ليست هناك بيانات متاحة في الجدول",
+                        "sLoadingRecords": "جارٍ التحميل...",
+                        "sProcessing": "جارٍ التحميل...",
+                        "sLengthMenu": "أظهر _MENU_ مدخلات",
+                        "sZeroRecords": "لم يعثر على أية سجلات",
+                        "sInfo": "إظهار _START_ إلى _END_ من أصل _TOTAL_ مدخل",
+                        "sInfoEmpty": "يعرض 0 إلى 0 من أصل 0 سجل",
+                        "sInfoFiltered": "(منتقاة من مجموع _MAX_ مُدخل)",
+                        "sInfoPostFix": "",
+                        "sSearch": "ابحث:",
+                        "sUrl": "",
+                        "oPaginate": {
+                            "sFirst": "الأول",
+                            "sPrevious": "السابق",
+                            "sNext": "التالي",
+                            "sLast": "الأخير"
+                        },
+                        "oAria": {
+                            "sSortAscending": ": تفعيل لترتيب العمود تصاعدياً",
+                            "sSortDescending": ": تفعيل لترتيب العمود تنازلياً"
+                        }
+                    },
+                    "processing": true,
+                    "serverSide": true,
+                    ajax: {
+                        url: "{{ route('request_committee.department.GetDataTable') }}",
+                        data: {
+                            number_req: number_req,
+                            status: status,
+                            date_start: date_start,
+                            date_end: date_end
+                        }
+                    },
+                });
+
+            }
+            $('#filter').click(function() {
+                var number_req = $('#number_req').val();
+                // alert(number_req);
+                var status = $('#status').val();
+                var date_start = $('#date_start').val();
+                var date_end = $('#date_end').val();
+
+
+                $('#kt_table_ajax_advanced').DataTable().destroy();
+                fill_datatable(number_req, status, date_start, date_end);
+                //alert(number_req);
             });
-            //رفض
-            $(document).on("click", '.Post_req_agent_reject', function(event) {
-                let id =$(this).attr('id');
-                Util.ConfirmReject(function () {
 
-                    Post_req_agent(0,id);
-                })
-
-            });
             //عرض تفاصيل الطلب
             $(document).on("click", '.get_req_details', function(event) {
 
-                //alert($(this).attr('id'));
+              //  alert($(this).attr('id'));
                 get_req_details($(this).attr('id'));
             });
-            //الموافقة او الرفض للطلب من قبل الوكيل
-            function Post_req_agent(status,id_req) {
 
-                $.ajaxSetup({
-
-                    headers: {
-
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-
-                    }
-
-                });
-                $.ajax({
-                        url: "{{ route('request_committee.agent.status_step') }}",
-                        method: "POST",
-                        data: {
-                            status: status,
-                            id_req: id_req
-                        },
-                        dataType: 'json',
-                        beforeSend: function() {
-                            Swal.fire({
-                                position: 'top-right',
-                                icon: 'success',
-                                title: 'جاري الارسال',
-                                showConfirmButton: false,
-                                timer: 1500
-                            })
-                        },
-                        success: function(data) {
-                           // alert(data.code);
-                            if (data.code == 200) {
-                                Swal.fire({
-                                    position: 'top-right',
-                                    icon: 'success',
-                                    title: 'تمت العملية بنجاح',
-                                    showConfirmButton: false,
-                                    timer: 1500
-                                })
-                               // Run_DataTable();
-                             //  fill_datatable();
-                            } else {
-
-                                Swal.fire({
-                                    position: 'top-right',
-                                    icon: 'error',
-                                    title: 'خطا'+ '!' + data.message,
-                                    showConfirmButton: false,
-                                    timer: 1500
-                                })
-
-                            }
-
-                        },
-                        error: function(data) {
-                            Swal.fire({
-                                position: 'top-right',
-                                icon: 'error',
-                                title: 'خطا'+ '!' + data.message,
-                                showConfirmButton: false,
-                                timer: 1500
-                            })
-                        }
-
-                    })
-                    .done(function(msg) {
-
-                        //$("#home_message_container").html(msg);
-                    });
-
-
-            }
             //عرض تفاصيل طلب
             function get_req_details(id_req) {
                 $.ajaxSetup({
@@ -297,7 +241,7 @@
 
                 });
                 $.ajax({
-                        url: "{{ route('request_committee.agent.detalis_req') }}",
+                        url: "{{ route('request_committee.department.get_detials_req_dep') }}",
                         method: "get",
                         data: {
                             id_req: id_req
@@ -313,14 +257,51 @@
                             })
                         },
                         success: function(data) {
+                            $('#steps_req').html('');
 
                             if (data.code == 200) {
                                 //  alert(data.result[0]['NUMBER_COMMITTEE_MEMBER']);
                                 if (data.result[0] != null) {
-                                    $('#NUMBER_COMMITTEE_MEMBER').html(data.result[0]['NUMBER_COMMITTEE_MEMBER']);
-                                    $('#START_DATE').html(data.result[0]['START_DATE']);
-                                    $('#REASON_COMMITTEE').html(data.result[0]['REASON_COMMITTEE']);
-                                    $('#USERS_NAME').html(data.result[0]['USERS_NAME']);
+                                    $('#steps_req').html(`
+                                    <tr style="font-size: 16px;">
+                                        <th scope="row">صاحب الطلب</th>
+                                        <th id="USERS_NAME" scope="row">`+data.result[0]['USERS_NAME']+`</th>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row"> عدد اعضاء اللجنة</th>
+                                        <th id="NUMBER_COMMITTEE_MEMBER" scope="row"> `+data.result[0]['NUMBER_COMMITTEE_MEMBER']+` </th>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row"> تاريخ البدء</th>
+                                        <th id="START_DATE" scope="row">`+data.result[0]['START_DATE']+`</th>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row"> تاريخ الانتهاء</th>
+                                        <th id="START_DATE" scope="row">`+data.result[0]['END_DATE']+`</th>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row"> سبب اللجنة</th>
+                                        <th id="REASON_COMMITTEE" scope="row">`+data.result[0]['REASON_COMMITTEE']+`</th>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row"> اللوائح و القوانين</th>
+                                        <th id="START_DATE" scope="row">`+data.result[0]['LAW']+`</th>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row"> طبيعة اللجنة</th>
+                                        <th id="START_DATE" scope="row">`+data.result[0]['NATURE_COMMITTEE']+`</th>
+                                    </tr>
+                                    `);
+
+                                    data.NAME_STEPS.forEach((element,key) => {
+
+                                          $('#steps_req').append(`
+                                                <tr>
+                                                    <th scope="row">`+element+`</th>
+                                                    <th id="REASON_COMMITTEE" scope="row">`+data.STATUS_NAME[key]+`</th>
+                                                </tr>
+                                          `);
+                                    });
                                 } else {
                                     $('#NUMBER_COMMITTEE_MEMBER').html('لا يوجد بيانات');
                                     $('#START_DATE').html('لا يوجد بيانات');
@@ -355,62 +336,5 @@
                         //$("#home_message_container").html(msg);
                     });
             }
-
-         // $("#table_id").DataTable();
-
-
-
-         fill_datatable();
-	function fill_datatable(number_req = '', status = '', date_start = '', date_end = '')
-	{
-		var dataTable = $('#kt_table_ajax_advanced').DataTable( {
-				"language": {
-					"sEmptyTable":     "ليست هناك بيانات متاحة في الجدول",
-					"sLoadingRecords": "جارٍ التحميل...",
-					"sProcessing":   "جارٍ التحميل...",
-					"sLengthMenu":   "أظهر _MENU_ مدخلات",
-					"sZeroRecords":  "لم يعثر على أية سجلات",
-					"sInfo":         "إظهار _START_ إلى _END_ من أصل _TOTAL_ مدخل",
-					"sInfoEmpty":    "يعرض 0 إلى 0 من أصل 0 سجل",
-					"sInfoFiltered": "(منتقاة من مجموع _MAX_ مُدخل)",
-					"sInfoPostFix":  "",
-					"sSearch":       "ابحث:",
-					"sUrl":          "",
-					"oPaginate": {
-						"sFirst":    "الأول",
-						"sPrevious": "السابق",
-						"sNext":     "التالي",
-						"sLast":     "الأخير"
-					},
-					"oAria": {
-						"sSortAscending":  ": تفعيل لترتيب العمود تصاعدياً",
-						"sSortDescending": ": تفعيل لترتيب العمود تنازلياً"
-					}
-				},
-				"processing": true,
-				"serverSide": true,
-				ajax:{
-					url: "{{route('request_committee.agent.GetDataTable')}}",
-					data:{number_req:number_req,status:status, date_start:date_start,date_end:date_end}
-				},
-			});
-
-         //   dataTable.destroy();
-
-    }
-	$('#filter').click(function(){
-        var number_req = $('#number_req').val();
-       // alert(number_req);
-        var status = $('#status').val();
-        var date_start = $('#date_start').val();
-        var date_end = $('#date_end').val();
-
-
-		$('#kt_table_ajax_advanced').DataTable().destroy();
-        fill_datatable(number_req,status,date_start,date_end);
-        //alert(number_req);
-    });
-
         </script>
-
     @endsection
