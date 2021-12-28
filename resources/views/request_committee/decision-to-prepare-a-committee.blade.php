@@ -191,14 +191,15 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        {{-- {{ json_encode(Session::get('TrashItems')[0] ['department']) }} --}}
                                         @foreach ($request_dep as $request_dep)
 
 
                                             <tr>
-                                                <td scope="row">{{ $request_dep['NAME'] }}</td>
-                                                <td scope="row">{{ $request_dep['NUMBER_EMPLOYEES'] }}</td>
+                                                <td scope="row"> {{ json_encode(Session::get('TrashItems')[0] ['department']) }}</td>
+                                                <td scope="row"> {{ json_encode(Session::get('TrashItems')[0] ['numofemployee']) }}</td>
                                                 <td>
-                                                    {{-- dep_id="{{$request_dep -> ID}}" --}}
+
                                                     <a id="delete-dep" class="btn btn-danger">حذف</a>
                                                 </td>
                                             </tr>

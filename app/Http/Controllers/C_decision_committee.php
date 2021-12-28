@@ -40,6 +40,8 @@ class C_decision_committee extends Controller
                 'dp' => $this->get_department(),
                 'request_dep' => $this->get_request($id),
 
+
+
             ]);
         });
     }
@@ -83,17 +85,18 @@ class C_decision_committee extends Controller
     //اضافة على بيانات  على الطلب
     public function update_request(REQUEST $request)
     {
-        // dd('done');
-        // dd($request->_btn);
-        // dd($request->input('department'));
-        // dd($request->numofemployee);
-        if($request->_btn == "add_department")
-        {
-            $item []= array("department" => $request->input('department'),"numofemployee" => $request->numofemployee);
-            session()->put('TrashItems', $item);
+
+
+        if ($request->_btn == "add_department") {
+            session()->forget('TrashItems');
+            $item[] = array("department" => $request->input('department'), "numofemployee" => $request->numofemployee);
+            $request->session()->put('TrashItems', $item);
+            $empdata= $request->session()->get('TrashItems');
+
             return Response()->json(session()->get('TrashItems'));
-        }elseif($request->_btn == "update_request")
-        {
+            dd($empdata);
+
+        } elseif ($request->_btn == "update_request") {
             dd($request->_btn);
         }
 
