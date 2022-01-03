@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\REQUEST_COMMITTEE_TB;
 use App\Models\ROLE_MEMBERS_C_TB;
 use App\Models\STEPS_TB;
+use App\Models\USERS_TB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -106,10 +107,13 @@ class C_request_committee_dep extends Controller
     {
         $steps = new STEPS_TB();
         $detials_req_dep = $steps->get_detials_req_dep($id);
+        $users = new USERS_TB();
+       $get_users_dep = $users->get_users_dep(1);
 
         // return $detials_req_dep['steps'][0]['ID_REQ'];
         return view('request_committee.committee-members', [
-            'detials_req_dep' => $detials_req_dep
+            'detials_req_dep' => $detials_req_dep,
+            'get_users_dep'=> $get_users_dep,
         ]);
     }
     // حذف عضو من الترشيح عند ادارة معينة
@@ -139,5 +143,6 @@ class C_request_committee_dep extends Controller
          }
 
     }
-    
+
+
 }

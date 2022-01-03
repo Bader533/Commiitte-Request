@@ -276,6 +276,7 @@
                         },
                         success: function(data) {
                             $('#steps_req').html('');
+                            $('#rol_members').html('');
 
                             if (data.code == 200) {
                                   //alert(data.result.steps[0]['NUMBER_COMMITTEE_MEMBER']);
@@ -317,7 +318,7 @@
                                                 <tr>
                                                     <th scope="row">`+(key+1)+`</th>
                                                     <th scope="row">`+element.NAME+`</th>
-                                                    <th scope="row"></th>
+                                                    <th scope="row">`+element.JOB_TITLE+`</th>
                                                     <th scope="row">`+element.TEXT+`</th>
 
                                                 </tr>

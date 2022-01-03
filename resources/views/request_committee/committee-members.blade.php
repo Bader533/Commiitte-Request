@@ -93,12 +93,11 @@
                                 <label class="required fs-5 fw-bold mb-2"> اسم العضو </label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
-                                <select  class="form-control form-control-solid">
+                                <select id="users_name"  class="form-control form-control-solid">
                                     <option selected value="0">اختر العضو</option>
-                                    <option value="">تجريب</option>
-                                    <option value="">تجريب</option>
-                                    <option value="">تجريب</option>
-                                    <option value="">تجريب</option>
+                                    @foreach ($get_users_dep as $key =>$value )
+                                      <option value="{{$value['ID']}}">{{$value['NAME']}}</option>
+                                    @endforeach
                                 </select>
                                 <!--end::Input-->
                             </div>
@@ -107,7 +106,7 @@
                                 <label class="required fs-5 fw-bold mb-2"> المسمى الوظيفى </label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
-                                <input type="text" class="form-control form-control-solid" placeholder="" name="" />
+                                <input id="job_title" type="text" class="form-control form-control-solid" placeholder="تظهر هنا بيانات" name="" />
                                 <!--end::Input-->
                             </div>
                             <div class="col-md-3 fv-row">
@@ -140,7 +139,7 @@
                                 <label class="required fs-5 fw-bold mb-2"> القوانين و النصوص </label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
-                                <input type="text" value="{{ $detials_req_dep['steps'][0]['LAW'] }}"
+                                <input readonly type="text" value="{{ $detials_req_dep['steps'][0]['LAW'] }}"
                                     class="form-control form-control-solid" placeholder="" name="" />
                                 <!--end::Input-->
                             </div>
@@ -150,7 +149,7 @@
                                 <label class="required fs-5 fw-bold mb-2"> الديباجة القانونية </label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
-                                <input type="text" class="form-control form-control-solid" placeholder="" name="" />
+                                <input readonly type="text" class="form-control form-control-solid" placeholder="" name="" />
                                 <!--end::Input-->
                             </div>
                             {{-- <div class="col-md-3 fv-row" style="margin-top: 27px">
@@ -186,7 +185,7 @@
                                                 {{ $value['NAME'] }}
                                             </td>
                                             <td style="font-size: 16px;">
-
+                                                {{ $value['JOB_TITLE'] }}
                                             </td>
                                             <td style="font-size: 16px;">
                                                 {{ $value['TEXT'] }}
@@ -301,5 +300,22 @@
 
 
         }
+        $("#users_name").click(function () {
+      var users_id =$("#users_name option:selected").val();
+      const  jobTitle =[];
+      @foreach ($get_users_dep as $key =>$value )
+      jobTitle[`{{$value['ID']}}`] ='{{$value['JOB_TITLE']}}';
+      @endforeach
+      if (users_id > 0) {
+
+        console.log(jobTitle);
+
+        $('#job_title').val(jobTitle[users_id]);
+
+      }else
+      {
+        $('#job_title').val('تظهر هنا بيانات');
+      }
+        });
     </script>
 @endsection

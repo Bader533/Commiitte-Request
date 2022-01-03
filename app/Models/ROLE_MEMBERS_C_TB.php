@@ -14,14 +14,7 @@ class ROLE_MEMBERS_C_TB extends Model
     //حذف ترشيح عضو من ادارة معينة
     public function delete_user($id_user)
     {
-      ///  $pdo = DB::getPdo();
-      //  $stmt = $pdo->prepare("begin HANI.Post_committee_delete_dep(:id_user,:result_row); end;");
-      //  $stmt->bindParam(':id_user',$id_user, PDO::PARAM_INT);
-       // $stmt->bindParam(':result_row',$result_row, PDO::PARAM_INT);
-       // dd($result_row);
-      //  $stmt->execute();
-
-
+     
         $sql = "begin HANI.Post_committee_delete_dep(:id_user,:result_row); end;";
 
         return DB::transaction(function ($conn) use ($sql,$id_user) {
