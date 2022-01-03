@@ -196,7 +196,6 @@
                                                 <td scope="row"> {{ json_encode(Session::get('TrashItems')[0] ['department']) }}</td>
                                                 <td scope="row"> {{ json_encode(Session::get('TrashItems')[0] ['numofemployee']) }}</td>
                                                 <td>
-
                                                     <a id="delete-dep" class="btn btn-danger">حذف</a>
                                                 </td>
                                             </tr>

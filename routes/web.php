@@ -98,7 +98,14 @@ Route::get('/request_committee/department/GetDataTable', [App\Http\Controllers\C
 //عرض التفاصيل
 Route::get('/request_committee/department/get_detials_req_dep', [App\Http\Controllers\C_request_committee_dep::class, 'get_detials_req_dep'])
     ->name('request_committee.department.get_detials_req_dep');
+// عرض صفحة تشكيل اعضاء اللجان
+Route::get('/request_committee/department/nomination/{id}', [App\Http\Controllers\C_request_committee_dep::class, 'nomination'])
+->name('request_committee.department.nomination');
+// حذف  عضوا من الترشيح ادارة معينة
+Route::post('/request_committee/department/nomination/delete_user', [App\Http\Controllers\C_request_committee_dep::class, 'delete_user'])
+->name('request_committee.department.delete_user');
 
+//delete_user
 
 
 /**************************************************نهاية الصفحة ادارة معينة******************************** */
@@ -106,9 +113,6 @@ Route::get('/request_committee/department/get_detials_req_dep', [App\Http\Contro
 
 //********************************************************************************************************************************* */
 
-// عرض صفحة تشكيل اعضاء اللجان
-Route::get('/request_committee/committee_members', [App\Http\Controllers\C_request_committee::class, 'committee_members'])
-    ->name('request_committee.committeemembers');
 
 //صفحة لعرض التقرير النهائي لبيانات اللجان
 Route::get('/request_committee/final report for the adoption of the committees data', [App\Http\Controllers\C_request_committee::class, 'final_report_for_the_adoption'])

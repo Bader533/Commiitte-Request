@@ -116,11 +116,6 @@ class C_request_committee extends Controller
 
     //******************************************************************************** */
 
-    public function committee_members()
-    {
-
-        return view('request_committee.committee-members');
-    }
 
     public function final_report_for_the_adoption()
     {
