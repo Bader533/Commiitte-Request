@@ -108,12 +108,12 @@ class C_request_committee_dep extends Controller
         $steps = new STEPS_TB();
         $detials_req_dep = $steps->get_detials_req_dep($id);
         $users = new USERS_TB();
-       $get_users_dep = $users->get_users_dep(1);
+        $get_users_dep = $users->get_users_dep(1);
 
         // return $detials_req_dep['steps'][0]['ID_REQ'];
         return view('request_committee.committee-members', [
             'detials_req_dep' => $detials_req_dep,
-            'get_users_dep'=> $get_users_dep,
+            'get_users_dep' => $get_users_dep,
         ]);
     }
     // حذف عضو من الترشيح عند ادارة معينة
@@ -123,26 +123,54 @@ class C_request_committee_dep extends Controller
             'id_user' => 'required',
         ]);
 
-        if ($validator->fails())
-        {
+        if ($validator->fails()) {
             return response()->json(
                 [
-                  'code' => 400,
-                  'message' => $validator->errors()
+                    'code' => 400,
+                    'message' => $validator->errors()
                 ],
                 400
             );
         }
         $ROLE_MEMBERS_C =  new ROLE_MEMBERS_C_TB;
 
-         if ($ROLE_MEMBERS_C->delete_user($request->id_user)) {
+        if ($ROLE_MEMBERS_C->delete_user($request->id_user)) {
             return [
                 'code' => 200,
                 'message' => 'تمت العملية بنجاح'
             ];
-         }
-
+        }
     }
+    //اضافة عضو الى  الترشيح  ادارة معينة
+    public  function add_user(Request $request)
+    {
+        $nomination_user = session()->get('nomination_user');
+        if ($nomination_user == null) {
+            $item[] = array("department" => $request->input('department'), "numofemployee" => $request->numofemployee);
+            session()->put('nomination_user', $item);
+            return Response()->json(session()->get('nomination_user'));
+        } else {
+            if (collect($nomination_user)->where('department', $request->input('department'))->where('numofemployee', $request->numofemployee)->count() > 0) {
+                $arr = array('message' => 'عذراً .. الصنف مدخل مسبقاً', 'status' => 0);
+                return Response()->json($arr);
+            } else {
 
+                $arr = array();
+                //dd($empdata);
+                foreach ($nomination_user as $i) {
+                    //dd($i['Item']);
+                    $arr[] = [
+                        "department" => $i['department'],
+                        "numofemployee" => $i['numofemployee'],
 
+                    ];
+                }
+                $item = array("department" => $request->input('department'), "numofemployee" => $request->numofemployee);
+                array_push($arr, $item);
+                session()->put('nomination_user', $arr); //put
+
+                return Response()->json(session()->get('nomination_user'));
+            }
+        }
+    }
 }

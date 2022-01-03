@@ -93,10 +93,10 @@
                                 <label class="required fs-5 fw-bold mb-2"> اسم العضو </label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
-                                <select id="users_name"  class="form-control form-control-solid">
+                                <select id="users_name" class="form-control form-control-solid">
                                     <option selected value="0">اختر العضو</option>
-                                    @foreach ($get_users_dep as $key =>$value )
-                                      <option value="{{$value['ID']}}">{{$value['NAME']}}</option>
+                                    @foreach ($get_users_dep as $key => $value)
+                                        <option value="{{ $value['ID'] }}">{{ $value['NAME'] }}</option>
                                     @endforeach
                                 </select>
                                 <!--end::Input-->
@@ -106,7 +106,8 @@
                                 <label class="required fs-5 fw-bold mb-2"> المسمى الوظيفى </label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
-                                <input readonly id="job_title" type="text" class="form-control form-control-solid" placeholder="تظهر هنا بيانات" name="" />
+                                <input readonly id="job_title" type="text" class="form-control form-control-solid"
+                                    placeholder="تظهر هنا بيانات" name="" />
                                 <!--end::Input-->
                             </div>
                             <div class="col-md-3 fv-row">
@@ -114,11 +115,11 @@
                                 <label class="required fs-5 fw-bold mb-2"> دوره فى اللجنة </label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
-                                <input type="text" class="form-control form-control-solid" placeholder="" name="" />
+                                <input id="ROLE_MEMBERS" type="text" class="form-control form-control-solid" placeholder="" name="" />
                                 <!--end::Input-->
                             </div>
                             <div class="col-md-3 fv-row" style="margin-top: 27px">
-                                <button type="submit" class="btn btn-primary">+</button>
+                                <a id="Post_add_user"  class="btn btn-primary">+</a>
                             </div>
                         </div>
                         <div class="row mb-5">
@@ -149,7 +150,8 @@
                                 <label class="required fs-5 fw-bold mb-2"> الديباجة القانونية </label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
-                                <input readonly type="text" class="form-control form-control-solid" placeholder="" name="" />
+                                <input readonly type="text" class="form-control form-control-solid" placeholder=""
+                                    name="" />
                                 <!--end::Input-->
                             </div>
                             {{-- <div class="col-md-3 fv-row" style="margin-top: 27px">
@@ -191,7 +193,8 @@
                                                 {{ $value['TEXT'] }}
                                             </td>
                                             <td style="font-size: 16px;">
-                                                <a  id="{{ $value['ID'] }}" class="Post_delete_user btn btn-danger">حذف</a>
+                                                <a id="{{ $value['ID'] }}"
+                                                    class="Post_delete_user btn btn-danger">حذف</a>
                                                 <a id="delete-dep" class="btn btn-primary">تعديل</a>
                                             </td>
                                         </tr>
@@ -222,22 +225,31 @@
 
 @section('js')
     <script>
-         $(document).on("click", '.Post_delete_user', function(event) {
-                let id =$(this).attr('id');
-                Util.ConfirmAprove(function () {
-                    Post_delete_user(id);
-                            });
-
+        $(document).on("click", '.Post_delete_user', function(event) {
+            let id = $(this).attr('id');
+            Util.ConfirmAprove(function() {
+                Post_delete_user(id);
             });
+
+        });
+        $(document).on("click", '#Post_add_user', function(event) {
+            let id = $(this).attr('id');
+            let role_members = $('#ROLE_MEMBERS').val();
+            let name =  $('#users_name option:selected').text();
+            let job_title =$('#job_title').val();
+            alert(role_members  + name + job_title);
+            Util.ConfirmAprove(function() {
+                Post_add_user(role_members,name,job_title);
+            });
+
+        });
         //حذف عضو
         function Post_delete_user(id_user) {
 
             $.ajaxSetup({
 
                 headers: {
-
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-
                 }
 
             });
@@ -245,7 +257,7 @@
                     url: "{{ route('request_committee.department.delete_user') }}",
                     method: "POST",
                     data: {
-                        id_user:id_user
+                        id_user: id_user
                     },
                     dataType: 'json',
                     beforeSend: function() {
@@ -300,22 +312,92 @@
 
 
         }
-        $("#users_name").click(function () {
-      var users_id =$("#users_name option:selected").val();
-      const  jobTitle =[];
-      @foreach ($get_users_dep as $key =>$value )
-      jobTitle[`{{$value['ID']}}`] ='{{$value['JOB_TITLE']}}';
-      @endforeach
-      if (users_id > 0) {
+        //اضافة عضو
+        function Post_add_user(role_members,name,job_title) {
 
-        console.log(jobTitle);
+            $.ajaxSetup({
 
-        $('#job_title').val(jobTitle[users_id]);
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
 
-      }else
-      {
-        $('#job_title').val('تظهر هنا بيانات');
-      }
+            });
+            $.ajax({
+                    url: "{{ route('request_committee.department.add_user') }}",
+                    method: "POST",
+                    data: {
+                        role_members: role_members,
+                        name:name,
+                        job_title:job_title
+                    },
+                    dataType: 'json',
+                    beforeSend: function() {
+                        Swal.fire({
+                            position: 'top-right',
+                            icon: 'success',
+                            title: 'جاري الارسال',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                    },
+                    success: function(data) {
+                        // alert(data.code);
+                        if (data.code == 200) {
+                            Swal.fire({
+                                position: 'top-right',
+                                icon: 'success',
+                                title: 'تمت العملية بنجاح',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                            // Run_DataTable();
+                            //  fill_datatable();
+                        } else {
+
+                            Swal.fire({
+                                position: 'top-right',
+                                icon: 'error',
+                                title: 'خطا' + '!' + data.message,
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+
+                        }
+
+                    },
+                    error: function(data) {
+                        Swal.fire({
+                            position: 'top-right',
+                            icon: 'error',
+                            title: 'خطا' + '!' + data.message,
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                    }
+
+                })
+                .done(function(msg) {
+
+                    //$("#home_message_container").html(msg);
+                });
+
+
+        }
+        $("#users_name").click(function() {
+            var users_id = $("#users_name option:selected").val();
+            const jobTitle = [];
+            @foreach ($get_users_dep as $key => $value)
+                jobTitle[`{{ $value['ID'] }}`] ='{{ $value['JOB_TITLE'] }}';
+            @endforeach
+            if (users_id > 0) {
+
+                console.log(jobTitle);
+
+                $('#job_title').val(jobTitle[users_id]);
+
+            } else {
+                $('#job_title').val('تظهر هنا بيانات');
+            }
         });
     </script>
 @endsection
