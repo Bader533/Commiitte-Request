@@ -106,7 +106,7 @@
                                 <label class="required fs-5 fw-bold mb-2"> المسمى الوظيفى </label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
-                                <input id="job_title" type="text" class="form-control form-control-solid" placeholder="تظهر هنا بيانات" name="" />
+                                <input readonly id="job_title" type="text" class="form-control form-control-solid" placeholder="تظهر هنا بيانات" name="" />
                                 <!--end::Input-->
                             </div>
                             <div class="col-md-3 fv-row">
