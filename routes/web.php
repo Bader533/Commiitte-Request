@@ -68,6 +68,8 @@ Route::get('/request_committee/decision-to-prepare-a-committee/{id}', [C_decisio
 Route::post('/request_committee/decision-to-prepare-a-committee', [C_decision_committee::class, 'update_request'])
     ->name('request_committee.update_request');
 
+Route::post('/request_committee/delete-decision-to-prepare-a-committee/{id}', [C_decision_committee::class, 'delete_request'])
+    ->name('request_committee.delete_request');
 
 // حذف الادارة المعنية
 // Route::post('/request_committee/delete-decision-to-prepare-a-committee', [C_decision_committee::class, 'delete_request'])
@@ -88,10 +90,10 @@ Route::get('/request_committee/affairs/get_detials_req_affairs', [App\Http\Contr
 
 /******************************************************نهاية الصفحة******************************************************** */
 
-/*************************************************ادارة معينة********************************/// */
+/*************************************************ادارة معينة********************************/ // */
 // صفحة لعرض جميع اللجان المشاركة فيها الادارة
-Route::get('/request_committee/department/index', [App\Http\Controllers\C_request_committee_dep::class,'index'])
-       ->name('request_committee.department.index');
+Route::get('/request_committee/department/index', [App\Http\Controllers\C_request_committee_dep::class, 'index'])
+    ->name('request_committee.department.index');
 //عرض الطلبات في الجدول
 Route::get('/request_committee/department/GetDataTable', [App\Http\Controllers\C_request_committee_dep::class, 'GetDataTable'])
     ->name('request_committee.department.GetDataTable');
@@ -100,13 +102,13 @@ Route::get('/request_committee/department/get_detials_req_dep', [App\Http\Contro
     ->name('request_committee.department.get_detials_req_dep');
 // عرض صفحة تشكيل اعضاء اللجان
 Route::get('/request_committee/department/nomination/{id}', [App\Http\Controllers\C_request_committee_dep::class, 'nomination'])
-->name('request_committee.department.nomination');
+    ->name('request_committee.department.nomination');
 // حذف  عضوا من الترشيح ادارة معينة
 Route::post('/request_committee/department/nomination/delete_user', [App\Http\Controllers\C_request_committee_dep::class, 'delete_user'])
-->name('request_committee.department.delete_user');
+    ->name('request_committee.department.delete_user');
 //اضافة عضو الى الترشيح ادارة معينة
 Route::post('/request_committee/department/nomination/add_user', [App\Http\Controllers\C_request_committee_dep::class, 'add_user'])
-->name('request_committee.department.add_user');
+    ->name('request_committee.department.add_user');
 
 
 /**************************************************نهاية الصفحة ادارة معينة******************************** */
@@ -134,5 +136,5 @@ Route::get('/request_committee/notification', [App\Http\Controllers\C_request_co
 
 ///test
 Route::get('/', function () {
-return 1;
+    return 1;
 });

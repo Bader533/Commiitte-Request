@@ -295,6 +295,9 @@
 
                         });
                         // جلب السشن الاقسام
+
+
+
                         $("#tbody_dep").html('');
 
                         for (var i = 0; i < 5; i++) {
@@ -304,7 +307,8 @@
                                 $("#tbody_dep").append(
                                     "<tr>" + "<td>" + data['dp'][i]['NAME'] + "</td>" +
                                     "<td>" + data[0][i].numofemployee + "</td>" +
-                                    "<td>" + "bbc" + "</td>" + "</tr>");
+                                    "<td>" + "<a src='{{route('request_committee.delete_request',"+ data[0][i].department + ")}}'" +"class='btn btn-lg btn-danger' name = 'action' value = 'remove_department'>"+
+                                        "<i class='fa fa-remove'>"+"</i>"+'حذف'+"</a>" + "</td>" + "</tr>");
 
                             }
 

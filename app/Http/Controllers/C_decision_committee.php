@@ -86,17 +86,8 @@ class C_decision_committee extends Controller
     //اضافة على بيانات  على الطلب
     public function update_request(REQUEST $request)
     {
-        // session()->forget('TrashItems');
 
         if ($request->_btn == "add_department") {
-            $dep = $request->department;
-
-            if (is_array($dep) || is_object($dep)) {
-                foreach ($dep as $dep) {
-                    dd($dep->one);
-                }
-            }
-
 
             $empdata = session()->get('TrashItems');
 
@@ -130,10 +121,6 @@ class C_decision_committee extends Controller
                     array_push($arr, $item);
                     session()->put('TrashItems', $arr); //put
 
-
-
-
-
                     return Response()->json([
                         'dp' => $this->get_department(),
                         session()->get('TrashItems'),
@@ -145,6 +132,19 @@ class C_decision_committee extends Controller
         } elseif ($request->_btn == "update_request") {
             // dd($request->_btn);
             session()->forget('TrashItems');
+
+        }elseif($request->_btn == "remove_department"){
+
+            $items = session()->get('TrashItems');
+            unset($items[$request->_data_index]);
+            session()->put('TrashItems', $items);
+            return Response()->json([
+                'dp' => $this->get_department(),
+                session()->get('TrashItems'),
+                'status' => true,
+                'msg' => 'تم الحذف بنجاح',
+            ]);
+
         }
 
 
@@ -213,6 +213,20 @@ class C_decision_committee extends Controller
 
     }
 
+    public function delete_request($r)
+    {
+        $items = session()->get('TrashItems');
+            unset($items[$r]);
+            session()->put('TrashItems', $items);
+            return Response()->json([
+                'dp' => $this->get_department(),
+                session()->get('TrashItems'),
+                'status' => true,
+                'msg' => 'تم الحذف بنجاح',
+            ]);
+
+
+    }
 
 
 
