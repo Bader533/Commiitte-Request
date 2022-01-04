@@ -115,11 +115,12 @@
                                 <label class="required fs-5 fw-bold mb-2"> دوره فى اللجنة </label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
-                                <input id="ROLE_MEMBERS" type="text" class="form-control form-control-solid" placeholder="" name="" />
+                                <input id="ROLE_MEMBERS" type="text" class="form-control form-control-solid" placeholder=""
+                                    name="" />
                                 <!--end::Input-->
                             </div>
                             <div class="col-md-3 fv-row" style="margin-top: 27px">
-                                <a id="Post_add_user"  class="btn btn-primary">+</a>
+                                <a id="Post_add_user" class="btn btn-primary">+</a>
                             </div>
                         </div>
                         <div class="row mb-5">
@@ -213,11 +214,11 @@
         $(document).on("click", '#Post_add_user', function(event) {
             let id = $(this).attr('id');
             let role_members = $('#ROLE_MEMBERS').val();
-            let name =  $('#users_name option:selected').text();
-            let job_title =$('#job_title').val();
-            alert(role_members  + name + job_title);
+            let name = $('#users_name option:selected').text();
+            let job_title = $('#job_title').val();
+            alert(role_members + name + job_title);
             Util.ConfirmAprove(function() {
-                Post_add_user(role_members,name,job_title);
+                Post_add_user(role_members, name, job_title);
             });
 
         });
@@ -248,7 +249,7 @@
                         })
                     },
                     success: function(data) {
-                        // alert(data.code);
+                        $('#rol_members').html('');
                         if (data.code == 200) {
                             Swal.fire({
                                 position: 'top-right',
@@ -257,8 +258,30 @@
                                 showConfirmButton: false,
                                 timer: 1500
                             })
-                            // Run_DataTable();
-                            //  fill_datatable();
+                            data.data.forEach((element, key) => {
+
+                                $('#rol_members').append(`
+                               <tr>
+                                   <td>
+                                      ` + (key + 1) + `
+                                   </td>
+                                   <td style="font-size: 16px;">
+                                   </td>
+                                  <td style="font-size: 16px;">
+                                    ` + element.name + `
+                                   </td>
+                                   <td style="font-size: 16px;">
+                                     ` + element.job_title + `
+                                    </td>
+                                    <td style="font-size: 16px;">
+                                       ` + element.role_members + `
+                                    </td>
+                                    <td style="font-size: 16px;">
+                                         <a id=""class="Post_delete_user btn btn-danger">حذف</a>
+                                    </td>
+                                </tr>
+`);
+                            });
                         } else {
 
                             Swal.fire({
@@ -291,7 +314,7 @@
 
         }
         //اضافة عضو
-        function Post_add_user(role_members,name,job_title) {
+        function Post_add_user(role_members, name, job_title) {
 
             $.ajaxSetup({
 
@@ -305,8 +328,8 @@
                     method: "POST",
                     data: {
                         role_members: role_members,
-                        name:name,
-                        job_title:job_title
+                        name: name,
+                        job_title: job_title
                     },
                     dataType: 'json',
                     beforeSend: function() {
@@ -330,23 +353,23 @@
                                 showConfirmButton: false,
                                 timer: 1500
                             });
-                            data.data.forEach((element,key) => {
+                            data.data.forEach((element, key) => {
 
                                 $('#rol_members').append(`
                                 <tr>
                                             <td>
-                                                `+(key+1)+`
+                                                ` + (key + 1) + `
                                             </td>
                                             <td style="font-size: 16px;">
                                             </td>
                                             <td style="font-size: 16px;">
-                                                `+element.name+`
+                                                ` + element.name + `
                                             </td>
                                             <td style="font-size: 16px;">
-                                                `+element.job_title+`
+                                                ` + element.job_title + `
                                             </td>
                                             <td style="font-size: 16px;">
-                                                `+element.role_members+`
+                                                ` + element.role_members + `
                                             </td>
                                             <td style="font-size: 16px;">
                                                 <a id=""class="Post_delete_user btn btn-danger">حذف</a>
