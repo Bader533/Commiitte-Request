@@ -296,7 +296,6 @@
                         });
                         // جلب السشن الاقسام
 
-
                         for (var i = 0; i < 5; i++) {
 
                             if (data['dp'][i]['ID'] == data[0][i].department) {
