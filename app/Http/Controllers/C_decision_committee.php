@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\REQUEST_COMMITTEE_TB;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
@@ -39,7 +40,6 @@ class C_decision_committee extends Controller
                 'result' => $array,
                 'dp' => $this->get_department(),
                 'request_dep' => $this->get_request($id),
-
 
 
             ]);
@@ -85,55 +85,59 @@ class C_decision_committee extends Controller
     //اضافة على بيانات  على الطلب
     public function update_request(REQUEST $request)
     {
-
+        // session()->forget('TrashItems');
 
         if ($request->_btn == "add_department") {
-            // session()->forget('TrashItems');
-            // $item[] = array("department" => $request->input('department'), "numofemployee" => $request->numofemployee);
-            // $request->session()->put('TrashItems', $item);
-            $empdata= session()->get('TrashItems');
+            $dep = $request->department;
 
-            if($empdata==null)
-            {
-                $item []= array("department" => $request->input('department'),"numofemployee" => $request->numofemployee);
+            if (is_array($dep) || is_object($dep)) {
+                foreach ($dep as $dep) {
+                    dd($dep->one);
+                }
+            }
+
+
+            $empdata = session()->get('TrashItems');
+
+            if ($empdata == null) {
+                $item[] = array("department" => $request->input('department'), "numofemployee" => $request->numofemployee);
                 session()->put('TrashItems', $item);
                 return Response()->json(session()->get('TrashItems'));
-            }
-            else
-            {
-                if(collect($empdata)->where('department',$request->input('department'))->where('numofemployee',$request->numofemployee)->count() > 0)
-                {
+            } else {
+                if (collect($empdata)->where('department', $request->input('department'))->where('numofemployee', $request->numofemployee)->count() > 0) {
                     $arr = array('message' => 'عذراً .. الصنف مدخل مسبقاً', 'status' => 0);
                     return Response()->json($arr);
-                }
-                else
-                {
+                } else {
 
                     $arr = array();
                     //dd($empdata);
-                    foreach($empdata as $i)
-                    {
+                    foreach ($empdata as $i) {
                         //dd($i['Item']);
-                        $arr []= [
+                        $arr[] = [
                             "department" => $i['department'],
                             "numofemployee" => $i['numofemployee'],
 
                         ];
                     }
-                    $item = array("department" => $request->input('department'),"numofemployee" => $request->numofemployee);
-                    array_push($arr,$item);
-                    session()->put('TrashItems', $arr);//put
+                    $item = array("department" => $request->input('department'), "numofemployee" => $request->numofemployee);
+                    array_push($arr, $item);
+                    session()->put('TrashItems', $arr); //put
 
-                    return Response()->json(session()->get('TrashItems'));
+
+
+
+
+                    return Response()->json([
+                        'dp' => $this->get_department(),
+                        session()->get('TrashItems'),
+                        'status' => true,
+                        'msg' => 'تم الحفظ بنجاح',
+                    ]);
                 }
             }
-            // session()->forget('TrashItems');
-
-            // return Response()->json(session()->get('TrashItems'));
-            // dd($empdata);
-
         } elseif ($request->_btn == "update_request") {
-            dd($request->_btn);
+            // dd($request->_btn);
+            session()->forget('TrashItems');
         }
 
 
@@ -202,28 +206,8 @@ class C_decision_committee extends Controller
 
     }
 
-    // public function add_dep(REQUEST $request)
-    // {
 
-    //     if($request->input('action') == "add_department")
-    //     {
-    //         dd('add sucess');
-    //     }
 
-    //     session()->forget('TrashItems');
-    //     $empdata = session()->get('TrashItems');
-    //     if($empdata==null)
-    //     {
-    //         $item []= array("department" => $request->input('department'),
-    //                         "empnum" => $request->input('numofemployee'));
-
-    //     }
-    //     else
-    //     {
-
-    //     }
-
-    // }
 
     //حذف الادارة المعنية
     // public function delete_request(Request $request)

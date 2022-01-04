@@ -15,8 +15,7 @@
 
                     <!--begin::Form-->
                     {{-- <form action="" class="form mb-15" method="post" id="updatedformreq"> --}}
-                    <form  id="AddItemFormNew" data-toggle="ajaxformmultipart" data_acallback="rebind_dn"
-                        autocomplete="off">
+                    <form id="AddItemFormNew" data-toggle="ajaxformmultipart" data_acallback="rebind_dn" autocomplete="off">
 
                         @csrf
                         <!--begin::Input group-->
@@ -114,10 +113,11 @@
                                 {{-- <input type="text" class="form-control form-control-solid" placeholder="" name="" /> --}}
 
 
-                                <select name="department" class="form-control" id="">
+                                <select name="department" class="form-control" id="depID">
                                     <option value="">--</option>
                                     @foreach ($dp as $dp)
-                                        <option value="{{ $dp['ID'] }}">{{ $dp['NAME'] }}</option>
+                                        <option value="{{ $dp['ID'] }}">{{ $dp['NAME'] }}
+                                        </option>
                                     @endforeach
                                 </select>
 
@@ -139,8 +139,8 @@
                                 <!--end::Input-->
                             </div>
                             {{-- اضافة القسم --}}
-                            <div class="col-md-3 fv-row" style="margin-top: 28px">
-                                <button type="submit"  name="action" id="add_dep" value="add_department"
+                            <div class="col-md-3 fv-row" style="margin-top: 29px">
+                                <button type="submit" name="action" id="add_dep" value="add_department"
                                     class="btn btn-primary">+</button>
                             </div>
 
@@ -188,24 +188,10 @@
                                             <th scope="col">تعديل \ حذف</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        {{-- {{ json_encode(Session::get('TrashItems')[0] ['department']) }} --}}
-                                        @foreach ($request_dep as $request_dep)
-
-
-                                            <tr>
-                                                <td scope="row"> {{ json_encode(Session::get('TrashItems')[0] ['department']) }}</td>
-                                                <td scope="row"> {{ json_encode(Session::get('TrashItems')[0] ['numofemployee']) }}</td>
-                                                <td>
-
-                                                    <a id="delete-dep" class="btn btn-danger">حذف</a>
-                                                </td>
-                                            </tr>
-
-                                        @endforeach
-
+                                    <tbody id="tbody_dep">
                                     </tbody>
                                 </table>
+
                                 <!--end::Input-->
                             </div>
 
@@ -258,39 +244,39 @@
             // alert(entrepreneur_id);
 
             var form = $("#AddItemFormNew");
-                var btnName = $(this).val();
-                var formData = new FormData();
-                form.find('.custom-summary').html('');
+            var btnName = $(this).val();
+            var formData = new FormData();
+            form.find('.custom-summary').html('');
 
-                var id = $("#AddItemFormNew").attr('id');
-                var action = $("#AddItemFormNew").attr('action');
-                var method = $("#AddItemFormNew").attr('method');
-                var extraVals = $("#AddItemFormNew").data('extravals') || '';
-                var acallback = $("#AddItemFormNew").attr('data_acallback') || '';
-                var bcallback = $("#AddItemFormNew").data('bcallback') || '';
-                var realvals = extraVals.split(',');
-                //var serialzeArr = [];
-                var serialized = '';
-                var lastparam = $("#AddItemFormNew").data('lastparam') || false;
+            var id = $("#AddItemFormNew").attr('id');
+            var action = $("#AddItemFormNew").attr('action');
+            var method = $("#AddItemFormNew").attr('method');
+            var extraVals = $("#AddItemFormNew").data('extravals') || '';
+            var acallback = $("#AddItemFormNew").attr('data_acallback') || '';
+            var bcallback = $("#AddItemFormNew").data('bcallback') || '';
+            var realvals = extraVals.split(',');
+            //var serialzeArr = [];
+            var serialized = '';
+            var lastparam = $("#AddItemFormNew").data('lastparam') || false;
 
-                bcb = eval(bcallback)
-                if (typeof bcb === 'function') {
-                    var ret = bcb(formData, form);
-                    if (ret == false) {
-                        return false;
-                    }
+            bcb = eval(bcallback)
+            if (typeof bcb === 'function') {
+                var ret = bcb(formData, form);
+                if (ret == false) {
+                    return false;
                 }
-                var d = $("#AddItemFormNew").parents().eq(0).contents();
-                var thi = d[3];
-                // console.log(thi);
-                // return false;
-                realForm = new FormData(thi);
-                realForm.append('_token', $('input[name="_token"]').val());
-                realForm.append('_btn', $(this).val());
-                realForm.append('_data_index', $(this).attr('data-index'));
-                formData.forEach(function (value, key) {
-                    realForm.append(key, value);
-                });
+            }
+            var d = $("#AddItemFormNew").parents().eq(0).contents();
+            var thi = d[3];
+            // console.log(thi);
+            // return false;
+            realForm = new FormData(thi);
+            realForm.append('_token', $('input[name="_token"]').val());
+            realForm.append('_btn', $(this).val());
+            realForm.append('_data_index', $(this).attr('data-index'));
+            formData.forEach(function(value, key) {
+                realForm.append(key, value);
+            });
 
             $.ajax({
                 type: "post",
@@ -308,7 +294,23 @@
                             showConfirmButton: false,
                             timer: 1500
 
-                        })
+                        });
+                        // جلب السشن الاقسام
+
+
+                        for (var i = 0; i < 5; i++) {
+
+                            if (data['dp'][i]['ID'] == data[0][i].department) {
+
+                                $("#tbody_dep").append(
+                                    "<tr>" + "<td>" + data['dp'][i]['NAME'] + "</td>" +
+                                    "<td>" + data[0][i].numofemployee + "</td>" +
+                                    "<td>" + "bbc" + "</td>" + "</tr>");
+
+                            }
+
+                        }
+
                     }
                 },
                 error: function(data) {
@@ -330,6 +332,47 @@
             });
 
         });
+
+        // $(document).on("change", "#depID", function() {
+        //     var code = $(this).val();
+
+        //     $.ajax({
+        //         type: "GET",
+        //         url: "{{ route('request_committee.update_request') }}",
+        //         dataType: "html",
+        //         data:""
+        //         success: function(res) {
+        //             if (data.status == true) {
+        //                 Swal.fire({
+        //                     position: 'top-right',
+        //                     icon: 'success',
+        //                     title: 'تمت العملية بنجاح',
+        //                     showConfirmButton: false,
+        //                     timer: 1500
+
+        //                 })
+        //             }
+        //             console.log(data[0])
+        //         },
+        //         error: function(xhr, ajaxOptions, thrownError) {
+
+        //             var errors = data.responseJSON;
+        //             $.each(errors.message, function(key, val) {
+        //                 $("#" + key + "_error").text(val[0]);
+        //             });
+        //             Swal.fire({
+        //                 position: 'top-right',
+        //                 icon: 'error',
+        //                 title: 'فشلت العملية',
+        //                 showConfirmButton: false,
+        //                 timer: 1500
+
+        //             })
+
+        //         }
+        //     });
+
+        // });
 
         // $(document).on('submit', '[data-toggle="ajaxformmultipart"]', function(e) {
         //     e.preventDefault();
@@ -498,7 +541,6 @@
 
         //     });
         // });
-
     </script>
 
 @endpush
