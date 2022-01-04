@@ -171,34 +171,12 @@
                                         <th>اسم العضو</th>
                                         <th>المسمى الوظيفى</th>
                                         <th>دورة فى اللجنة</th>
-                                        <th> تعديل \ حذف</th>
+                                        <th> اجراء</th>
 
                                     </tr>
                                 </thead>
-                                <tbody class="table-bordered">
-                                    @foreach ($detials_req_dep['rol_members'] as $key => $value)
-                                        <tr>
-                                            <td>
-                                                {{ $key + 1 }}
-                                            </td>
-                                            <td style="font-size: 16px;">
-                                            </td>
-                                            <td style="font-size: 16px;">
-                                                {{ $value['NAME'] }}
-                                            </td>
-                                            <td style="font-size: 16px;">
-                                                {{ $value['JOB_TITLE'] }}
-                                            </td>
-                                            <td style="font-size: 16px;">
-                                                {{ $value['TEXT'] }}
-                                            </td>
-                                            <td style="font-size: 16px;">
-                                                <a id="{{ $value['ID'] }}"
-                                                    class="Post_delete_user btn btn-danger">حذف</a>
-                                                <a id="delete-dep" class="btn btn-primary">تعديل</a>
-                                            </td>
-                                        </tr>
-                                    @endforeach
+                                <tbody id="rol_members" class="table-bordered">
+
                                 </tbody>
                             </table>
                         </div>
@@ -342,16 +320,42 @@
                     },
                     success: function(data) {
                         // alert(data.code);
+                        $('#rol_members').html('');
                         if (data.code == 200) {
+
                             Swal.fire({
                                 position: 'top-right',
                                 icon: 'success',
                                 title: 'تمت العملية بنجاح',
                                 showConfirmButton: false,
                                 timer: 1500
-                            })
-                            // Run_DataTable();
-                            //  fill_datatable();
+                            });
+                            data.data.forEach((element,key) => {
+
+                                $('#rol_members').append(`
+                                <tr>
+                                            <td>
+                                                `+(key+1)+`
+                                            </td>
+                                            <td style="font-size: 16px;">
+                                            </td>
+                                            <td style="font-size: 16px;">
+                                                `+element.name+`
+                                            </td>
+                                            <td style="font-size: 16px;">
+                                                `+element.job_title+`
+                                            </td>
+                                            <td style="font-size: 16px;">
+                                                `+element.role_members+`
+                                            </td>
+                                            <td style="font-size: 16px;">
+                                                <a id=""class="Post_delete_user btn btn-danger">حذف</a>
+                                            </td>
+                                        </tr>
+                                `);
+                            });
+
+
                         } else {
 
                             Swal.fire({
@@ -360,7 +364,7 @@
                                 title: 'خطا' + '!' + data.message,
                                 showConfirmButton: false,
                                 timer: 1500
-                            })
+                            });
 
                         }
 

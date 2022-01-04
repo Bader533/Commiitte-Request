@@ -105,6 +105,7 @@ class C_request_committee_dep extends Controller
     //صفحة ترشيح اعضاء لجنة معينة
     public function nomination($id)
     {
+        session()->forget('nomination_user');
         $steps = new STEPS_TB();
         $detials_req_dep = $steps->get_detials_req_dep($id);
         $users = new USERS_TB();
@@ -144,32 +145,47 @@ class C_request_committee_dep extends Controller
     //اضافة عضو الى  الترشيح  ادارة معينة
     public  function add_user(Request $request)
     {
+
         $nomination_user = session()->get('nomination_user');
         if ($nomination_user == null) {
-            $item[] = array("department" => $request->input('department'), "numofemployee" => $request->numofemployee);
+            $item[] = array(
+                "role_members" => $request->role_members, "name" => $request->name, 'job_title' => $request->job_title
+            );
             session()->put('nomination_user', $item);
-            return Response()->json(session()->get('nomination_user'));
+            // return Response()->json(session()->get('nomination_user'));
+            return [
+                'code' => 200,
+                'data' => session()->get('nomination_user')
+            ];
         } else {
-            if (collect($nomination_user)->where('department', $request->input('department'))->where('numofemployee', $request->numofemployee)->count() > 0) {
+            if (collect($nomination_user)->where('name', $request->name)->count() > 0) {
                 $arr = array('message' => 'عذراً .. الصنف مدخل مسبقاً', 'status' => 0);
                 return Response()->json($arr);
             } else {
-
                 $arr = array();
-                //dd($empdata);
                 foreach ($nomination_user as $i) {
-                    //dd($i['Item']);
-                    $arr[] = [
-                        "department" => $i['department'],
-                        "numofemployee" => $i['numofemployee'],
-
-                    ];
+                    $arr[] =
+                        [
+                            "name" => $i['name'],
+                            "job_title" => $i['job_title'],
+                            "role_members" => $i['role_members'],
+                        ];
                 }
-                $item = array("department" => $request->input('department'), "numofemployee" => $request->numofemployee);
-                array_push($arr, $item);
-                session()->put('nomination_user', $arr); //put
 
-                return Response()->json(session()->get('nomination_user'));
+                $item = array(
+                    "name" => $request->name,
+                    "job_title" => $request->job_title,
+                    "role_members" => $request->role_members
+                );
+                array_push($arr, $item);
+
+                session()->put('nomination_user', $arr); //put
+                //  return $arr[0];
+                return [
+                    'code' => 200,
+                    'data' => session()->get('nomination_user')
+                ];
+                //  return Response()->json(session()->get('nomination_user'));
             }
         }
     }
