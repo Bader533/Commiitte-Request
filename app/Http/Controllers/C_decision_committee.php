@@ -23,6 +23,7 @@ class C_decision_committee extends Controller
     //عرض بيانات اللجنة
     public function get_request_committee($id)
     {
+        session()->forget('TrashItems');
         $sql = "begin BADER.get_request_commmittee(:IDreq,:p_request); end;";
         return DB::transaction(function ($conn) use ($sql, $id) {
             $pdo = $conn->getPdo();
@@ -102,7 +103,13 @@ class C_decision_committee extends Controller
             if ($empdata == null) {
                 $item[] = array("department" => $request->input('department'), "numofemployee" => $request->numofemployee);
                 session()->put('TrashItems', $item);
-                return Response()->json(session()->get('TrashItems'));
+              //  return Response()->json(session()->get('TrashItems'));
+                return Response()->json([
+                    'dp' => $this->get_department(),
+                    session()->get('TrashItems'),
+                    'status' => true,
+                    'msg' => 'تم الحفظ بنجاح',
+                ]);
             } else {
                 if (collect($empdata)->where('department', $request->input('department'))->where('numofemployee', $request->numofemployee)->count() > 0) {
                     $arr = array('message' => 'عذراً .. الصنف مدخل مسبقاً', 'status' => 0);
