@@ -123,7 +123,7 @@ class C_request_committee_dep extends Controller
 
         $nomination_user = session()->get('nomination_user');
         $arr = array();
-        foreach ($nomination_user as $i) {
+     /*   foreach ($nomination_user as $i) {
             $arr[] =
                 [
                     "name" => $i['name'],
@@ -131,12 +131,13 @@ class C_request_committee_dep extends Controller
                     "role_members" => $i['role_members'],
                 ];
         }
+        */
 
-        unset($arr[0]);
+     //   unset($arr[0]);
       //  unset($arr[1]);
        // array_push($arr, $item);
 
-        session()->put('nomination_user',$arr); //put
+       // session()->put('nomination_user',$arr); //put
 
             return [
                 'code' => 200,
