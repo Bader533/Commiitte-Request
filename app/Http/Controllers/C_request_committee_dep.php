@@ -120,27 +120,30 @@ class C_request_committee_dep extends Controller
     // حذف عضو من الترشيح عند ادارة معينة
     public function delete_user(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'id_user' => 'required',
-        ]);
 
-        if ($validator->fails()) {
-            return response()->json(
+        $nomination_user = session()->get('nomination_user');
+        $arr = array();
+        foreach ($nomination_user as $i) {
+            $arr[] =
                 [
-                    'code' => 400,
-                    'message' => $validator->errors()
-                ],
-                400
-            );
+                    "name" => $i['name'],
+                    "job_title" => $i['job_title'],
+                    "role_members" => $i['role_members'],
+                ];
         }
-        $ROLE_MEMBERS_C =  new ROLE_MEMBERS_C_TB;
 
-        if ($ROLE_MEMBERS_C->delete_user($request->id_user)) {
+        unset($arr[0]);
+      //  unset($arr[1]);
+       // array_push($arr, $item);
+
+        session()->put('nomination_user',$arr); //put
+
             return [
                 'code' => 200,
-                'message' => 'تمت العملية بنجاح'
+                'data' => session()->get('nomination_user'),
+                'message' => 'تمت العملية بنجاح',
             ];
-        }
+
     }
     //اضافة عضو الى  الترشيح  ادارة معينة
     public  function add_user(Request $request)
@@ -178,6 +181,8 @@ class C_request_committee_dep extends Controller
                     "role_members" => $request->role_members
                 );
                 array_push($arr, $item);
+
+
 
                 session()->put('nomination_user', $arr); //put
                 //  return $arr[0];
