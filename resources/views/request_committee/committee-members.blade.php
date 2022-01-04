@@ -216,14 +216,14 @@
             let role_members = $('#ROLE_MEMBERS').val();
             let name = $('#users_name option:selected').text();
             let job_title = $('#job_title').val();
-           
+
             Util.ConfirmAprove(function() {
                 Post_add_user(role_members, name, job_title);
             });
 
         });
         //حذف عضو
-        function Post_delete_user(id_user) {
+        function Post_delete_user(name) {
 
             $.ajaxSetup({
 
@@ -236,7 +236,7 @@
                     url: "{{ route('request_committee.department.delete_user') }}",
                     method: "POST",
                     data: {
-                        id_user: id_user
+                        name:name
                     },
                     dataType: 'json',
                     beforeSend: function() {
@@ -278,7 +278,7 @@
                                        ` + element.role_members + `
                                     </td>
                                     <td style="font-size: 16px;">
-                                         <a id=""class="Post_delete_user btn btn-danger">حذف</a>
+                                         <a id="`+element.name+`"class="Post_delete_user btn btn-danger">حذف</a>
                                     </td>
                                 </tr>
 `);
@@ -373,7 +373,7 @@
                                                 ` + element.role_members + `
                                             </td>
                                             <td style="font-size: 16px;">
-                                                <a id=""class="Post_delete_user btn btn-danger">حذف</a>
+                                                <a id="`+element.name+`" class="Post_delete_user btn btn-danger">حذف</a>
                                             </td>
                                         </tr>
                                 `);
