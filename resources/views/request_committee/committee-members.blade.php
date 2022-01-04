@@ -216,7 +216,7 @@
             let role_members = $('#ROLE_MEMBERS').val();
             let name = $('#users_name option:selected').text();
             let job_title = $('#job_title').val();
-            alert(role_members + name + job_title);
+           
             Util.ConfirmAprove(function() {
                 Post_add_user(role_members, name, job_title);
             });
@@ -249,7 +249,7 @@
                         })
                     },
                     success: function(data) {
-                        $('#rol_members').html('');
+
                         if (data.code == 200) {
                             Swal.fire({
                                 position: 'top-right',
@@ -258,6 +258,7 @@
                                 showConfirmButton: false,
                                 timer: 1500
                             })
+                            $('#rol_members').html('');
                             data.data.forEach((element, key) => {
 
                                 $('#rol_members').append(`
@@ -343,9 +344,9 @@
                     },
                     success: function(data) {
                         // alert(data.code);
-                        $('#rol_members').html('');
-                        if (data.code == 200) {
 
+                        if (data.code == 200) {
+                            $('#rol_members').html('');
                             Swal.fire({
                                 position: 'top-right',
                                 icon: 'success',

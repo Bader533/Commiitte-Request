@@ -164,7 +164,11 @@ class C_request_committee_dep extends Controller
         } else {
             if (collect($nomination_user)->where('name', $request->name)->count() > 0) {
                 $arr = array('message' => 'عذراً .. الصنف مدخل مسبقاً', 'status' => 0);
-                return Response()->json($arr);
+             return [
+                    'code' => 400,
+                    'data' => session()->get('nomination_user'),
+                    'message' => 'عذراً .. الصنف مدخل مسبقاً', 'status' => 0,
+                ];
             } else {
                 $arr = array();
                 foreach ($nomination_user as $i) {
