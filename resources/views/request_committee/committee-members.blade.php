@@ -183,13 +183,13 @@
                         </div>
 
                         <!--begin::Submit-->
-                        <button type="submit" class="btn btn-primary" id="kt_careers_submit_button">
+                        <a  class="btn btn-primary" id="Post_add_users">
                             <!--begin::Indicator-->
                             <span class="indicator-label">موافق</span>
                             <span class="indicator-progress">انتظر من فظلك
                                 <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
                             <!--end::Indicator-->
-                        </button>
+                            </a>
                         <!--end::Submit-->
                     </form>
                     <!--end::Form-->
@@ -212,6 +212,17 @@
 
         });
         $(document).on("click", '#Post_add_user', function(event) {
+           // let id = $('#users_name').attr('id');
+            let role_members = $('#ROLE_MEMBERS').val();
+            let name = $('#users_name option:selected').text();
+            let id = $('#users_name option:selected').val();
+            let job_title = $('#job_title').val();
+
+            Util.ConfirmAprove(function() {
+                Post_add_user(id,role_members,name,job_title);
+            });
+        });
+        $(document).on("click", '#Post_add_users', function(event) {
             let id = $(this).attr('id');
             let role_members = $('#ROLE_MEMBERS').val();
             let name = $('#users_name option:selected').text();
@@ -220,8 +231,8 @@
             Util.ConfirmAprove(function() {
                 Post_add_user(role_members, name, job_title);
             });
-
         });
+
         //حذف عضو
         function Post_delete_user(name) {
 
@@ -236,7 +247,7 @@
                     url: "{{ route('request_committee.department.delete_user') }}",
                     method: "POST",
                     data: {
-                        name:name
+                        name: name
                     },
                     dataType: 'json',
                     beforeSend: function() {
@@ -278,10 +289,10 @@
                                        ` + element.role_members + `
                                     </td>
                                     <td style="font-size: 16px;">
-                                         <a id="`+element.name+`"class="Post_delete_user btn btn-danger">حذف</a>
+                                         <a id="` + element.name + `"class="Post_delete_user btn btn-danger">حذف</a>
                                     </td>
                                 </tr>
-`);
+                           `);
                             });
                         } else {
 
@@ -315,7 +326,106 @@
 
         }
         //اضافة عضو
-        function Post_add_user(role_members, name, job_title) {
+        function Post_add_user(user_id,role_members, name, job_title) {
+
+            $.ajaxSetup({
+
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+
+            });
+            $.ajax({
+                    url: "{{ route('request_committee.department.add_user') }}",
+                    method: "POST",
+                    data: {
+                        role_members: role_members,
+                        name: name,
+                        job_title: job_title,
+                        user_id:user_id,
+                    },
+                    dataType: 'json',
+                    beforeSend: function() {
+                        Swal.fire({
+                            position: 'top-right',
+                            icon: 'success',
+                            title: 'جاري الارسال',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                    },
+                    success: function(data) {
+                        // alert(data.code);
+
+                        if (data.code == 200) {
+                            $('#rol_members').html('');
+                            Swal.fire({
+                                position: 'top-right',
+                                icon: 'success',
+                                title: 'تمت العملية بنجاح',
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                            data.data.forEach((element, key) => {
+
+                                $('#rol_members').append(`
+                                <tr>
+                                            <td name="user_id[`+element.user_id+`]">
+                                                ` + (key + 1) + `
+                                            </td>
+                                            <td style="font-size: 16px;">
+                                            </td>
+                                            <td style="font-size: 16px;">
+                                                ` + element.name + `
+                                            </td>
+                                            <td style="font-size: 16px;">
+                                                ` + element.job_title + `
+                                            </td>
+                                            <td style="font-size: 16px;">
+                                                ` + element.role_members + `
+                                            </td>
+                                            <td style="font-size: 16px;">
+                                                <a id="` + element.name + `" class="Post_delete_user btn btn-danger">حذف</a>
+                                            </td>
+                                        </tr>
+                                `);
+                            });
+
+
+                        } else {
+
+                            Swal.fire({
+                                position: 'top-right',
+                                icon: 'error',
+                                title: 'خطا' + '!' + data.message,
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+
+                        }
+
+                    },
+                    error: function(data) {
+                        Swal.fire({
+                            position: 'top-right',
+                            icon: 'error',
+                            title: 'خطا' + '!' + data.message,
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                    }
+
+                })
+                .done(function(msg) {
+
+                    //$("#home_message_container").html(msg);
+                });
+
+
+        }
+
+        //اضافة الاعضاء db
+        function Post_add_users(role_members, name, job_title) {
 
             $.ajaxSetup({
 
@@ -357,26 +467,26 @@
                             data.data.forEach((element, key) => {
 
                                 $('#rol_members').append(`
-                                <tr>
-                                            <td>
-                                                ` + (key + 1) + `
-                                            </td>
-                                            <td style="font-size: 16px;">
-                                            </td>
-                                            <td style="font-size: 16px;">
-                                                ` + element.name + `
-                                            </td>
-                                            <td style="font-size: 16px;">
-                                                ` + element.job_title + `
-                                            </td>
-                                            <td style="font-size: 16px;">
-                                                ` + element.role_members + `
-                                            </td>
-                                            <td style="font-size: 16px;">
-                                                <a id="`+element.name+`" class="Post_delete_user btn btn-danger">حذف</a>
-                                            </td>
-                                        </tr>
-                                `);
+                    <tr>
+                                <td>
+                                    ` + (key + 1) + `
+                                </td>
+                                <td style="font-size: 16px;">
+                                </td>
+                                <td style="font-size: 16px;">
+                                    ` + element.name + `
+                                </td>
+                                <td style="font-size: 16px;">
+                                    ` + element.job_title + `
+                                </td>
+                                <td style="font-size: 16px;">
+                                    ` + element.role_members + `
+                                </td>
+                                <td style="font-size: 16px;">
+                                    <a id="` + element.name + `" class="Post_delete_user btn btn-danger">حذف</a>
+                                </td>
+                            </tr>
+                    `);
                             });
 
 

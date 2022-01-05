@@ -109,6 +109,9 @@ Route::post('/request_committee/department/nomination/delete_user', [App\Http\Co
 //اضافة عضو الى الترشيح ادارة معينة
 Route::post('/request_committee/department/nomination/add_user', [App\Http\Controllers\C_request_committee_dep::class, 'add_user'])
     ->name('request_committee.department.add_user');
+//اضافة الاعضاء المرشحين db
+Route::post('/request_committee/department/nomination/add_users', [App\Http\Controllers\C_request_committee_dep::class, 'add_users'])
+    ->name('request_committee.department.add_users');
 
 
 /**************************************************نهاية الصفحة ادارة معينة******************************** */

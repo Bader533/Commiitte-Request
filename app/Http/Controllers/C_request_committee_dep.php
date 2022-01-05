@@ -154,7 +154,8 @@ class C_request_committee_dep extends Controller
         $nomination_user = session()->get('nomination_user');
         if ($nomination_user == null) {
             $item[] = array(
-                "role_members" => $request->role_members, "name" => $request->name, 'job_title' => $request->job_title
+                "user_id"=>$request->user_id,"role_members" => $request->role_members,
+                "name" => $request->name, 'job_title' => $request->job_title
             );
             session()->put('nomination_user', $item);
             // return Response()->json(session()->get('nomination_user'));
@@ -175,6 +176,7 @@ class C_request_committee_dep extends Controller
                 foreach ($nomination_user as $i) {
                     $arr[] =
                         [
+                            "user_id"=>$i['user_id'],
                             "name" => $i['name'],
                             "job_title" => $i['job_title'],
                             "role_members" => $i['role_members'],
@@ -182,6 +184,7 @@ class C_request_committee_dep extends Controller
                 }
 
                 $item = array(
+                    "user_id"=>$request->user_id,
                     "name" => $request->name,
                     "job_title" => $request->job_title,
                     "role_members" => $request->role_members
@@ -199,5 +202,17 @@ class C_request_committee_dep extends Controller
                 //  return Response()->json(session()->get('nomination_user'));
             }
         }
+    }
+    //اضافة الاعضاء المرشحين db
+    public function add_users(Request $request)
+    {
+        $id_user=6;
+        $dep_R_C_ID=297;
+        $text='تجريبي تجريبي تجريبي ';
+
+        $ROLE_MEMBERS_C = new ROLE_MEMBERS_C_TB();
+        $ROLE_MEMBERS_C->add_user($id_user,$dep_R_C_ID,$text);
+
+        return 1;
     }
 }
