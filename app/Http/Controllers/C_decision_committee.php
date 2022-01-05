@@ -94,7 +94,7 @@ class C_decision_committee extends Controller
             if ($empdata == null) {
                 $item[] = array("department" => $request->input('department'), "numofemployee" => $request->numofemployee);
                 session()->put('TrashItems', $item);
-              //  return Response()->json(session()->get('TrashItems'));
+                //  return Response()->json(session()->get('TrashItems'));
                 return Response()->json([
                     'dp' => $this->get_department(),
                     session()->get('TrashItems'),
@@ -132,19 +132,33 @@ class C_decision_committee extends Controller
         } elseif ($request->_btn == "update_request") {
             // dd($request->_btn);
             session()->forget('TrashItems');
+        } elseif ($request->_btn == "remove_department") {
 
-        }elseif($request->_btn == "remove_department"){
+            // $TrashItems = session()->get('TrashItems');
+            // $arr = array();
 
-            $items = session()->get('TrashItems');
-            unset($items[$request->_data_index]);
-            session()->put('TrashItems', $items);
-            return Response()->json([
-                'dp' => $this->get_department(),
-                session()->get('TrashItems'),
-                'status' => true,
-                'msg' => 'تم الحذف بنجاح',
-            ]);
+            // $collect = collect($TrashItems)->where('department', '!=', $request->department);
 
+            // foreach ($collect as $i) {
+            //     $arr[] =
+            //         [
+            //             "department" => $i['department'],
+            //             "numofemployee" => $i['numofemployee'],
+
+            //         ];
+            // }
+
+
+            // session()->forget('TrashItems');
+
+            // session()->put('TrashItems', $arr); //put
+
+            // return [
+
+            //     'data' => session()->get('TrashItems'),
+            //     'status' => true,
+            //     'msg' => 'تم الحفظ بنجاح',
+            // ];
         }
 
 
@@ -216,16 +230,14 @@ class C_decision_committee extends Controller
     public function delete_request($r)
     {
         $items = session()->get('TrashItems');
-            unset($items[$r]);
-            session()->put('TrashItems', $items);
-            return Response()->json([
-                'dp' => $this->get_department(),
-                session()->get('TrashItems'),
-                'status' => true,
-                'msg' => 'تم الحذف بنجاح',
-            ]);
-
-
+        unset($items[$r]);
+        session()->put('TrashItems', $items);
+        return Response()->json([
+            'dp' => $this->get_department(),
+            session()->get('TrashItems'),
+            'status' => true,
+            'msg' => 'تم الحذف بنجاح',
+        ]);
     }
 
 

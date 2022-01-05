@@ -1,7 +1,7 @@
 <?php return array (
   'app' => 
   array (
-    'name' => 'ملف اللجان',
+    'name' => 'Laravel',
     'env' => 'local',
     'debug' => true,
     'url' => 'http://localhost',
@@ -10,7 +10,7 @@
     'locale' => 'ar',
     'fallback_locale' => 'en',
     'faker_locale' => 'en_US',
-    'key' => 'base64:0ZqIBRmbipAVmZlWoamDSwHQu7a++f+o5XZQ6RIp+oA=',
+    'key' => 'base64:nBzwLRfaN+fZ9jWeZcEH/7d1axa6L8XifHMgKj6rLhg=',
     'cipher' => 'AES-256-CBC',
     'providers' => 
     array (
@@ -185,7 +185,7 @@
       'file' => 
       array (
         'driver' => 'file',
-        'path' => 'D:\\D\\committess_file_file\\committees_file\\storage\\framework/cache/data',
+        'path' => 'C:\\xampp\\htdocs\\committees_file\\storage\\framework/cache/data',
       ),
       'memcached' => 
       array (
@@ -229,7 +229,7 @@
         'driver' => 'octane',
       ),
     ),
-    'prefix' => 'mlf_allgan_cache',
+    'prefix' => 'laravel_cache',
   ),
   'cors' => 
   array (
@@ -347,7 +347,7 @@
       'options' => 
       array (
         'cluster' => 'redis',
-        'prefix' => 'mlf_allgan_database_',
+        'prefix' => 'laravel_database_',
       ),
       'default' => 
       array (
@@ -375,12 +375,12 @@
       'local' => 
       array (
         'driver' => 'local',
-        'root' => 'D:\\D\\committess_file_file\\committees_file\\storage\\app',
+        'root' => 'C:\\xampp\\htdocs\\committees_file\\storage\\app',
       ),
       'public' => 
       array (
         'driver' => 'local',
-        'root' => 'D:\\D\\committess_file_file\\committees_file\\storage\\app/public',
+        'root' => 'C:\\xampp\\htdocs\\committees_file\\storage\\app/public',
         'url' => 'http://localhost/storage',
         'visibility' => 'public',
       ),
@@ -398,7 +398,7 @@
     ),
     'links' => 
     array (
-      'D:\\D\\committess_file_file\\committees_file\\public\\storage' => 'D:\\D\\committess_file_file\\committees_file\\storage\\app/public',
+      'C:\\xampp\\htdocs\\committees_file\\public\\storage' => 'C:\\xampp\\htdocs\\committees_file\\storage\\app/public',
     ),
   ),
   'hashing' => 
@@ -433,13 +433,13 @@
       'single' => 
       array (
         'driver' => 'single',
-        'path' => 'D:\\D\\committess_file_file\\committees_file\\storage\\logs/laravel.log',
+        'path' => 'C:\\xampp\\htdocs\\committees_file\\storage\\logs/laravel.log',
         'level' => 'debug',
       ),
       'daily' => 
       array (
         'driver' => 'daily',
-        'path' => 'D:\\D\\committess_file_file\\committees_file\\storage\\logs/laravel.log',
+        'path' => 'C:\\xampp\\htdocs\\committees_file\\storage\\logs/laravel.log',
         'level' => 'debug',
         'days' => 14,
       ),
@@ -490,7 +490,7 @@
       ),
       'emergency' => 
       array (
-        'path' => 'D:\\D\\committess_file_file\\committees_file\\storage\\logs/laravel.log',
+        'path' => 'C:\\xampp\\htdocs\\committees_file\\storage\\logs/laravel.log',
       ),
     ),
   ),
@@ -549,14 +549,14 @@
     'from' => 
     array (
       'address' => NULL,
-      'name' => 'ملف اللجان',
+      'name' => 'Laravel',
     ),
     'markdown' => 
     array (
       'theme' => 'default',
       'paths' => 
       array (
-        0 => 'D:\\D\\committess_file_file\\committees_file\\resources\\views/vendor/mail',
+        0 => 'C:\\xampp\\htdocs\\committees_file\\resources\\views/vendor/mail',
       ),
     ),
   ),
@@ -679,7 +679,7 @@
     'lifetime' => '120',
     'expire_on_close' => false,
     'encrypt' => false,
-    'files' => 'D:\\D\\committess_file_file\\committees_file\\storage\\framework/sessions',
+    'files' => 'C:\\xampp\\htdocs\\committees_file\\storage\\framework/sessions',
     'connection' => NULL,
     'table' => 'sessions',
     'store' => NULL,
@@ -688,7 +688,7 @@
       0 => 2,
       1 => 100,
     ),
-    'cookie' => 'mlf_allgan_session',
+    'cookie' => 'laravel_session',
     'path' => '/',
     'domain' => NULL,
     'secure' => NULL,
@@ -699,9 +699,9 @@
   array (
     'paths' => 
     array (
-      0 => 'D:\\D\\committess_file_file\\committees_file\\resources\\views',
+      0 => 'C:\\xampp\\htdocs\\committees_file\\resources\\views',
     ),
-    'compiled' => 'D:\\D\\committess_file_file\\committees_file\\storage\\framework\\views',
+    'compiled' => 'C:\\xampp\\htdocs\\committees_file\\storage\\framework\\views',
   ),
   'flare' => 
   array (
