@@ -267,12 +267,13 @@
             }
             var d = $("#AddItemFormNew").parents().eq(0).contents();
             var thi = d[3];
-            // console.log(thi);
-            // return false;
             realForm = new FormData(thi);
             realForm.append('_token', $('input[name="_token"]').val());
             realForm.append('_btn', $(this).val());
             realForm.append('_data_index', $(this).attr('data-index'));
+
+            let name = $('#depID option:selected').text();
+            realForm.append('depID', name);
             formData.forEach(function(value, key) {
                 realForm.append(key, value);
             });
@@ -298,47 +299,17 @@
 
                         $("#tbody_dep").html('');
 
-                        let i = 0;
-                        while (i < 10) {
+                        data.data.forEach(element => {
+                            $("#tbody_dep").append(
+                                "<tr>" +
+                                "<td>" + element.depID + "</td>" +
+                                "<td>" + element.numofemployee + "</td>" +
+                                "<td>" + "<button type='submit' " +
+                                "class='btn btn-lg btn-danger' name = 'action' value = 'remove_department'>" +
+                                "<i class='fa fa-remove'>" + "</i>" + 'حذف' + "</button>" +
+                                "</td>" + "</tr>");
 
-                                if (data['dp'][i]['ID'] = data[0][i].department) {
-                                    if(data[0][i].department = data['dp'][i]['ID']){
-                                        console.log(data['dp'][2]['NAME'])
-                                        console.log(i)
-                                    }
-                                    console.log(data['dp'][i]['NAME'])
-                                    console.log(data['dp'][i]['ID'])
-                                    console.log(data[0][i].department)
-
-                                }
-
-
-
-                            i++;
-                        }
-
-                        // for (var i = 0; i < 10; i++) {
-
-                        //     if (data['dp'][i]['ID'] = data[0][i].department) {
-                        //         console.log(data['dp'][i]['NAME'])
-                        //         console.log(data['dp'][i]['ID'])
-                        //         console.log(data[0][i].department)
-                        //         console.log(i)
-                        //     }
-
-
-                        // var dep =  data[0][i].department;
-                        // if (data['dp'][i]['ID'] = data[0][i].department) {
-
-                        //     $("#tbody_dep").append(
-                        //         "<tr>" + "<td>" + data['dp']['NAME'] + "</td>" +
-                        //         "<td>" + data[0][i].numofemployee + "</td>" +
-                        //         "<td>" + "<button type='submit' " +"class='btn btn-lg btn-danger' name = 'action' value = 'remove_department'>"+
-                        //             "<i class='fa fa-remove'>"+"</i>"+'حذف'+"</button>" + "</td>" + "</tr>");
-
-                        // }
-
-                        // }
+                        });
 
                     }
                 },

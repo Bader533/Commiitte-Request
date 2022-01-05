@@ -88,42 +88,42 @@ class C_decision_committee extends Controller
     {
 
         if ($request->_btn == "add_department") {
-
+            // اضافة الادارات المعنية للجنة
             $empdata = session()->get('TrashItems');
 
             if ($empdata == null) {
-                $item[] = array("department" => $request->input('department'), "numofemployee" => $request->numofemployee);
+                $item[] = array("depID" => $request->depID ,"department" => $request->input('department'), "numofemployee" => $request->numofemployee);
                 session()->put('TrashItems', $item);
-                //  return Response()->json(session()->get('TrashItems'));
+
                 return Response()->json([
-                    'dp' => $this->get_department(),
-                    session()->get('TrashItems'),
+
+                    'data' => session()->get('TrashItems'),
                     'status' => true,
                     'msg' => 'تم الحفظ بنجاح',
                 ]);
             } else {
-                if (collect($empdata)->where('department', $request->input('department'))->where('numofemployee', $request->numofemployee)->count() > 0) {
+                if (collect($empdata)->where('depID', $request->depID)->where('department', $request->input('department'))->where('numofemployee', $request->numofemployee)->count() > 0) {
                     $arr = array('message' => 'عذراً .. الصنف مدخل مسبقاً', 'status' => 0);
                     return Response()->json($arr);
                 } else {
 
                     $arr = array();
-                    //dd($empdata);
+
                     foreach ($empdata as $i) {
-                        //dd($i['Item']);
+
                         $arr[] = [
                             "department" => $i['department'],
                             "numofemployee" => $i['numofemployee'],
+                            "depID" => $i['depID'],
 
                         ];
                     }
-                    $item = array("department" => $request->input('department'), "numofemployee" => $request->numofemployee);
+                    $item = array("depID" => $request->depID ,"department" => $request->input('department'), "numofemployee" => $request->numofemployee);
                     array_push($arr, $item);
                     session()->put('TrashItems', $arr); //put
 
                     return Response()->json([
-                        'dp' => $this->get_department(),
-                        session()->get('TrashItems'),
+                       'data' => session()->get('TrashItems'),
                         'status' => true,
                         'msg' => 'تم الحفظ بنجاح',
                     ]);
@@ -132,33 +132,35 @@ class C_decision_committee extends Controller
         } elseif ($request->_btn == "update_request") {
             // dd($request->_btn);
             session()->forget('TrashItems');
+
         } elseif ($request->_btn == "remove_department") {
 
-            // $TrashItems = session()->get('TrashItems');
-            // $arr = array();
+            //حذف ادارة المعنية
+            $TrashItems = session()->get('TrashItems');
+            $arr = array();
 
-            // $collect = collect($TrashItems)->where('department', '!=', $request->department);
+            $collect = collect($TrashItems)->where('department', '!=', $request->department);
 
-            // foreach ($collect as $i) {
-            //     $arr[] =
-            //         [
-            //             "department" => $i['department'],
-            //             "numofemployee" => $i['numofemployee'],
+            foreach ($collect as $i) {
+                $arr[] =
+                    [
+                        "department" => $i['department'],
+                        "numofemployee" => $i['numofemployee'],
+                        "depID" => $i['depID'],
 
-            //         ];
-            // }
+                    ];
+            }
 
 
-            // session()->forget('TrashItems');
+            session()->forget('TrashItems');
 
-            // session()->put('TrashItems', $arr); //put
+            session()->put('TrashItems', $arr); //put
 
-            // return [
-
-            //     'data' => session()->get('TrashItems'),
-            //     'status' => true,
-            //     'msg' => 'تم الحفظ بنجاح',
-            // ];
+            return Response()->json([
+                'data' => session()->get('TrashItems'),
+                 'status' => true,
+                 'msg' => 'تم الحفظ بنجاح',
+             ]);
         }
 
 
@@ -226,45 +228,6 @@ class C_decision_committee extends Controller
 
 
     }
-
-    public function delete_request($r)
-    {
-        $items = session()->get('TrashItems');
-        unset($items[$r]);
-        session()->put('TrashItems', $items);
-        return Response()->json([
-            'dp' => $this->get_department(),
-            session()->get('TrashItems'),
-            'status' => true,
-            'msg' => 'تم الحذف بنجاح',
-        ]);
-    }
-
-
-
-    //حذف الادارة المعنية
-    // public function delete_request(Request $request)
-    // {
-    //     $sql = 'begin BADER.delete_department(:IDreq)';
-    //     return DB::transaction(function ($conn) use ($sql, $id) {
-    //         $pdo = $conn->getPdo();
-    //         $stmt = $pdo->prepare();
-    //         $stmt->bindParam(':IDreq', $IDreq, PDO::PARAM_INT);
-    //     });
-
-    //     if ($stmt)
-    //         return response()->json([
-    //             'status' => true,
-    //             'msg' => 'تم الحفظ بنجاح',
-
-    //         ]);
-
-    //     else
-    //         return response()->json([
-    //             'status' => false,
-    //             'msg' => 'فشل الحفظ برجاء المحاوله مجددا',
-    //         ]);
-    // }
 
 
 
