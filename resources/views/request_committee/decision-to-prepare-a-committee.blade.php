@@ -298,6 +298,9 @@
                         // جلب السشن الاقسام
 
                         $("#tbody_dep").html('');
+                      /*  data..forEach(element => {
+
+                        });*/
 
                         data.data.forEach(element => {
                             $("#tbody_dep").append(

@@ -74,6 +74,24 @@ public function get_detials_req_dep($id_req)
        ;
     });
 }
+//اخر مرحلة تم الوصول اليها
 
+public function get_committee_last_steps_dep($P_REQ_ID){
+    $sql = "begin
+    HANI.Get_committee_last_steps_dep(:P_REQ_ID,:rol_members);
+          end;";
 
+    return DB::transaction(function ($conn) use ($sql,$P_REQ_ID) {
+        $pdo = $conn->getPdo();
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':P_REQ_ID', $P_REQ_ID, PDO::PARAM_INT);
+        $stmt->bindParam(':rol_members', $rol_members, PDO::PARAM_INT);
+
+        $stmt->execute();
+
+        return $rol_members
+       ;
+    });
+}
 }
