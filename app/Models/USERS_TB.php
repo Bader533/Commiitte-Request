@@ -32,4 +32,23 @@ class USERS_TB extends Model
             return $array;
         });
     }
+    //كل المستخدمين
+    public function get_users_affairs()
+    {
+        $sql = "begin BADER.get_user_affairs(:req); end;";
+         //procedure get_user_affairs(req OUT SYS_REFCURSOR)
+        return DB::transaction(function ($conn) use ($sql) {
+            $pdo = $conn->getPdo();
+
+            $stmt = $pdo->prepare($sql);
+
+            $stmt->bindParam(':req',$req, PDO::PARAM_STMT);
+            $stmt->execute();
+            oci_execute($req, OCI_DEFAULT);
+            oci_fetch_all($req,$array, 0, -1, OCI_FETCHSTATEMENT_BY_ROW + OCI_ASSOC);
+            oci_free_cursor($req);
+
+            return $array;
+        });
+    }
 }

@@ -43,14 +43,19 @@ class C_a_affairs extends Controller
 
         foreach ($get_a_affairs['result'] as $index => $res) {
          $url = route('request_committee.get_request_committee',['id' =>$res['ID']]);
-            $action =   '<a href="'.$url.'" id="' . $res['ID'] . '"
-            class=" bg-primary text-light rounded border-0">اعداد قرار تشكيل لجنة</a>';
+
+         $action =   '<a href="'.$url.'" id="' . $res['ID'] . '"
+         class=" bg-primary text-light rounded border-0">اعداد قرار تشكيل لجنة</a>';
+
             $status = ' <label id="' . $res['ID'] . '"
             class=" bg-warning text-light rounded border-0">قيد الانتظار</label >';
             if ($res['STATUS_TB_ID'] == 1) {
                 $status =   '
               <label id="' . $res['ID'] . '"
             class="bg-primary text-light rounded border-0">موافقة</label >';
+            $action =   '<a style="pointer-events: none; display: inline-block;" href="'.$url.'" id="' . $res['ID'] . '"
+            class=" bg-success text-light rounded border-0">اعداد قرار تشكيل لجنة</a>';
+
             }
             if ($res['STATUS_TB_ID'] == 2) {
                 $status =   '

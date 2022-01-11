@@ -28,8 +28,8 @@
                                     <label class="required fs-5 fw-bold mb-2">رقم اللجنة</label>
                                     <!--end::Label-->
                                     <!--begin::Input-->
-                                    <input type="number" class="form-control form-control-solid" placeholder=""
-                                        value="{{ $arr['ID'] }}" name="id_request" />
+                                    <input id="id_req" readonly type="number" class="form-control form-control-solid"
+                                        placeholder="" value="{{ $arr['ID'] }}" name="id_request" />
                                     <!--end::Input-->
                             </div>
                             <!--end::Col-->
@@ -40,7 +40,7 @@
                                 <!--end::Label-->
                                 <!--end::Input-->
 
-                                <input type="number" class="form-control form-control-solid" placeholder=""
+                                <input readonly type="number" class="form-control form-control-solid" placeholder=""
                                     value="{{ $arr['COMMITTEE_TERM'] }}" name="committe_term_reqest" />
 
                                 <!--end::Input-->
@@ -57,7 +57,7 @@
                                 <!--end::Label-->
                                 <!--begin::Input-->
 
-                                <input type="date" class="form-control form-control-solid" placeholder=""
+                                <input readonly type="date" class="form-control form-control-solid" placeholder=""
                                     value="{{ \Carbon\Carbon::parse($arr['START_DATE'])->format('Y-m-d') }}"
                                     name="start_date" />
                                 <!--end::Input-->
@@ -72,7 +72,8 @@
                                 <label class="required fs-5 fw-bold mb-2">تاريخ انتهاء تشكيل اللجنة </label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
-                                <input type="date" class="form-control form-control-solid" placeholder="" name="end_date" />
+                                <input id="end_date" type="date" class="form-control form-control-solid" placeholder=""
+                                    name="end_date" />
                                 <!--end::Input-->
                             </div>
 
@@ -83,11 +84,11 @@
                         <div class="row mb-5">
                             <div class="col-md-6 fv-row">
                                 <!--begin::Label-->
-                                <label class="required fs-5 fw-bold mb-2"> طبيعة الادارة </label>
+                                <label class="required fs-5 fw-bold mb-2"> طبيعة اللجنة </label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
-                                <input type="text" class="form-control form-control-solid" placeholder=""
-                                    name="nature_committe" />
+                                <input id="nature_committe" type="text" class="form-control form-control-solid"
+                                    placeholder="" name="nature_committe" />
                                 <small id="nature_committe_error" class="form-text text-danger"></small>
                                 <!--end::Input-->
                             </div>
@@ -97,8 +98,15 @@
                                 <label class="required fs-5 fw-bold mb-2"> رئيس اللجنة </label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
-                                <input type="text" class="form-control form-control-solid" placeholder=""
-                                    value="{{ $arr['NAME'] }}" name="user_chaiman" />
+                                <select name="user_chaiman" class="form-control" id="user_chaiman">
+
+                                    @foreach ($users as $user)
+                                        <option @if ($user['ID'] == $arr['NAME'])
+                                            selected
+                                            @endif value="{{ $user['ID'] }}">{{ $user['NAME'] }}
+                                        </option>
+                                    @endforeach
+                                </select>
                                 <!--end::Input-->
                             </div>
 
@@ -167,7 +175,7 @@
                                 <!--end::Label-->
                                 <!--begin::Input-->
 
-                                <textarea name="law" id="" class="form-control form-control-solid" cols="30"
+                                <textarea name="law" id="law" class="form-control form-control-solid" cols="30"
                                     rows="10"></textarea>
                                 <small id="law_error" class="form-text text-danger"></small>
 
@@ -197,11 +205,9 @@
 
                             <div class="col-md-3 fv-row" style="margin-top: 27px">
 
-                                <button type="submit" id="action" name="action" value="update_request"
-                                    class="btn btn-primary">موافق</button>
+                                <a id="update_request" class="btn btn-primary">موافق</a>
 
                             </div>
-
 
 
                         </div>
@@ -298,9 +304,9 @@
                         // جلب السشن الاقسام
 
                         $("#tbody_dep").html('');
-                      /*  data..forEach(element => {
+                        /*  data..forEach(element => {
 
-                        });*/
+                          });*/
 
                         data.data.forEach(element => {
                             $("#tbody_dep").append(
@@ -335,6 +341,77 @@
             });
 
         });
+
+        $(document).on('click', '#update_request', function(e) {
+
+            update_req_affairs($('#id_req').val(),$('#user_chaiman').val(),$('#nature_committe').val(), $('#end_date').val(), $('#law').val());
+
+        });
+        // اضافة البيانات db
+        function update_req_affairs(id_req,user_chaiman,nature_committe, end_date, law) {
+            $.ajaxSetup({
+
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                    url: "{{ route('request_committee.update_request_db') }}",
+                    method: "post",
+                    data: {
+                        ID_REQ: id_req,
+                        NATURE_COMMITTEE: nature_committe,
+                        END_DATE: end_date,
+                        LAW: law,
+                        USER_CHAIMAN_ID:user_chaiman
+                    },
+                    dataType: 'json',
+                    beforeSend: function() {
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: 'جاري الطلب',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                    },
+                    success: function(data) {
+
+                        if (data.code == 200) {
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: 'تمت المعلية بنجاح',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                        } else {
+                            Swal.fire({
+                                position: 'top-right',
+                                icon: 'error',
+                                title: 'خطا',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                        }
+                    },
+                    error: function(data) {
+                        Swal.fire({
+                            position: 'top-right',
+                            icon: 'error',
+                            title: 'تاكد من ادخال البيانات',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                    }
+
+                })
+                .done(function(msg) {
+                    //$("#home_message_container").html(msg);
+                });
+        }
+
+
 
         // $(document).on("change", "#depID", function() {
         //     var code = $(this).val();

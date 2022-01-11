@@ -47,7 +47,7 @@ class C_request_committee_dep extends Controller
             if ( $steps->get_committee_last_steps_dep($res['ID']) > 2 ) {
 
             $action =  '<a style="pointer-events: none; display: inline-block;" href="' . $url . '" id="' . $res['ID'] . '"
-            class=" bg-warning text-light rounded border-0 p-1 ">ترشيح اعضاء</a>';
+            class=" bg-success text-light rounded border-0 p-1 ">ترشيح اعضاء</a>';
             }
             $status = ' <label id="' . $res['ID'] . '"
             class=" bg-warning text-light rounded border-0 p-1">قيد الانتظار</label >';
