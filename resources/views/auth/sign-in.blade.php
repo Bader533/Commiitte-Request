@@ -52,7 +52,6 @@
                             <!--begin::Title-->
                             <h1 class="text-dark mb-3">تسحيل الدخول</h1>
                             <!--end::Title-->
-
                         </div>
                         <!--begin::Heading-->
                         <!--begin::Input group-->
