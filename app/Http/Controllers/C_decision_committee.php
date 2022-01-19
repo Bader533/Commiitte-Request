@@ -170,7 +170,6 @@ class C_decision_committee extends Controller
         }
 
 
-
         // if($request->_btn == "add_department")
         // {
         //     dd('action done');

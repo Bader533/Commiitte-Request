@@ -1,12 +1,13 @@
 <?php
 
+use App\Http\Controllers\Auth\C_login;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\C_request_committee;
 use App\Http\Controllers\C_decision_committee;
-
+use App\Models\USERS_TB;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,7 +22,17 @@ use App\Http\Controllers\C_decision_committee;
 
 
 
-Auth::routes();
+//Auth::routes();
+/************************************تسجيل الدخول*****************************************/
+Route::get('/login', [C_login::class, 'index'])
+    ->name('login');
+Route::post('/login', [C_login::class, 'checkData'])
+    ->name('login');
+Route::get('/logout', [C_login::class, 'logout'])
+    ->name('logout');
+
+   // checkdata
+/******************************************نهاية***********************************/
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
@@ -29,7 +40,7 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 //عرض صفحة انشاء طلب
 Route::get('/request_committee/create', [C_request_committee::class, 'create'])
-    ->name('request_committee.create');
+    ->name('request_committee.create')->middleware('auth');
 
 //تخزين بيانات طلب
 Route::post('/request_committee/store', [C_request_committee::class, 'storerequest'])
@@ -142,5 +153,8 @@ Route::get('/request_committee/notification', [App\Http\Controllers\C_request_co
 
 ///test
 Route::get('/', function () {
-    return 1;
+
+  //  $USERS_TB = new USERS_TB();
+  //return  $USERS_TB = $USERS_TB->login(5);
+
 });
