@@ -21,7 +21,6 @@ class C_decision_committee extends Controller
     {
         return view('request_committee.decision-to-prepare-a-committee');
     }
-
     //عرض بيانات اللجنة
     public function get_request_committee($id)
     {
@@ -41,7 +40,7 @@ class C_decision_committee extends Controller
 
             $USERS = new USERS_TB;
             $users = $USERS->get_users_affairs();
-
+            $array;
             return view('request_committee.decision-to-prepare-a-committee', [
                 'result' => $array,
                 'dp' => $this->get_department(),
@@ -52,7 +51,6 @@ class C_decision_committee extends Controller
             ]);
         });
     }
-
     // عرض الاقسام
     public function get_department()
     {
@@ -68,7 +66,6 @@ class C_decision_committee extends Controller
             return $array;
         });
     }
-
     //عرض اقسام الخاصة بالطلب
     public function get_request($id)
     {
@@ -88,7 +85,6 @@ class C_decision_committee extends Controller
             return $array;
         });
     }
-
     //اضافة على بيانات  على الطلب
     public function update_request(REQUEST $request)
     {
@@ -146,20 +142,15 @@ class C_decision_committee extends Controller
             $arr = array();
 
             $collect = collect($TrashItems)->where('department', '!=', $request->department);
-
             foreach ($collect as $i) {
                 $arr[] =
                     [
                         "department" => $i['department'],
                         "numofemployee" => $i['numofemployee'],
                         "depID" => $i['depID'],
-
                     ];
             }
-
-
             session()->forget('TrashItems');
-
             session()->put('TrashItems', $arr); //put
 
             return Response()->json([
