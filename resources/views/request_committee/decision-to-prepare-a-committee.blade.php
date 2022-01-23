@@ -300,9 +300,9 @@
                                 "<tr>" +
                                 "<td>" + element.depID + "</td>" +
                                 "<td>" + element.numofemployee + "</td>" +
-                                "<td>" + "<button type='submit' " +
-                                "class='btn btn-lg btn-danger' name = 'action' value = 'remove_department'>" +
-                                "<i class='fa fa-remove'>" + "</i>" + 'حذف' + "</button>" +
+                                "<td>" + "<a id= '" +element.department+ "'  " +
+                                "class='btn btn-lg btn-danger delete'>" +
+                                "<i class='fa fa-remove'>" + "</i>" + 'حذف' + "</a>" +
                                 "</td>" + "</tr>");
 
                         });
@@ -329,13 +329,99 @@
 
         });
 
+        $(document).on('click', '.delete', function(e) {
+
+
+            delete_dep( $(this).attr('id') );
+
+
+            // var dep_id = $(this).attr('id');
+            // alert( $(this).attr('id'));
+
+
+        });
+
+        function delete_dep(dep_id) {
+            $.ajaxSetup({
+
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                    url: "{{ route('request_committee.delete_request') }}",
+                    method: "post",
+                    data: {
+                        department: dep_id,
+
+                    },
+                    dataType: 'json',
+                    beforeSend: function() {
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: 'جاري الطلب',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                    },
+                    success: function(data) {
+                    if (data.status == true) {
+                        Swal.fire({
+                            position: 'top-right',
+                            icon: 'success',
+                            title: 'تمت العملية بنجاح',
+                            showConfirmButton: false,
+                            timer: 1500
+
+                        });
+                        // جلب السشن الاقسام
+
+                        $("#tbody_dep").html('');
+                        /*  data..forEach(element => {
+
+                          });*/
+
+                        data.data.forEach(element => {
+                            $("#tbody_dep").append(
+                                "<tr>" +
+                                "<td>" + element.depID + "</td>" +
+                                "<td>" + element.numofemployee + "</td>" +
+                                "<td>" + "<a id= '" +element.department+ "'  " +
+                                "class='btn btn-lg btn-danger delete'>" +
+                                "<i class='fa fa-remove'>" + "</i>" + 'حذف' + "</a>" +
+                                "</td>" + "</tr>");
+
+                        });
+
+                    }
+                },
+                    error: function(data) {
+                        Swal.fire({
+                            position: 'top-right',
+                            icon: 'error',
+                            title: 'تاكد من ادخال البيانات',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                    }
+
+                })
+                .done(function(msg) {
+                    //$("#home_message_container").html(msg);
+                });
+        }
+
+        //+++++++++++++
+
         $(document).on('click', '#update_request', function(e) {
 
-            update_req_affairs($('#id_req').val(),$('#user_chaiman').val(),$('#nature_committe').val(), $('#end_date').val(), $('#law').val());
+            update_req_affairs($('#id_req').val(), $('#user_chaiman').val(), $('#nature_committe').val(), $(
+                '#end_date').val(), $('#law').val());
 
         });
         // اضافة البيانات db
-        function update_req_affairs(id_req,user_chaiman,nature_committe, end_date, law) {
+        function update_req_affairs(id_req, user_chaiman, nature_committe, end_date, law) {
             $.ajaxSetup({
 
                 headers: {
@@ -350,7 +436,7 @@
                         NATURE_COMMITTEE: nature_committe,
                         END_DATE: end_date,
                         LAW: law,
-                        USER_CHAIMAN_ID:user_chaiman
+                        USER_CHAIMAN_ID: user_chaiman
                     },
                     dataType: 'json',
                     beforeSend: function() {

@@ -89,6 +89,7 @@ class C_decision_committee extends Controller
     public function update_request(REQUEST $request)
     {
 
+
         if ($request->_btn == "add_department") {
             // اضافة الادارات المعنية للجنة
             $empdata = session()->get('TrashItems');
@@ -136,7 +137,7 @@ class C_decision_committee extends Controller
             // dd($request->_btn);
             session()->forget('TrashItems');
         } elseif ($request->_btn == "remove_department") {
-
+            dd($request->dep_id);
             //حذف ادارة المعنية
             $TrashItems = session()->get('TrashItems');
             $arr = array();
@@ -276,4 +277,37 @@ class C_decision_committee extends Controller
             ];
         }
     }
+
+    public function delete_request(Request $request)
+    {
+
+
+        // dd($request);
+        // dd($request->department);
+        //حذف ادارة المعنية
+        $TrashItems = session()->get('TrashItems');
+        $arr = array();
+
+        $collect = collect($TrashItems)->where('department', '!=', $request->department);
+        foreach ($collect as $i) {
+            $arr[] =
+                [
+                    "department" => $i['department'],
+                    "numofemployee" => $i['numofemployee'],
+                    "depID" => $i['depID'],
+                ];
+        }
+        session()->forget('TrashItems');
+        session()->put('TrashItems', $arr); //put
+
+        return Response()->json([
+            'data' => session()->get('TrashItems'),
+            'status' => true,
+            'msg' => 'تم الحفظ بنجاح',
+        ]);
+
+
+
+    }
+
 }
