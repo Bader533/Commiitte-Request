@@ -92,7 +92,7 @@ class C_decision_committee extends Controller
             $empdata = session()->get('TrashItems');
 
             if ($empdata == null) {
-                $item[] = array("depID" => $request->depID ,"department" => $request->input('department'), "numofemployee" => $request->numofemployee);
+                $item[] = array("depID" => $request->depID, "department" => $request->input('department'), "numofemployee" => $request->numofemployee);
                 session()->put('TrashItems', $item);
 
                 return Response()->json([
@@ -118,12 +118,12 @@ class C_decision_committee extends Controller
 
                         ];
                     }
-                    $item = array("depID" => $request->depID ,"department" => $request->input('department'), "numofemployee" => $request->numofemployee);
+                    $item = array("depID" => $request->depID, "department" => $request->input('department'), "numofemployee" => $request->numofemployee);
                     array_push($arr, $item);
                     session()->put('TrashItems', $arr); //put
 
                     return Response()->json([
-                       'data' => session()->get('TrashItems'),
+                        'data' => session()->get('TrashItems'),
                         'status' => true,
                         'msg' => 'تم الحفظ بنجاح',
                     ]);
@@ -132,7 +132,6 @@ class C_decision_committee extends Controller
         } elseif ($request->_btn == "update_request") {
             // dd($request->_btn);
             session()->forget('TrashItems');
-
         } elseif ($request->_btn == "remove_department") {
 
             //حذف ادارة المعنية
@@ -147,20 +146,18 @@ class C_decision_committee extends Controller
                         "department" => $i['department'],
                         "numofemployee" => $i['numofemployee'],
                         "depID" => $i['depID'],
-
                     ];
             }
-
 
             session()->forget('TrashItems');
 
             session()->put('TrashItems', $arr); //put
 
             return Response()->json([
-                'data' => session()->get('TrashItems'),
-                 'status' => true,
-                 'msg' => 'تم الحفظ بنجاح',
-             ]);
+                session()->get('TrashItems'),
+                'status' => true,
+                'msg' => 'تم الحفظ بنجاح',
+            ]);
         }
 
 
@@ -228,7 +225,4 @@ class C_decision_committee extends Controller
 
 
     }
-
-
-
 }
