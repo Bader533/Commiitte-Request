@@ -83,4 +83,10 @@ class USERS_TB extends Model
             ];
         });
     }
+
+    public function auth()
+    {
+       return (object) session()->get('user_data')['user_inf'][0];
+    }
+
 }

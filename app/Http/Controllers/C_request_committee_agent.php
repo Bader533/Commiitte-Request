@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\REQUEST_COMMITTEE_TB;
 use App\Models\STEPS_TB;
+use App\Models\USERS_TB;
 use Illuminate\Auth\Events\Validated;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -42,7 +43,9 @@ class C_request_committee_agent extends Controller
             $P_STATUS_TB_ID = 2;
         }
         $id_req = $request->id_req;
-        $P_USERS_ID = session()->get('user_data')['user_inf'][0]['ID'];
+        $USERS_TB = new USERS_TB();
+        $P_USERS_ID =$USERS_TB->auth()->ID;
+        // session()->get('user_data')['user_inf'][0]['ID'];
         $STEPS_TB = new STEPS_TB();
         $STEPS_TB->change_status_req_agent($id_req,$P_STATUS_TB_ID,$P_USERS_ID);
         return [
