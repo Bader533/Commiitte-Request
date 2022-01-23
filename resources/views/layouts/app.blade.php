@@ -68,11 +68,11 @@
                                     <!--begin::Username-->
                                     <a href="#"
                                         class="text-white text-hover-primary fs-6 fw-bold">@if (auth())
-                                            {{-- auth::user()->name --}}
+                                            {{session()->get('user_data')['user_inf'][0]['NAME']}}
                                         @endauth</a>
                                     <!--end::Username-->
                                     <!--begin::Description-->
-                                    <span class="text-gray-600 fw-bold d-block fs-8 mb-1">Python Dev</span>
+                                    <span class="text-gray-600 fw-bold d-block fs-8 mb-1">{{session()->get('user_data')['user_inf'][0]['JOB_TITLE']}}</span>
                                     <!--end::Description-->
                                     <!--begin::Label-->
                                     <div class="d-flex align-items-center text-success fs-9">
@@ -520,7 +520,7 @@
                     <div class="text-center">
                         <form action="{{route('logout')}}" method="POST">
                             @csrf
-                            <button type="submit" class="btn btn-danger" id="kt_careers_submit_button">
+                            <button type="submit"  class="btn btn-danger" id="kt_careers_submit_button">
                                 {{__('app.sign_out')}}
                                 <span class="svg-icon svg-icon-primary svg-icon-2x"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo1/dist/../src/media/svg/icons/Navigation/Sign-out.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">

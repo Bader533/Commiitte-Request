@@ -93,6 +93,7 @@
                                 <label class="required fs-5 fw-bold mb-2"> اسم العضو </label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
+                                <input id="DEP_R_C_ID" type="hidden" value="{{ $get_users_dep[0]['DEP_R_C_ID'] }}">
                                 <select id="users_name" class="form-control form-control-solid">
                                     <option selected value="0">اختر العضو</option>
                                     @foreach ($get_users_dep as $key => $value)
@@ -183,13 +184,13 @@
                         </div>
 
                         <!--begin::Submit-->
-                        <a  class="btn btn-primary" id="Post_add_users">
+                        <a class="btn btn-primary" id="Post_add_users">
                             <!--begin::Indicator-->
                             <span class="indicator-label">موافق</span>
                             <span class="indicator-progress">انتظر من فظلك
                                 <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
                             <!--end::Indicator-->
-                            </a>
+                        </a>
                         <!--end::Submit-->
                     </form>
                     <!--end::Form-->
@@ -212,24 +213,25 @@
 
         });
         $(document).on("click", '#Post_add_user', function(event) {
-           // let id = $('#users_name').attr('id');
             let role_members = $('#ROLE_MEMBERS').val();
             let name = $('#users_name option:selected').text();
             let id = $('#users_name option:selected').val();
             let job_title = $('#job_title').val();
 
             Util.ConfirmAprove(function() {
-                Post_add_user(id,role_members,name,job_title);
+                Post_add_user(id, role_members, name, job_title);
             });
         });
         $(document).on("click", '#Post_add_users', function(event) {
-            let id = $(this).attr('id');
-            let role_members = $('#ROLE_MEMBERS').val();
-            let name = $('#users_name option:selected').text();
-            let job_title = $('#job_title').val();
+            //   let id = $(this).attr('id');
+            let DEP_R_C_ID = $('#DEP_R_C_ID').val();
+            //  let role_members = $('#ROLE_MEMBERS').val();
+            //   let name = $('#users_name option:selected').text();
+            //  let job_title = $('#job_title').val();
 
+            //alert(DEP_R_C_ID +' '+ );
             Util.ConfirmAprove(function() {
-                Post_add_user(role_members, name, job_title);
+                Post_add_users(DEP_R_C_ID);
             });
         });
 
@@ -326,7 +328,7 @@
 
         }
         //اضافة عضو
-        function Post_add_user(user_id,role_members, name, job_title) {
+        function Post_add_user(user_id, role_members, name, job_title) {
 
             $.ajaxSetup({
 
@@ -342,7 +344,7 @@
                         role_members: role_members,
                         name: name,
                         job_title: job_title,
-                        user_id:user_id,
+                        user_id: user_id,
                     },
                     dataType: 'json',
                     beforeSend: function() {
@@ -370,7 +372,7 @@
 
                                 $('#rol_members').append(`
                                 <tr>
-                                            <td name="user_id[`+element.user_id+`]">
+                                            <td>
                                                 ` + (key + 1) + `
                                             </td>
                                             <td style="font-size: 16px;">
@@ -425,7 +427,7 @@
         }
 
         //اضافة الاعضاء db
-        function Post_add_users(role_members, name, job_title) {
+        function Post_add_users(DEP_R_C_ID) {
 
             $.ajaxSetup({
 
@@ -433,14 +435,12 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
 
-            });
+               });
             $.ajax({
-                    url: "{{ route('request_committee.department.add_user') }}",
+                    url: "{{ route('request_committee.department.add_users') }}",
                     method: "POST",
                     data: {
-                        role_members: role_members,
-                        name: name,
-                        job_title: job_title
+                        DEP_R_C_ID: DEP_R_C_ID,
                     },
                     dataType: 'json',
                     beforeSend: function() {
@@ -463,30 +463,6 @@
                                 title: 'تمت العملية بنجاح',
                                 showConfirmButton: false,
                                 timer: 1500
-                            });
-                            data.data.forEach((element, key) => {
-
-                                $('#rol_members').append(`
-                    <tr>
-                                <td>
-                                    ` + (key + 1) + `
-                                </td>
-                                <td style="font-size: 16px;">
-                                </td>
-                                <td style="font-size: 16px;">
-                                    ` + element.name + `
-                                </td>
-                                <td style="font-size: 16px;">
-                                    ` + element.job_title + `
-                                </td>
-                                <td style="font-size: 16px;">
-                                    ` + element.role_members + `
-                                </td>
-                                <td style="font-size: 16px;">
-                                    <a id="` + element.name + `" class="Post_delete_user btn btn-danger">حذف</a>
-                                </td>
-                            </tr>
-                    `);
                             });
 
 

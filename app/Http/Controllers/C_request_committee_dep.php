@@ -32,16 +32,23 @@ class C_request_committee_dep extends Controller
         $date_end = $request->get('date_end');
 
         $REQUEST_COMMITTEE_TB = new REQUEST_COMMITTEE_TB();
+        $steps = new STEPS_TB();
 
 
         $get_a_affairs = $REQUEST_COMMITTEE_TB->get_req_dep($number_req, $status, $date_start, $date_end, (int)$PageIndex, (int)$length); //$dd->where('name', 'like', "%{$v_search}%")->where('isdelete',0)->skip($start)->take($length)->orderBy($column[$order[0]['column']],$dir)->get();
+       //  $steps->get_committee_last_steps_dep(295);
         $data = [];
         $d_count = $get_a_affairs['p_count'];
 
         foreach ($get_a_affairs['result'] as $index => $res) {
             $url = route('request_committee.department.nomination', ['id' => $res['ID']]);
-            $action =   '<a href="' . $url . '" id="' . $res['ID'] . '"
-            class=" bg-primary text-light rounded border-0 p-1">ترشيح اعضاء</a>';
+            $action =  '<a href="' . $url . '" id="' . $res['ID'] . '"
+            class=" bg-primary text-light rounded border-0 p-1 ">ترشيح اعضاء</a>';
+            if ( $steps->get_committee_last_steps_dep($res['ID']) > 2 ) {
+
+            $action =  '<a style="pointer-events: none; display: inline-block;" href="' . $url . '" id="' . $res['ID'] . '"
+            class=" bg-success text-light rounded border-0 p-1 ">ترشيح اعضاء</a>';
+            }
             $status = ' <label id="' . $res['ID'] . '"
             class=" bg-warning text-light rounded border-0 p-1">قيد الانتظار</label >';
             if ($res['STATUS_TB_ID'] == 1) {
@@ -109,7 +116,7 @@ class C_request_committee_dep extends Controller
         $steps = new STEPS_TB();
         $detials_req_dep = $steps->get_detials_req_dep($id);
         $users = new USERS_TB();
-        $get_users_dep = $users->get_users_dep(1);
+        $get_users_dep = $users->get_users_dep(1, $id);
 
         // return $detials_req_dep['steps'][0]['ID_REQ'];
         return view('request_committee.committee-members', [
@@ -124,7 +131,7 @@ class C_request_committee_dep extends Controller
         $nomination_user = session()->get('nomination_user');
         $arr = array();
 
-       $collect = collect($nomination_user)->where('name','!=',$request->name);
+        $collect = collect($nomination_user)->where('name', '!=', $request->name);
 
         foreach ($collect as $i) {
             $arr[] =
@@ -136,16 +143,15 @@ class C_request_committee_dep extends Controller
         }
 
 
-       session()->forget('nomination_user');
+        session()->forget('nomination_user');
 
-        session()->put('nomination_user',$arr); //put
+        session()->put('nomination_user', $arr); //put
 
-            return [
-                'code' => 200,
-                'data' => session()->get('nomination_user'),
-                'message' => 'تمت العملية بنجاح',
-            ];
-
+        return [
+            'code' => 200,
+            'data' => session()->get('nomination_user'),
+            'message' => 'تمت العملية بنجاح',
+        ];
     }
     //اضافة عضو الى  الترشيح  ادارة معينة
     public  function add_user(Request $request)
@@ -154,7 +160,7 @@ class C_request_committee_dep extends Controller
         $nomination_user = session()->get('nomination_user');
         if ($nomination_user == null) {
             $item[] = array(
-                "user_id"=>$request->user_id,"role_members" => $request->role_members,
+                "user_id" => $request->user_id, "role_members" => $request->role_members,
                 "name" => $request->name, 'job_title' => $request->job_title
             );
             session()->put('nomination_user', $item);
@@ -166,7 +172,7 @@ class C_request_committee_dep extends Controller
         } else {
             if (collect($nomination_user)->where('name', $request->name)->count() > 0) {
                 $arr = array('message' => 'عذراً .. الصنف مدخل مسبقاً', 'status' => 0);
-             return [
+                return [
                     'code' => 400,
                     'data' => session()->get('nomination_user'),
                     'message' => 'عذراً .. الصنف مدخل مسبقاً', 'status' => 0,
@@ -176,7 +182,7 @@ class C_request_committee_dep extends Controller
                 foreach ($nomination_user as $i) {
                     $arr[] =
                         [
-                            "user_id"=>$i['user_id'],
+                            "user_id" => $i['user_id'],
                             "name" => $i['name'],
                             "job_title" => $i['job_title'],
                             "role_members" => $i['role_members'],
@@ -184,7 +190,7 @@ class C_request_committee_dep extends Controller
                 }
 
                 $item = array(
-                    "user_id"=>$request->user_id,
+                    "user_id" => $request->user_id,
                     "name" => $request->name,
                     "job_title" => $request->job_title,
                     "role_members" => $request->role_members
@@ -206,13 +212,22 @@ class C_request_committee_dep extends Controller
     //اضافة الاعضاء المرشحين db
     public function add_users(Request $request)
     {
-        $id_user=6;
-        $dep_R_C_ID=297;
-        $text='تجريبي تجريبي تجريبي ';
 
-        $ROLE_MEMBERS_C = new ROLE_MEMBERS_C_TB();
-        $ROLE_MEMBERS_C->add_user($id_user,$dep_R_C_ID,$text);
+        $dep_R_C_ID = $request->DEP_R_C_ID;
 
-        return 1;
+        $nomination_user = session()->get('nomination_user');
+        if ($nomination_user != null) {
+            $ROLE_MEMBERS_C = new ROLE_MEMBERS_C_TB();
+
+            foreach ($nomination_user as $i) {
+                $ROLE_MEMBERS_C->add_user($i['user_id'], $dep_R_C_ID, $i['role_members']);
+            }
+        }
+
+
+        return [
+            'code' => 200,
+            'message' => 'success , insert data !'
+        ];
     }
 }
