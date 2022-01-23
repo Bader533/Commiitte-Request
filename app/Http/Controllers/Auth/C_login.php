@@ -24,7 +24,7 @@ class C_login extends Controller
              'p_id'=>'required|numeric|digits:9'
         ]);
         if ($Validator->fails()) {
-            return redirect()->back()->withErrors(['status' => 'خطا في  !']);
+            // return redirect()->back()->withErrors(['status' => 'خطا في  !']);
 
             return redirect()->back()->withErrors(['status' => 'خطا في اسم المستخدم!']);
         }

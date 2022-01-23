@@ -101,10 +101,12 @@
                                 <select name="user_chaiman" class="form-control" id="user_chaiman">
 
                                     @foreach ($users as $user)
+
                                         <option @if ($user['ID'] == $arr['NAME'])
                                             selected
                                             @endif value="{{ $user['ID'] }}">{{ $user['NAME'] }}
                                         </option>
+
                                     @endforeach
                                 </select>
                                 <!--end::Input-->
@@ -211,21 +213,6 @@
 
 
                         </div>
-
-
-                        <!--begin::Submit-->
-
-                        {{-- <button type="submit" class="btn btn-primary" id="kt_careers_submit_button">
-
-                            <!--begin::Indicator-->
-                                <span class="indicator-label">طلب تشكيل لجنة</span>
-                                <span class="indicator-progress">انتظر من فظلك
-                                <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
-                              <!--end::Indicator-->
-
-                            </button> --}}
-
-                        <!--end::Submit-->
 
                     </form>
                     <!--end::Form-->

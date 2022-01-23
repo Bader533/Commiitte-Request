@@ -52,7 +52,7 @@ class C_request_committee extends Controller
         }
 
         $pdo = DB::getPdo();
-        $P_ID = 2;
+        $P_ID = session()->get('user_data')['user_inf'][0]['ID'];
         $membercount = $request->membercount;
         $start_date = $request->start_date;
         $work_day = $request->work_day;
