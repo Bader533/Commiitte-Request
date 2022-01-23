@@ -45,7 +45,8 @@ class C_login extends Controller
       {
 
       //  return session()->get('user_data');
-
+      $USERS_TB = new USERS_TB();
+return     $P_USERS_ID =$USERS_TB->auth()->ID;
         session()->forget('user_data');
 
         return redirect(route('login'));
