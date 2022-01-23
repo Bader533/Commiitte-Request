@@ -42,8 +42,9 @@ class C_request_committee_agent extends Controller
             $P_STATUS_TB_ID = 2;
         }
         $id_req = $request->id_req;
+        $P_USERS_ID = session()->get('user_data')['user_inf'][0]['ID'];
         $STEPS_TB = new STEPS_TB();
-        $STEPS_TB->change_status_req_agent($id_req,$P_STATUS_TB_ID);
+        $STEPS_TB->change_status_req_agent($id_req,$P_STATUS_TB_ID,$P_USERS_ID);
         return [
             'code' => 200,
             'message' => 'تمت العملية بنجاح'
