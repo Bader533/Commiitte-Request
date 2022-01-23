@@ -68,11 +68,11 @@
                                     <!--begin::Username-->
                                     <a href="#"
                                         class="text-white text-hover-primary fs-6 fw-bold">@if (auth())
-                                            {{session()->get('user_data')['user_inf'][0]['NAME']}}
+                                        {{App\Models\USERS_TB::auth()->NAME}}
                                         @endauth</a>
                                     <!--end::Username-->
                                     <!--begin::Description-->
-                                    <span class="text-gray-600 fw-bold d-block fs-8 mb-1">{{session()->get('user_data')['user_inf'][0]['JOB_TITLE']}}</span>
+                                    <span class="text-gray-600 fw-bold d-block fs-8 mb-1">{{App\Models\USERS_TB::auth()->JOB_TITLE }}</span>
                                     <!--end::Description-->
                                     <!--begin::Label-->
                                     <div class="d-flex align-items-center text-success fs-9">

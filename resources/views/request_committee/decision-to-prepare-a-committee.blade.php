@@ -304,7 +304,6 @@
                                 "class='btn btn-lg btn-danger delete'>" +
                                 "<i class='fa fa-remove'>" + "</i>" + 'حذف' + "</a>" +
                                 "</td>" + "</tr>");
-
                         });
 
                     }

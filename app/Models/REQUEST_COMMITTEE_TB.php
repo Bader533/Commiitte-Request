@@ -115,7 +115,6 @@ class REQUEST_COMMITTEE_TB extends Model
                 BADER.update_req_affairs(:P_IDreq,:P_NATURE_COMMITTEE,:P_USER_CHAIMAN_ID,:P_END_DATE,:P_LAW);
                 end;";
 
-        
 
         return DB::transaction(function ($conn) use ($sql, $P_IDreq, $P_NATURE_COMMITTEE, $P_USER_CHAIMAN_ID, $P_END_DATE, $P_LAW) {
 

@@ -116,7 +116,7 @@ class C_request_committee_dep extends Controller
         $steps = new STEPS_TB();
         $detials_req_dep = $steps->get_detials_req_dep($id);
         $users = new USERS_TB();
-        $get_users_dep = $users->get_users_dep(1, $id);
+        $get_users_dep = $users->get_users_dep($id);
 
         // return $detials_req_dep['steps'][0]['ID_REQ'];
         return view('request_committee.committee-members', [

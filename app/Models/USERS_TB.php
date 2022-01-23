@@ -12,16 +12,15 @@ class USERS_TB extends Model
     use HasFactory;
 
     // كل المتخدمين الخاصين بادارة معينة
-    public function get_users_dep($P_DEPARTMENTS_TB_ID, $P_DEP_R_C_ID)
+    public function get_users_dep($P_DEP_R_C_ID)
     {
 
-        $sql = "begin HANI.Get_committee_users_dep(:P_DEPARTMENTS_TB_ID,:P_DEP_R_C_ID,:req); end;";
+        $sql = "begin HANI.Get_committee_users_dep(:P_DEP_R_C_ID,:req); end;";
 
-        return DB::transaction(function ($conn) use ($sql, $P_DEPARTMENTS_TB_ID, $P_DEP_R_C_ID) {
+        return DB::transaction(function ($conn) use ($sql, $P_DEP_R_C_ID) {
             $pdo = $conn->getPdo();
 
             $stmt = $pdo->prepare($sql);
-            $stmt->bindParam(':P_DEPARTMENTS_TB_ID', $P_DEPARTMENTS_TB_ID, PDO::PARAM_INT);
             $stmt->bindParam(':P_DEP_R_C_ID', $P_DEP_R_C_ID, PDO::PARAM_INT);
             $stmt->bindParam(':req', $req, PDO::PARAM_STMT);
             $stmt->execute();
@@ -84,7 +83,7 @@ class USERS_TB extends Model
         });
     }
 
-    public function auth()
+    public static function auth()
     {
        return (object) session()->get('user_data')['user_inf'][0];
     }

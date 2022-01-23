@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\USERS_TB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
@@ -52,7 +53,8 @@ class C_request_committee extends Controller
         }
 
         $pdo = DB::getPdo();
-        $P_ID = session()->get('user_data')['user_inf'][0]['ID'];
+        $P_ID =USERS_TB::auth()->ID;
+
         $membercount = $request->membercount;
         $start_date = $request->start_date;
         $work_day = $request->work_day;

@@ -141,7 +141,8 @@ class C_decision_committee extends Controller
             //حذف ادارة المعنية
             $TrashItems = session()->get('TrashItems');
             $arr = array();
-
+           // department
+            //collect($TrashItems)->where('department', '=', $request->department)
             $collect = collect($TrashItems)->where('department', '!=', $request->department);
             foreach ($collect as $i) {
                 $arr[] =
