@@ -79,12 +79,12 @@ class REQUEST_COMMITTEE_TB extends Model
         });
     }
     // كل طلبات اللجان عند ادارة معينة
-    public function get_req_dep($id_rq, $status, $date_in, $date_to, $PageIndex, $PageSize)
+    public function get_req_dep($id_rq, $status, $date_in, $date_to, $PageIndex, $PageSize ,$P_USER_DEP)
     {
         $sql = "begin
-        HANI.Get_search_req_department(:id_rq,:date_in,:date_to,:status,:req,:p_count,:PageSize,:PageIndex);
+        HANI.Get_search_req_department(:id_rq,:date_in,:date_to,:status,:req,:p_count,:PageSize,:PageIndex,:P_USER_DEP );
         end;";
-        return DB::transaction(function ($conn) use ($sql, $id_rq, $status, $date_in, $date_to, $PageIndex, $PageSize) {
+        return DB::transaction(function ($conn) use ($sql, $id_rq, $status, $date_in, $date_to, $PageIndex, $PageSize,$P_USER_DEP) {
             $pdo = $conn->getPdo();
             $stmt = $pdo->prepare($sql);
             //  $pageNumber =1;
@@ -96,6 +96,8 @@ class REQUEST_COMMITTEE_TB extends Model
             $stmt->bindParam(':p_count', $p_count, PDO::PARAM_NULL, 12);
             $stmt->bindParam(':PageSize', $PageSize, PDO::PARAM_INT);
             $stmt->bindParam(':PageIndex', $PageIndex, PDO::PARAM_INT);
+            $stmt->bindParam(':P_USER_DEP', $P_USER_DEP, PDO::PARAM_INT);
+
             $stmt->execute();
             oci_execute($req, OCI_DEFAULT);
             oci_fetch_all($req, $array, 0, -1, OCI_FETCHSTATEMENT_BY_ROW + OCI_ASSOC);

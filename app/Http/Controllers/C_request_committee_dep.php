@@ -34,8 +34,9 @@ class C_request_committee_dep extends Controller
         $REQUEST_COMMITTEE_TB = new REQUEST_COMMITTEE_TB();
         $steps = new STEPS_TB();
 
+        $P_USER_DEP = USERS_TB::auth()->DEPARTMENTS_TB_ID;
 
-        $get_a_affairs = $REQUEST_COMMITTEE_TB->get_req_dep($number_req, $status, $date_start, $date_end, (int)$PageIndex, (int)$length); //$dd->where('name', 'like', "%{$v_search}%")->where('isdelete',0)->skip($start)->take($length)->orderBy($column[$order[0]['column']],$dir)->get();
+        $get_a_affairs = $REQUEST_COMMITTEE_TB->get_req_dep($number_req, $status, $date_start, $date_end, (int)$PageIndex, (int)$length,$P_USER_DEP); //$dd->where('name', 'like', "%{$v_search}%")->where('isdelete',0)->skip($start)->take($length)->orderBy($column[$order[0]['column']],$dir)->get();
        //  $steps->get_committee_last_steps_dep(295);
         $data = [];
         $d_count = $get_a_affairs['p_count'];
