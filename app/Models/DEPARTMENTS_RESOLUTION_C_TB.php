@@ -28,7 +28,11 @@ class DEPARTMENTS_RESOLUTION_C_TB extends Model
 
             $stmt->execute();
 
-           
+
         });
     }
+
+
+
+
 }

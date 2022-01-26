@@ -70,20 +70,21 @@ class C_decision_committee extends Controller
     public function get_request($id)
     {
 
-        $sql = "begin BADER.get_request_department(:IDreq,:P_request); end;";
+        // $sql = "begin BADER.get_request_department(:IDreq,:P_request); end;";
 
-        return DB::transaction(function ($conn) use ($sql, $id) {
-            $pdo = $conn->getPdo();
-            $stmt = $pdo->prepare($sql);
-            $IDreq = $id;
-            $stmt->bindParam(':IDreq', $IDreq, PDO::PARAM_INT);
-            $stmt->bindParam(':p_request', $p_request, PDO::PARAM_STMT);
-            $stmt->execute();
-            oci_execute($p_request, OCI_DEFAULT);
-            oci_fetch_all($p_request, $array, 0, -1, OCI_FETCHSTATEMENT_BY_ROW + OCI_ASSOC);
-            oci_free_cursor($p_request);
-            return $array;
-        });
+        // return DB::transaction(function ($conn) use ($sql, $id) {
+        //     $pdo = $conn->getPdo();
+        //     $stmt = $pdo->prepare($sql);
+        //     $IDreq = $id;
+        //     $stmt->bindParam(':IDreq', $IDreq, PDO::PARAM_INT);
+        //     $stmt->bindParam(':p_request', $p_request, PDO::PARAM_STMT);
+        //     $stmt->execute();
+        //     oci_execute($p_request, OCI_DEFAULT);
+        //     oci_fetch_all($p_request, $array, 0, -1, OCI_FETCHSTATEMENT_BY_ROW + OCI_ASSOC);
+        //     oci_free_cursor($p_request);
+        //     return $array;
+        // });
+
     }
     //اضافة على بيانات  على الطلب
     public function update_request(REQUEST $request)
@@ -133,97 +134,7 @@ class C_decision_committee extends Controller
                     ]);
                 }
             }
-        } elseif ($request->_btn == "update_request") {
-            // dd($request->_btn);
-            session()->forget('TrashItems');
-        } elseif ($request->_btn == "remove_department") {
-            dd($request->dep_id);
-            //حذف ادارة المعنية
-            $TrashItems = session()->get('TrashItems');
-            $arr = array();
-           // department
-            //collect($TrashItems)->where('department', '=', $request->department)
-            $collect = collect($TrashItems)->where('department', '!=', $request->department);
-            foreach ($collect as $i) {
-                $arr[] =
-                    [
-                        "department" => $i['department'],
-                        "numofemployee" => $i['numofemployee'],
-                        "depID" => $i['depID'],
-                    ];
-            }
-            session()->forget('TrashItems');
-            session()->put('TrashItems', $arr); //put
-
-            return Response()->json([
-                'data' => session()->get('TrashItems'),
-                'status' => true,
-                'msg' => 'تم الحفظ بنجاح',
-            ]);
         }
-
-
-        // if($request->_btn == "add_department")
-        // {
-        //     dd('action done');
-        // }
-        // elseif($request->_btn == "update_request")
-        // {
-
-        //     $validator = Validator::make($request->all(), [
-        //         'department' => 'required',
-        //         'numofemployee' => 'required',
-        //         'nature_committe' => 'required',
-        //         'law' => 'required',
-        //     ]);
-
-        //     if ($validator->fails()) {
-        //         return response()->json(
-        //             [
-        //                 'code' => 400,
-        //                 'message' => $validator->errors()
-        //             ],
-        //             400
-        //         );
-        //     }
-
-        //     $pdo = DB::getPdo();
-        //     $P_ID = $request->id_request;
-        //     $department = $request->department;
-        //     $numofemployee = $request->numofemployee;
-        //     $naturecommitte = $request->nature_committe;
-        //     $law = $request->law;
-
-
-
-        //     //اضافة طلب تشكيل لجنة
-        //     $stmt = $pdo->prepare("begin BADER.insert_request_committe(:IDreq,:NATURECOMMITTEE,:LAWS,:DEPARTMENTS_ID,:NUMBER_EMPLOYEE); end;");
-
-        //     $stmt->bindParam(':IDreq', $P_ID, PDO::PARAM_INT);
-        //     $stmt->bindParam(':NATURECOMMITTEE', $naturecommitte, PDO::PARAM_STR);
-        //     $stmt->bindParam(':LAWS', $law, PDO::PARAM_STR);
-        //     $stmt->bindParam(':DEPARTMENTS_ID', $department, PDO::PARAM_INT);
-        //     $stmt->bindParam(':NUMBER_EMPLOYEE', $numofemployee, PDO::PARAM_INT);
-        //     // $stmt->bindParam(':REASON_COMMITTEE', $experience, PDO::PARAM_STR, 225);
-        //     // $stmt->bindParam(':p_cur', $p_cur, PDO::PARAM_INT);
-        //     $stmt->execute();
-
-        //     if ($stmt)
-        //         return response()->json([
-        //             'status' => true,
-        //             'msg' => 'تم الحفظ بنجاح',
-
-        //         ]);
-
-        //     else
-        //         return response()->json([
-        //             'status' => false,
-        //             'msg' => 'فشل الحفظ برجاء المحاوله مجددا',
-        //         ]);
-
-
-        // }
-
 
     }
     //اضافة البيانات في db
@@ -279,13 +190,10 @@ class C_decision_committee extends Controller
         }
     }
 
+    // delete form the session
     public function delete_request(Request $request)
     {
 
-
-        // dd($request);
-        // dd($request->department);
-        //حذف ادارة المعنية
         $TrashItems = session()->get('TrashItems');
         $arr = array();
 

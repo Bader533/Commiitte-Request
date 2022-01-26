@@ -328,14 +328,12 @@
 
         });
 
+        // delete the request
         $(document).on('click', '.delete', function(e) {
 
 
             delete_dep( $(this).attr('id') );
 
-
-            // var dep_id = $(this).attr('id');
-            // alert( $(this).attr('id'));
 
 
         });
@@ -410,9 +408,9 @@
                     //$("#home_message_container").html(msg);
                 });
         }
+        // end delete the request
 
-        //+++++++++++++
-
+        // update the request
         $(document).on('click', '#update_request', function(e) {
 
             update_req_affairs($('#id_req').val(), $('#user_chaiman').val(), $('#nature_committe').val(), $(
@@ -482,217 +480,9 @@
                     //$("#home_message_container").html(msg);
                 });
         }
+        // end update the request
 
 
-
-        // $(document).on("change", "#depID", function() {
-        //     var code = $(this).val();
-
-        //     $.ajax({
-        //         type: "GET",
-        //         url: "{{ route('request_committee.update_request') }}",
-        //         dataType: "html",
-        //         data:""
-        //         success: function(res) {
-        //             if (data.status == true) {
-        //                 Swal.fire({
-        //                     position: 'top-right',
-        //                     icon: 'success',
-        //                     title: 'تمت العملية بنجاح',
-        //                     showConfirmButton: false,
-        //                     timer: 1500
-
-        //                 })
-        //             }
-        //             console.log(data[0])
-        //         },
-        //         error: function(xhr, ajaxOptions, thrownError) {
-
-        //             var errors = data.responseJSON;
-        //             $.each(errors.message, function(key, val) {
-        //                 $("#" + key + "_error").text(val[0]);
-        //             });
-        //             Swal.fire({
-        //                 position: 'top-right',
-        //                 icon: 'error',
-        //                 title: 'فشلت العملية',
-        //                 showConfirmButton: false,
-        //                 timer: 1500
-
-        //             })
-
-        //         }
-        //     });
-
-        // });
-
-        // $(document).on('submit', '[data-toggle="ajaxformmultipart"]', function(e) {
-        //     e.preventDefault();
-        //     var form = $(this);
-        //     var formData = new FormData();
-        //     realForm = new FormData(this);
-        //     realForm.append('_token', $('input[name="_token"]').val());
-        //     formData.forEach(function(value, key) {
-        //         realForm.append(key, value);
-        //     });
-        //     $.ajax({
-
-        //         type: method,
-        //         enctype: 'multipart/form-data',
-        //         url: action,
-        //         data: realForm,
-        //         processData: false,
-        //         contentType: false,
-        //         cache: false,
-        //         success: function(data) {
-        //             if (data.status == true) {
-        //                 Swal.fire({
-        //                     position: 'top-right',
-        //                     icon: 'success',
-        //                     title: 'تمت العملية بنجاح',
-        //                     showConfirmButton: false,
-        //                     timer: 1500
-
-        //                 })
-        //             }
-        //         },
-        //         error: function(data) {
-
-        //             var errors = data.responseJSON;
-        //             $.each(errors.message, function(key, val) {
-        //                 $("#" + key + "_error").text(val[0]);
-        //             });
-        //             Swal.fire({
-        //                 position: 'top-right',
-        //                 icon: 'error',
-        //                 title: 'فشلت العملية',
-        //                 showConfirmButton: false,
-        //                 timer: 1500
-
-        //             })
-
-        //         }
-        //     });
-
-
-
-        // });
-
-
-        // $(document).on('submit', '[data-toggle="ajaxformmultipart"]', function(e) {
-        //     e.preventDefault();
-
-
-        //     // $('#nature_committe_error').text('');
-        //     // $('#department_error').text('');
-        //     // $('#numofemployee_error').text('');
-        //     // $('#law_error').text('');
-
-        //     var formData = new FormData($('#AddItemFormNew')[0]);
-        //     realForm = new FormData(this);
-        //     realForm.append('_token', $('input[name="_token"]').val());
-        //     formData.forEach(function(value, key) {
-        //         realForm.append(key, value);
-        //     });
-
-        //     alert('done');
-        //     $.ajax({
-
-        //         type: "post",
-        //         enctype: 'multipart/form-data',
-        //         url: "{{ route('request_committee.update_request') }}",
-        //         data: realForm,
-        //         processData: false,
-        //         contentType: false,
-        //         cache: false,
-        //         success: function(data) {
-        //             if (data.status == true) {
-        //                 Swal.fire({
-        //                     position: 'top-right',
-        //                     icon: 'success',
-        //                     title: 'تمت العملية بنجاح',
-        //                     showConfirmButton: false,
-        //                     timer: 1500
-
-        //                 })
-        //             }
-        //         },
-        //         error: function(data) {
-
-        //             var errors = data.responseJSON;
-        //             $.each(errors.message, function(key, val) {
-        //                 $("#" + key + "_error").text(val[0]);
-        //             });
-        //             Swal.fire({
-        //                 position: 'top-right',
-        //                 icon: 'error',
-        //                 title: 'فشلت العملية',
-        //                 showConfirmButton: false,
-        //                 timer: 1500
-
-        //             })
-
-        //         }
-        //     });
-
-        // });
-
-
-        // $(document).on('click', '#add_dep', function(e) {
-        //     e.preventDefault();
-
-        //     var formData = new FormData($('#updatedformreq')[0]);
-        //     $.ajax({
-        //         type: 'post',
-        //         enctype: 'multipart/form-data',
-        //         url: "{{ route('request_committee.update_request') }}",
-        //         data: formData,
-        //         processData: false,
-        //         contentType: false,
-        //         cache: false,
-        //         success: function(data) {
-        //             if (data.status == true) {
-        //                 Swal.fire({
-        //                     position: 'top-right',
-        //                     icon: 'success',
-        //                     title: 'تمت العملية بنجاح',
-        //                     showConfirmButton: false,
-        //                     timer: 1500
-
-        //                 })
-        //             }
-        //         },
-        //         error: function(data) {
-
-        //             // var errors = data.responseJSON;
-        //             // $.each(errors.message, function(key, val) {
-        //             //     $("#" + key + "_error").text(val[0]);
-        //             // });
-        //             Swal.fire({
-        //                 position: 'top-right',
-        //                 icon: 'error',
-        //                 title: 'فشلت العملية',
-        //                 showConfirmButton: false,
-        //                 timer: 1500
-
-        //             })
-
-        //         }
-        //     });
-
-        // });
-
-
-
-        // $(document).ready(function() {
-        //     $("table").hide();
-
-        //     $("#add_dep").click(function() {
-        //         $("table").show();
-        //         //$('table').data('info', '222');
-
-        //     });
-        // });
     </script>
 
 @endpush
