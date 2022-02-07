@@ -74,6 +74,8 @@
                                 <!--begin::Input-->
                                 <input id="end_date" type="date" class="form-control form-control-solid" placeholder=""
                                     name="end_date" />
+
+                                <small id="end_date_error" class="form-text text-danger"></small>
                                 <!--end::Input-->
                             </div>
 
@@ -300,7 +302,7 @@
                                 "<tr>" +
                                 "<td>" + element.depID + "</td>" +
                                 "<td>" + element.numofemployee + "</td>" +
-                                "<td>" + "<a id= '" +element.department+ "'  " +
+                                "<td>" + "<a id= '" + element.department + "'  " +
                                 "class='btn btn-lg btn-danger delete'>" +
                                 "<i class='fa fa-remove'>" + "</i>" + 'حذف' + "</a>" +
                                 "</td>" + "</tr>");
@@ -332,7 +334,7 @@
         $(document).on('click', '.delete', function(e) {
 
 
-            delete_dep( $(this).attr('id') );
+            delete_dep($(this).attr('id'));
 
 
 
@@ -363,36 +365,36 @@
                         })
                     },
                     success: function(data) {
-                    if (data.status == true) {
-                        Swal.fire({
-                            position: 'top-right',
-                            icon: 'success',
-                            title: 'تمت العملية بنجاح',
-                            showConfirmButton: false,
-                            timer: 1500
+                        if (data.status == true) {
+                            Swal.fire({
+                                position: 'top-right',
+                                icon: 'success',
+                                title: 'تمت العملية بنجاح',
+                                showConfirmButton: false,
+                                timer: 1500
 
-                        });
-                        // جلب السشن الاقسام
+                            });
+                            // جلب السشن الاقسام
 
-                        $("#tbody_dep").html('');
-                        /*  data..forEach(element => {
+                            $("#tbody_dep").html('');
+                            /*  data..forEach(element => {
 
-                          });*/
+                              });*/
 
-                        data.data.forEach(element => {
-                            $("#tbody_dep").append(
-                                "<tr>" +
-                                "<td>" + element.depID + "</td>" +
-                                "<td>" + element.numofemployee + "</td>" +
-                                "<td>" + "<a id= '" +element.department+ "'  " +
-                                "class='btn btn-lg btn-danger delete'>" +
-                                "<i class='fa fa-remove'>" + "</i>" + 'حذف' + "</a>" +
-                                "</td>" + "</tr>");
+                            data.data.forEach(element => {
+                                $("#tbody_dep").append(
+                                    "<tr>" +
+                                    "<td>" + element.depID + "</td>" +
+                                    "<td>" + element.numofemployee + "</td>" +
+                                    "<td>" + "<a id= '" + element.department + "'  " +
+                                    "class='btn btn-lg btn-danger delete'>" +
+                                    "<i class='fa fa-remove'>" + "</i>" + 'حذف' + "</a>" +
+                                    "</td>" + "</tr>");
 
-                        });
+                            });
 
-                    }
-                },
+                        }
+                    },
                     error: function(data) {
                         Swal.fire({
                             position: 'top-right',
@@ -419,6 +421,12 @@
         });
         // اضافة البيانات db
         function update_req_affairs(id_req, user_chaiman, nature_committe, end_date, law) {
+
+
+            // $('#end_date_error').text('');
+            // $('#nature_committe_error').text('');
+            // $('#law_error').text('');
+
             $.ajaxSetup({
 
                 headers: {
@@ -466,6 +474,12 @@
                         }
                     },
                     error: function(data) {
+
+                        var errors = data.responseJSON;
+                        $.each(errors.message, function(key, val) {
+                          console.log(  $("#" + key + "_error").text(val[0]));
+                        });
+
                         Swal.fire({
                             position: 'top-right',
                             icon: 'error',
@@ -481,8 +495,6 @@
                 });
         }
         // end update the request
-
-
     </script>
 
 @endpush

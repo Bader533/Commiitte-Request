@@ -87,17 +87,6 @@ class C_request_committee extends Controller
             ]);
     }
 
-    // public function rules()
-    // {
-    //     return [
-
-    //         'membercount' => 'required',
-    //         'start_date' => 'required',
-    //         'work_day' => 'required',
-    //         'experience' => 'required',
-    //     ];
-    // }
-
 
     public function messages()
     {

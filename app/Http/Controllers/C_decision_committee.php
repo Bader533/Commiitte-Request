@@ -147,7 +147,14 @@ class C_decision_committee extends Controller
             'NATURE_COMMITTEE' => 'required',
             'END_DATE' => 'required',
             'LAW' => 'required',
+        ],[
+            'ID_REQ.required' => ' مطلوبة',
+            'NATURE_COMMITTEE.required' => 'طبيعة اللجنة  مطلوبة',
+            'END_DATE.required' => 'الموعد النهائى مطلوبة',
+            'LAW.required' => 'القوانين مطلوبة',
         ]);
+
+
         $empdata = session()->get('TrashItems');
         if ($empdata == null) {
             return response()->json(
@@ -218,5 +225,6 @@ class C_decision_committee extends Controller
 
 
     }
+
 
 }
